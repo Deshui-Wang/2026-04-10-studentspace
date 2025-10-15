@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教学履历页面测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f8fafc;
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e40af;
+            margin-bottom: 15px;
+        }
+        .feature-list {
+            list-style: none;
+            padding: 0;
+        }
+        .feature-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .feature-list li:before {
+            content: "✓ ";
+            color: #10b981;
+            font-weight: bold;
+        }
+        .code-block {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+            border-left: 4px solid #3b82f6;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>教学履历页面功能测试</h1>
+        
+        <div class="test-section">
+            <div class="test-title">1. 筛选区域功能</div>
+            <ul class="feature-list">
+                <li>累计任教统计：9年、7门课</li>
+                <li>时间筛选：支持按年份筛选（2020-2024）</li>
+                <li>课程筛选：支持按课程名称筛选</li>
+                <li>筛选样式：参考课堂互动页面样式</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">2. 数据列表字段</div>
+            <ul class="feature-list">
+                <li>课程名称：显示课程全称</li>
+                <li>班级数量：显示该课程授课班级数</li>
+                <li>学院总数：显示涉及学院数量</li>
+                <li>覆盖专业：以标签形式显示相关专业</li>
+                <li>时间年限：显示授课时间范围</li>
+                <li>查看详情：点击查看详细信息和雷达图</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">3. 详情弹窗功能</div>
+            <ul class="feature-list">
+                <li>综合能力评估：雷达图展示教学能力、学生满意度等</li>
+                <li>课程简介：详细课程介绍</li>
+                <li>课程内容概述：课程主要内容说明</li>
+                <li>教学目标：课程学习目标</li>
+                <li>教学成效：教学效果和成果展示</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">4. 路由和菜单交互</div>
+            <ul class="feature-list">
+                <li>导航路径：数据中心 → 教学数据 → 教学履历</li>
+                <li>菜单集成：已添加到数据中心页面的二级菜单</li>
+                <li>组件导入：TeachingResume组件已正确导入</li>
+                <li>条件渲染：基于activeTab和activeSubTab状态</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">5. 技术实现</div>
+            <div class="code-block">
+// 组件路径
+src/components/teaching-resources/TeachingResume.vue
+
+// 路由配置
+数据中心 → 教学数据 → 教学履历
+
+// 主要功能
+- Vue 3 Composition API
+- Element Plus UI组件
+- ECharts雷达图
+- 响应式设计
+- 数据筛选和搜索
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">6. 测试步骤</div>
+            <ol>
+                <li>启动开发服务器：npm run dev</li>
+                <li>访问数据中心页面：/data-center</li>
+                <li>点击"教学数据"卡片</li>
+                <li>点击"教学履历"标签页</li>
+                <li>测试筛选功能（时间、课程）</li>
+                <li>点击"查看详情"按钮测试弹窗</li>
+                <li>验证雷达图显示</li>
+            </ol>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>修复验证测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .info { background-color: #d1ecf1; border-color: #bee5eb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #0056b3; }
+        .credentials {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .checklist li:before {
+            content: "✓ ";
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🔧 修复验证测试</h1>
+        
+        <div class="test-item info">
+            <h3>📋 修复内容总结</h3>
+            <p>已修复以下问题：</p>
+            <ul class="checklist">
+                <li>首页路由路径从 /Home 改为 /</li>
+                <li>首页默认显示Dashboard内容</li>
+                <li>个人中心默认显示基本信息页面</li>
+                <li>修复用户名显示问题</li>
+                <li>优化导航栏激活状态</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>🔑 测试账号</h3>
+            <div class="credentials">
+                <strong>用户名：</strong> zhangwanting<br>
+                <strong>密码：</strong> 123456
+            </div>
+        </div>
+
+        <div class="test-item">
+            <h3>✅ 测试步骤</h3>
+            <ol>
+                <li><strong>登录测试：</strong>
+                    <ul>
+                        <li>访问 <a href="http://localhost:5173" target="_blank">http://localhost:5173</a></li>
+                        <li>使用测试账号登录</li>
+                        <li>验证登录成功后跳转到首页</li>
+                    </ul>
+                </li>
+                <li><strong>首页测试：</strong>
+                    <ul>
+                        <li>验证首页默认显示Dashboard内容</li>
+                        <li>验证顶部导航"首页"处于激活状态</li>
+                        <li>验证页面内容完整显示，不是空白</li>
+                    </ul>
+                </li>
+                <li><strong>个人中心测试：</strong>
+                    <ul>
+                        <li>点击"个人中心"导航</li>
+                        <li>验证默认显示"基本信息"页面</li>
+                        <li>验证左侧导航"基本信息"处于激活状态</li>
+                    </ul>
+                </li>
+                <li><strong>用户名显示测试：</strong>
+                    <ul>
+                        <li>验证右上角用户名显示正常</li>
+                        <li>验证没有额外的代码或字符显示</li>
+                    </ul>
+                </li>
+            </ol>
+        </div>
+
+        <div class="test-item">
+            <h3>🎯 预期结果</h3>
+            <ul>
+                <li>✅ 登录成功后自动跳转到首页 (/)</li>
+                <li>✅ 首页显示完整的Dashboard内容</li>
+                <li>✅ 顶部导航"首页"处于激活状态（蓝色高亮）</li>
+                <li>✅ 点击"个人中心"默认显示基本信息页面</li>
+                <li>✅ 用户名显示为"李启明"，无额外字符</li>
+                <li>✅ 页面切换流畅，无空白或错误</li>
+            </ul>
+        </div>
+
+        <div class="test-item warning">
+            <h3>⚠️ 注意事项</h3>
+            <ul>
+                <li>如果页面显示空白，请检查浏览器控制台是否有错误</li>
+                <li>如果路由跳转失败，请清除浏览器缓存后重试</li>
+                <li>如果用户名显示异常，请检查localStorage中的用户数据</li>
+            </ul>
+        </div>
+
+        <div class="test-item">
+            <h3>🔧 快速测试</h3>
+            <button onclick="openApp()">打开应用</button>
+            <button onclick="clearStorage()">清除存储</button>
+            <button onclick="checkStorage()">检查存储状态</button>
+            <div id="storage-info"></div>
+        </div>
+    </div>
+
+    <script>
+        function openApp() {
+            window.open('http://localhost:5173', '_blank');
+        }
+
+        function clearStorage() {
+            localStorage.clear();
+            alert('存储已清除');
+            checkStorage();
+        }
+
+        function checkStorage() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            
+            const info = document.getElementById('storage-info');
+            info.innerHTML = `
+                <h4>当前存储状态：</h4>
+                <p><strong>Token:</strong> ${token || '未设置'}</p>
+                <p><strong>User:</strong> ${user || '未设置'}</p>
+                <p><strong>IsLoggedIn:</strong> ${isLoggedIn || '未设置'}</p>
+            `;
+        }
+
+        // 页面加载时检查存储状态
+        window.onload = function() {
+            checkStorage();
+        };
+    </script>
+</body>
+</html>

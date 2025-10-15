@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>报告创建测试 - 模拟图表功能</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 24px;
+        }
+        .test-section {
+            margin-bottom: 32px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #666;
+        }
+        .btn {
+            background: #8b5cf6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 12px;
+            margin-bottom: 8px;
+        }
+        .btn:hover {
+            background: #7c3aed;
+        }
+        .btn.secondary {
+            background: #6b7280;
+        }
+        .btn.secondary:hover {
+            background: #4b5563;
+        }
+        .status {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+        .feature-list {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        .feature-list h4 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .feature-list ul {
+            margin: 8px 0;
+            padding-left: 20px;
+        }
+        .feature-list li {
+            margin: 4px 0;
+            color: #6c757d;
+        }
+        .chart-demo {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .chart-item {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            background: white;
+        }
+        .chart-item h4 {
+            margin-top: 0;
+            color: #333;
+            font-size: 16px;
+        }
+        .chart-placeholder {
+            height: 200px;
+            background: #f8f9fa;
+            border: 2px dashed #d1d5db;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .module-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .module-type-item {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            background: #f8f9fa;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .module-type-item:hover {
+            background: #e9ecef;
+            border-color: #8b5cf6;
+        }
+        .module-type-item.selected {
+            background: #8b5cf6;
+            color: white;
+            border-color: #7c3aed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>报告创建功能测试 - 模拟图表功能</h1>
+        
+        <div class="feature-list">
+            <h4>✅ 新增功能</h4>
+            <ul>
+                <li>✅ 模块类型选择时显示模拟图表</li>
+                <li>✅ 支持8种模块类型的模拟数据</li>
+                <li>✅ 支持5种图表类型：柱状图、折线图、饼图、环形图、雷达图</li>
+                <li>✅ 支持6种配色方案</li>
+                <li>✅ 实时图表预览</li>
+                <li>✅ 图表设置实时生效</li>
+            </ul>
+            
+            <h4>📊 支持的模块类型</h4>
+            <ul>
+                <li>资产 - 教学设备、办公用品等统计</li>
+                <li>成果奖励 - 教学成果、科研成果等</li>
+                <li>数字素养 - 在线教学、数字工具等能力评估</li>
+                <li>工作量统计 - 年度工作量趋势</li>
+                <li>师德师风 - 多维度评价数据</li>
+                <li>学生数据 - 优秀率、及格率等</li>
+                <li>课件教案研发数据 - 教学资源统计</li>
+                <li>教学经验数据 - 课程思政、教学理念等</li>
+            </ul>
+        </div>
+        
+        <div class="test-section">
+            <h3>1. 模块类型图表预览</h3>
+            <p>选择不同的模块类型查看对应的模拟图表：</p>
+            
+            <div class="module-types">
+                <div class="module-type-item" onclick="selectModuleType('assets')" id="assets">
+                    资产
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('achievements')" id="achievements">
+                    成果奖励
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('digital-literacy')" id="digital-literacy">
+                    数字素养
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('workload-stats')" id="workload-stats">
+                    工作量统计
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('ethics')" id="ethics">
+                    师德师风
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('student-data')" id="student-data">
+                    学生数据
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('courseware-research')" id="courseware-research">
+                    课件研发
+                </div>
+                <div class="module-type-item" onclick="selectModuleType('teaching-experience')" id="teaching-experience">
+                    教学经验
+                </div>
+            </div>
+            
+            <div class="chart-demo" id="chartDemo">
+                <div class="chart-item">
+                    <h4>柱状图预览</h4>
+                    <div class="chart-placeholder" id="barChart">
+                        选择模块类型查看柱状图
+                    </div>
+                </div>
+                <div class="chart-item">
+                    <h4>饼图预览</h4>
+                    <div class="chart-placeholder" id="pieChart">
+                        选择模块类型查看饼图
+                    </div>
+                </div>
+                <div class="chart-item">
+                    <h4>折线图预览</h4>
+                    <div class="chart-placeholder" id="lineChart">
+                        选择模块类型查看折线图
+                    </div>
+                </div>
+                <div class="chart-item">
+                    <h4>雷达图预览</h4>
+                    <div class="chart-placeholder" id="radarChart">
+                        选择模块类型查看雷达图
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h3>2. 测试报告数据存储</h3>
+            <p>点击按钮创建包含模拟图表的示例报告数据并存储到 localStorage</p>
+            <button class="btn" onclick="createTestData()">创建测试数据</button>
+            <button class="btn secondary" onclick="clearTestData()">清除测试数据</button>
+            <div id="storage-status" class="status" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>3. 测试预览页面</h3>
+            <p>点击按钮在新标签页打开报告预览页面</p>
+            <button class="btn" onclick="openPreview()">打开预览</button>
+            <div id="preview-status" class="status" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>4. 查看存储的数据</h3>
+            <p>点击按钮查看当前 localStorage 中的报告数据</p>
+            <button class="btn" onclick="viewStoredData()">查看数据</button>
+            <pre id="data-display" style="background: #f5f5f5; padding: 12px; border-radius: 6px; overflow-x: auto; margin-top: 12px; display: none;"></pre>
+        </div>
+    </div>
+
+    <script>
+        // 模拟图表数据
+        const moduleDataGenerators = {
+            'assets': () => ({
+                title: '资产统计',
+                data: [
+                    { name: '教学设备', value: 85, color: '#007aff' },
+                    { name: '办公用品', value: 62, color: '#34c759' },
+                    { name: '图书资料', value: 78, color: '#ff9500' },
+                    { name: '软件授权', value: 45, color: '#5856d6' },
+                    { name: '其他资产', value: 33, color: '#ff3b30' }
+                ]
+            }),
+            'achievements': () => ({
+                title: '成果奖励',
+                data: [
+                    { name: '教学成果', value: 92, color: '#007aff' },
+                    { name: '科研成果', value: 78, color: '#34c759' },
+                    { name: '荣誉称号', value: 65, color: '#ff9500' },
+                    { name: '竞赛指导', value: 88, color: '#5856d6' },
+                    { name: '其他奖励', value: 56, color: '#ff3b30' }
+                ]
+            }),
+            'digital-literacy': () => ({
+                title: '数字素养',
+                data: [
+                    { name: '在线教学', value: 4.2, color: '#007aff' },
+                    { name: '数字工具', value: 3.8, color: '#34c759' },
+                    { name: '数据分析', value: 3.5, color: '#ff9500' },
+                    { name: '创新应用', value: 4.0, color: '#5856d6' },
+                    { name: '持续学习', value: 3.7, color: '#ff3b30' }
+                ]
+            }),
+            'workload-stats': () => ({
+                title: '工作量统计',
+                data: [
+                    { name: '2021', value: 320, color: '#007aff' },
+                    { name: '2022', value: 380, color: '#34c759' },
+                    { name: '2023', value: 420, color: '#ff9500' },
+                    { name: '2024', value: 450, color: '#5856d6' }
+                ]
+            }),
+            'ethics': () => ({
+                title: '师德师风',
+                data: [
+                    { name: '学生评价', value: 4.6, color: '#007aff' },
+                    { name: '同事评价', value: 4.4, color: '#34c759' },
+                    { name: '领导评价', value: 4.5, color: '#ff9500' },
+                    { name: '自我评价', value: 4.3, color: '#5856d6' }
+                ]
+            }),
+            'student-data': () => ({
+                title: '学生数据',
+                data: [
+                    { name: '优秀率', value: 85, color: '#007aff' },
+                    { name: '及格率', value: 95, color: '#34c759' },
+                    { name: '出勤率', value: 92, color: '#ff9500' },
+                    { name: '满意度', value: 88, color: '#5856d6' }
+                ]
+            }),
+            'courseware-research': () => ({
+                title: '课件研发',
+                data: [
+                    { name: '课件数量', value: 45, color: '#007aff' },
+                    { name: '教案数量', value: 38, color: '#34c759' },
+                    { name: '视频资源', value: 25, color: '#ff9500' },
+                    { name: '互动内容', value: 32, color: '#5856d6' }
+                ]
+            }),
+            'teaching-experience': () => ({
+                title: '教学经验',
+                data: [
+                    { name: '课程思政', value: 4.1, color: '#007aff' },
+                    { name: '教学理念', value: 3.9, color: '#34c759' },
+                    { name: '教学反思', value: 4.0, color: '#ff9500' },
+                    { name: '实践应用', value: 3.8, color: '#5856d6' }
+                ]
+            })
+        };
+
+        function selectModuleType(type) {
+            // 更新选中状态
+            document.querySelectorAll('.module-type-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.getElementById(type).classList.add('selected');
+
+            // 获取数据
+            const moduleData = moduleDataGenerators[type]();
+            const data = moduleData.data;
+
+            // 更新各个图表预览
+            updateChartPreview('barChart', '柱状图', data, 'bar');
+            updateChartPreview('pieChart', '饼图', data, 'pie');
+            updateChartPreview('lineChart', '折线图', data, 'line');
+            updateChartPreview('radarChart', '雷达图', data, 'radar');
+        }
+
+        function updateChartPreview(containerId, chartType, data, chartTypeCode) {
+            const container = document.getElementById(containerId);
+            const dataText = data.map(item => `${item.name}: ${item.value}`).join(', ');
+            container.innerHTML = `
+                <div style="text-align: center; color: #666;">
+                    <div style="font-size: 18px; margin-bottom: 8px;">📊</div>
+                    <div style="font-weight: 600; margin-bottom: 4px;">${chartType}</div>
+                    <div style="font-size: 12px;">${dataText}</div>
+                </div>
+            `;
+        }
+
+        function createTestData() {
+            const testReportData = {
+                name: '测试报告 - 教师档案（含模拟图表）',
+                modules: [
+                    {
+                        id: 'module_1',
+                        name: '模块1',
+                        type: 'workload-stats',
+                        description: '本学期的教学工作量统计情况，包含历年数据对比',
+                        chartType: 'bar',
+                        colorScheme: '经典蓝',
+                        showLegend: true,
+                        showLabels: true
+                    },
+                    {
+                        id: 'module_2',
+                        name: '模块2',
+                        type: 'ethics',
+                        description: '师德师风评价数据，包含多维度评价指标',
+                        chartType: 'pie',
+                        colorScheme: '活力橙',
+                        showLegend: true,
+                        showLabels: true
+                    },
+                    {
+                        id: 'module_3',
+                        name: '模块3',
+                        type: 'digital-literacy',
+                        description: '数字化教学能力发展情况，雷达图展示各项能力',
+                        chartType: 'radar',
+                        colorScheme: '自然绿',
+                        showLegend: true,
+                        showLabels: false
+                    },
+                    {
+                        id: 'module_4',
+                        name: '模块4',
+                        type: 'achievements',
+                        description: '教学成果和奖励统计，环形图展示各类成果',
+                        chartType: 'doughnut',
+                        colorScheme: '优雅紫',
+                        showLegend: true,
+                        showLabels: true
+                    }
+                ],
+                createdAt: new Date().toISOString()
+            };
+
+            try {
+                localStorage.setItem('previewReportData', JSON.stringify(testReportData));
+                showStatus('storage-status', '包含模拟图表的测试数据已成功存储到 localStorage', 'success');
+            } catch (error) {
+                showStatus('storage-status', '存储失败: ' + error.message, 'error');
+            }
+        }
+
+        function clearTestData() {
+            try {
+                localStorage.removeItem('previewReportData');
+                showStatus('storage-status', '测试数据已清除', 'success');
+            } catch (error) {
+                showStatus('storage-status', '清除失败: ' + error.message, 'error');
+            }
+        }
+
+        function openPreview() {
+            try {
+                const data = localStorage.getItem('previewReportData');
+                if (!data) {
+                    showStatus('preview-status', '请先创建测试数据', 'error');
+                    return;
+                }
+                
+                // 在新标签页打开预览页面
+                const previewUrl = window.location.origin + '/#/report-preview';
+                window.open(previewUrl, '_blank');
+                showStatus('preview-status', '预览页面已在新标签页打开', 'success');
+            } catch (error) {
+                showStatus('preview-status', '打开预览失败: ' + error.message, 'error');
+            }
+        }
+
+        function viewStoredData() {
+            try {
+                const data = localStorage.getItem('previewReportData');
+                const dataDisplay = document.getElementById('data-display');
+                
+                if (data) {
+                    const parsedData = JSON.parse(data);
+                    dataDisplay.textContent = JSON.stringify(parsedData, null, 2);
+                    dataDisplay.style.display = 'block';
+                } else {
+                    dataDisplay.textContent = '没有找到存储的报告数据';
+                    dataDisplay.style.display = 'block';
+                }
+            } catch (error) {
+                const dataDisplay = document.getElementById('data-display');
+                dataDisplay.textContent = '读取数据失败: ' + error.message;
+                dataDisplay.style.display = 'block';
+            }
+        }
+
+        function showStatus(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = 'status ' + type;
+            element.style.display = 'block';
+        }
+
+        // 页面加载时默认选择第一个模块类型
+        window.onload = function() {
+            selectModuleType('assets');
+        };
+    </script>
+</body>
+</html>
