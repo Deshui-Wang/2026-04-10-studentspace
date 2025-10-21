@@ -1,15 +1,15 @@
 <template>
   <div class="ability-report">
     <div class="report-header">
-      <h2 class="report-title">能力检测报告</h2>
-      <p class="report-description">基于AI智能分析的个人能力评估报告和发展建议</p>
+      <div class="report-title-section">
+        <h2 class="report-title">能力检测报告</h2>
+        <p class="report-description">基于AI智能分析的个人能力评估报告和发展建议</p>
+      </div>
       <div class="report-actions">
         <button class="btn-primary" @click="generateReport">
-          <span class="btn-icon">🔄</span>
           生成新报告
         </button>
         <button class="btn-secondary" @click="downloadReport">
-          <span class="btn-icon">📥</span>
           下载报告
         </button>
       </div>
@@ -52,24 +52,14 @@
       <!-- 能力分析详情 -->
       <div class="ability-analysis">
         <h3>能力分析详情</h3>
-        <div class="analysis-tabs">
-          <button 
-            v-for="tab in analysisTabs" 
-            :key="tab.id"
-            class="tab-button"
-            :class="{ active: activeTab === tab.id }"
-            @click="activeTab = tab.id"
-          >
-            {{ tab.name }}
-          </button>
-        </div>
-        
-        <div class="tab-content">
+
+        <div class="analysis-content">
           <!-- 优势能力 -->
-          <div v-if="activeTab === 'strengths'" class="strengths-content">
+          <div class="strengths-content">
+            <h4 class="analysis-section-title">优势能力</h4>
             <div class="strength-list">
-              <div 
-                v-for="strength in strengths" 
+              <div
+                v-for="strength in strengths"
                 :key="strength.id"
                 class="strength-item"
               >
@@ -84,8 +74,8 @@
                 <div class="strength-details">
                   <div class="strength-chart">
                     <div class="chart-bar">
-                      <div 
-                        class="chart-fill" 
+                      <div
+                        class="chart-fill"
                         :style="{ width: strength.score + '%' }"
                       ></div>
                     </div>
@@ -104,10 +94,11 @@
           </div>
 
           <!-- 待提升能力 -->
-          <div v-if="activeTab === 'improvements'" class="improvements-content">
+          <div class="improvements-content">
+            <h4 class="analysis-section-title">待提升能力</h4>
             <div class="improvement-list">
-              <div 
-                v-for="improvement in improvements" 
+              <div
+                v-for="improvement in improvements"
                 :key="improvement.id"
                 class="improvement-item"
               >
@@ -122,8 +113,8 @@
                 <div class="improvement-details">
                   <div class="improvement-chart">
                     <div class="chart-bar">
-                      <div 
-                        class="chart-fill improvement" 
+                      <div
+                        class="chart-fill improvement"
                         :style="{ width: improvement.score + '%' }"
                       ></div>
                     </div>
@@ -146,13 +137,14 @@
           </div>
 
           <!-- 发展建议 -->
-          <div v-if="activeTab === 'recommendations'" class="recommendations-content">
+          <div class="recommendations-content">
+            <h4 class="analysis-section-title">发展建议</h4>
             <div class="recommendation-sections">
               <div class="recommendation-section">
                 <h4>短期目标 (1-3个月)</h4>
                 <div class="recommendation-list">
-                  <div 
-                    v-for="rec in shortTermRecommendations" 
+                  <div
+                    v-for="rec in shortTermRecommendations"
                     :key="rec.id"
                     class="recommendation-item"
                   >
@@ -161,8 +153,8 @@
                       <h5>{{ rec.title }}</h5>
                       <p>{{ rec.description }}</p>
                       <div class="rec-tags">
-                        <span 
-                          v-for="tag in rec.tags" 
+                        <span
+                          v-for="tag in rec.tags"
                           :key="tag"
                           class="rec-tag"
                         >
@@ -173,12 +165,12 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="recommendation-section">
                 <h4>长期目标 (6-12个月)</h4>
                 <div class="recommendation-list">
-                  <div 
-                    v-for="rec in longTermRecommendations" 
+                  <div
+                    v-for="rec in longTermRecommendations"
                     :key="rec.id"
                     class="recommendation-item"
                   >
@@ -187,8 +179,8 @@
                       <h5>{{ rec.title }}</h5>
                       <p>{{ rec.description }}</p>
                       <div class="rec-tags">
-                        <span 
-                          v-for="tag in rec.tags" 
+                        <span
+                          v-for="tag in rec.tags"
                           :key="tag"
                           class="rec-tag"
                         >
@@ -208,8 +200,8 @@
       <div class="learning-resources">
         <h3>推荐学习资源</h3>
         <div class="resources-grid">
-          <div 
-            v-for="resource in learningResources" 
+          <div
+            v-for="resource in learningResources"
             :key="resource.id"
             class="resource-card"
           >
@@ -232,13 +224,20 @@
       </div>
     </div>
   </div>
+
+  <div v-if="showReportModal" class="modal-overlay" @click.self="showReportModal = false">
+    <div class="modal-content">
+      <button class="close-btn" @click="showReportModal = false">&times;</button>
+      <StudentReport />
+    </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
+import StudentReport from './Report.vue'
 
-// 当前激活的标签页
-const activeTab = ref('strengths')
+const showReportModal = ref(false)
 
 // 综合评分
 const overallScore = ref(78)
@@ -271,13 +270,6 @@ const scoreTrend = computed(() => {
     return { type: 'neutral', text: '与上次持平' }
   }
 })
-
-// 分析标签页
-const analysisTabs = ref([
-  { id: 'strengths', name: '优势能力' },
-  { id: 'improvements', name: '待提升' },
-  { id: 'recommendations', name: '发展建议' }
-])
 
 // 优势能力数据
 const strengths = ref([
@@ -429,7 +421,7 @@ const learningResources = ref([
 // 生成新报告
 const generateReport = () => {
   console.log('生成新报告')
-  // 这里可以添加生成报告的逻辑
+  showReportModal.value = true
 }
 
 // 下载报告
@@ -447,37 +439,78 @@ const downloadReport = () => {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 1200px;
+  height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 .report-header {
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 40px;
   padding-bottom: 30px;
   border-bottom: 1px solid #e5e7eb;
+}
+
+.report-title-section {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
 }
 
 .report-title {
   font-size: 28px;
   font-weight: 700;
   color: #1f2937;
-  margin-bottom: 12px;
+  margin: 0;
 }
 
 .report-description {
   font-size: 16px;
   color: #6b7280;
-  margin-bottom: 24px;
+  margin: 0;
 }
 
 .report-actions {
   display: flex;
   gap: 12px;
-  justify-content: center;
 }
 
 .btn-primary, .btn-secondary {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 24px;
+  padding: 6px 12px;
   border-radius: 8px;
   font-size: 14px;
   font-weight: 500;
@@ -499,7 +532,7 @@ const downloadReport = () => {
 .btn-secondary {
   background: white;
   color: #667eea;
-  border: 2px solid #667eea;
+  border: 1px solid #667eea;
 }
 
 .btn-secondary:hover {
@@ -584,39 +617,27 @@ const downloadReport = () => {
   margin-bottom: 20px;
 }
 
-.analysis-tabs {
-  display: flex;
-  gap: 4px;
-  margin-bottom: 24px;
-  background: #f3f4f6;
-  border-radius: 8px;
-  padding: 4px;
+.analysis-content > div:not(:first-child) {
+  margin-top: 40px;
 }
 
-.tab-button {
-  flex: 1;
-  padding: 12px 16px;
-  border: none;
-  background: transparent;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #6b7280;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.analysis-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 20px;
 }
 
-.tab-button.active {
-  background: white;
-  color: #667eea;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.strength-list, .improvement-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 20px;
 }
 
 .strength-item, .improvement-item {
   background: #f8f9fa;
   border-radius: 12px;
   padding: 20px;
-  margin-bottom: 16px;
 }
 
 .strength-header, .improvement-header {
@@ -662,8 +683,8 @@ const downloadReport = () => {
 
 .strength-details, .improvement-details {
   display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  gap: 16px;
 }
 
 .chart-bar {
@@ -715,6 +736,8 @@ const downloadReport = () => {
 
 .action-buttons {
   display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -791,6 +814,7 @@ const downloadReport = () => {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .rec-tag {
@@ -878,6 +902,7 @@ const downloadReport = () => {
   display: flex;
   gap: 12px;
   margin-bottom: 16px;
+  justify-content: center;
 }
 
 .resource-duration, .resource-difficulty {
@@ -907,30 +932,42 @@ const downloadReport = () => {
   .ability-report {
     padding: 20px;
   }
-  
+
   .report-title {
     font-size: 24px;
   }
-  
-  .report-actions {
+
+  .report-header {
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 20px;
   }
-  
+
+  .report-title-section {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .report-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
   .overview-cards {
     grid-template-columns: 1fr;
   }
-  
+
   .strength-details, .improvement-details {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .recommendation-sections {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .resources-grid {
     grid-template-columns: 1fr;
   }

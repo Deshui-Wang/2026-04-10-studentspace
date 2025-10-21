@@ -9,7 +9,7 @@
     </div>
     <ul class="nav-menu">
       <li class="nav-item" :class="{active: currentPath === '/'}" @click="goNav('/')">首页</li>      
-      <li class="nav-item" :class="{active: currentPath.startsWith('/data-center')}" @click="goNav('/data-center')">数据中心</li>
+      <li class="nav-item" :class="{active: currentPath.startsWith('/data-center')}" @click="goNav('/data-center')">学习中心</li>
       <li class="nav-item" :class="{active: currentPath.startsWith('/ability-test')}" @click="goNav('/ability-test')">能力检测</li>
       <li class="nav-item" :class="{active: currentPath.startsWith('/career-guidance')}" @click="goNav('/career-guidance')">就业指导</li>
       <li class="nav-item evaluation-center-item" :class="{active: currentPath.startsWith('/EvaluationCenter')}" @click="goNav('/EvaluationCenter')">
@@ -135,14 +135,13 @@ onUnmounted(() => {
 <style scoped>
 .main-navbar {
   width: 100%;
-  height: 72px;
+  height: 78px;
   background: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   padding: 0 20px;
-  margin-bottom: 16px;
 }
 
 .nav-left {
@@ -184,11 +183,11 @@ onUnmounted(() => {
   list-style: none;
   margin: 0;
   padding: 0;
-  gap: 36px;
+  gap: 16px;
 }
 
 .nav-item {
-  font-size: 16px;
+  font-size: 15px;
   color: #333;
   cursor: pointer;
   padding: 8px 18px;

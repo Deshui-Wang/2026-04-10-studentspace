@@ -1,39 +1,87 @@
 <template>
-  <div class="ability-map-container">
+  <div class="ability-map-container" :class="{ 'animation-disabled': !animationEnabled }">
     <div class="map-header">
     </div>
     
     <div class="ability-map">
       <svg :width="mapWidth" :height="mapHeight" class="map-svg">
         <defs>
+          <!-- 动画定义 -->
+          <animateTransform
+            id="floatAnimation"
+            attributeName="transform"
+            type="translate"
+            values="0,0; 0,-3; 0,0"
+            dur="3s"
+            repeatCount="indefinite"
+          />
+          
+          <animateTransform
+            id="pulseAnimation"
+            attributeName="transform"
+            type="scale"
+            values="1; 1.05; 1"
+            dur="2s"
+            repeatCount="indefinite"
+          />
+          
+          <animateTransform
+            id="rotateAnimation"
+            attributeName="transform"
+            type="rotate"
+            values="0 0 0; 360 0 0"
+            dur="20s"
+            repeatCount="indefinite"
+          />
+          
           <!-- 中心节点渐变 -->
           <radialGradient id="centerGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#e91e63;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1">
+              <animate attributeName="stop-color" values="#ff6b9d;#ff8fab;#ff6b9d" dur="3s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#e91e63;stop-opacity:1">
+              <animate attributeName="stop-color" values="#e91e63;#f06292;#e91e63" dur="3s" repeatCount="indefinite"/>
+            </stop>
           </radialGradient>
           
           <!-- 一级节点渐变 -->
           <radialGradient id="firstLevelGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" style="stop-color:#a8a2ff;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#a8a2ff;stop-opacity:1">
+              <animate attributeName="stop-color" values="#a8a2ff;#c4bfff;#a8a2ff" dur="4s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1">
+              <animate attributeName="stop-color" values="#7c3aed;#8b5cf6;#7c3aed" dur="4s" repeatCount="indefinite"/>
+            </stop>
           </radialGradient>
           
           <!-- 二级节点渐变 -->
           <radialGradient id="secondLevelGradient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1">
+              <animate attributeName="stop-color" values="#4facfe;#74b9ff;#4facfe" dur="3.5s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1">
+              <animate attributeName="stop-color" values="#00d4ff;#00cec9;#00d4ff" dur="3.5s" repeatCount="indefinite"/>
+            </stop>
           </radialGradient>
           
           <!-- 三级节点渐变1 -->
           <radialGradient id="thirdLevelGradient1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" style="stop-color:#5b4c96;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#3b2f5f;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#5b4c96;stop-opacity:1">
+              <animate attributeName="stop-color" values="#5b4c96;#7b68ee;#5b4c96" dur="2.5s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#3b2f5f;stop-opacity:1">
+              <animate attributeName="stop-color" values="#3b2f5f;#6a5acd;#3b2f5f" dur="2.5s" repeatCount="indefinite"/>
+            </stop>
           </radialGradient>
           
           <!-- 三级节点渐变2 -->
           <radialGradient id="thirdLevelGradient2" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
-            <stop offset="100%" style="stop-color:#e91e63;stop-opacity:1" />
+            <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1">
+              <animate attributeName="stop-color" values="#ff6b9d;#ffa8cc;#ff6b9d" dur="2s" repeatCount="indefinite"/>
+            </stop>
+            <stop offset="100%" style="stop-color:#e91e63;stop-opacity:1">
+              <animate attributeName="stop-color" values="#e91e63;#f48fb1;#e91e63" dur="2s" repeatCount="indefinite"/>
+            </stop>
           </radialGradient>
           
           <!-- 连接线渐变 -->
@@ -116,92 +164,103 @@
         <!-- 节点 -->
         <g class="nodes">
           <!-- 中心节点 -->
-          <circle
-            :cx="centerX"
-            :cy="centerY"
-            :r="centerRadius"
-            fill="url(#centerGradient)"
-            filter="url(#centerShadow)"
-            class="node center-node"
-          />
-          <text
-            :x="centerX"
-            :y="centerY"
-            class="node-text center-text"
-            text-anchor="middle"
-            dominant-baseline="middle"
-          >
-            {{ studentName }}
-          </text>
+          <g class="center-node-group">
+            <circle
+              :cx="centerX"
+              :cy="centerY"
+              :r="centerRadius"
+              fill="url(#centerGradient)"
+              filter="url(#centerShadow)"
+              class="node center-node"
+            />
+            <text
+              :x="centerX"
+              :y="centerY"
+              class="node-text center-text"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              {{ studentName }}
+            </text>
+          </g>
           
           <!-- 一级节点 -->
-          <circle
+          <g
             v-for="(node, index) in firstLevelNodes"
             :key="`first-${index}`"
-            :cx="node.x"
-            :cy="node.y"
-            :r="firstLevelRadius"
-            fill="url(#firstLevelGradient)"
-            filter="url(#nodeShadow)"
-            class="node first-level"
-          />
-          <text
-            v-for="(node, index) in firstLevelNodes"
-            :key="`first-text-${index}`"
-            :x="node.x"
-            :y="node.y"
-            class="node-text first-level-text"
-            text-anchor="middle"
-            dominant-baseline="middle"
+            class="first-level-group"
+            :style="{ animationDelay: `${index * 0.2}s` }"
           >
-            {{ node.name }}
-          </text>
+            <circle
+              :cx="node.x"
+              :cy="node.y"
+              :r="firstLevelRadius"
+              fill="url(#firstLevelGradient)"
+              filter="url(#nodeShadow)"
+              class="node first-level"
+            />
+            <text
+              :x="node.x"
+              :y="node.y"
+              class="node-text first-level-text"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              {{ node.name }}
+            </text>
+          </g>
           
           <!-- 二级节点 -->
-          <circle
+          <g
             v-for="(node, index) in secondLevelNodes"
             :key="`second-${index}`"
-            :cx="node.x"
-            :cy="node.y"
-            :r="secondLevelRadius"
-            fill="url(#secondLevelGradient)"
-            filter="url(#nodeShadow)"
-            class="node second-level"
-          />
-          <text
-            v-for="(node, index) in secondLevelNodes"
-            :key="`second-text-${index}`"
-            :x="node.x"
-            :y="node.y"
-            class="node-text second-level-text"
-            text-anchor="middle"
-            dominant-baseline="middle"
+            class="second-level-group"
+            :style="{ animationDelay: `${index * 0.1}s` }"
           >
-            {{ node.name }}
-          </text>
+            <circle
+              :cx="node.x"
+              :cy="node.y"
+              :r="secondLevelRadius"
+              fill="url(#secondLevelGradient)"
+              filter="url(#nodeShadow)"
+              class="node second-level"
+            />
+            <text
+              :x="node.x"
+              :y="node.y"
+              class="node-text second-level-text"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              {{ node.name }}
+            </text>
+          </g>
           
           <!-- 三级节点 -->
-          <circle
+          <g
             v-for="(node, index) in thirdLevelNodes"
             :key="`third-${index}`"
-            :cx="node.x"
-            :cy="node.y"
-            :r="thirdLevelRadius"
-            :fill="index % 2 === 0 ? 'url(#thirdLevelGradient1)' : 'url(#thirdLevelGradient2)'"
-            filter="url(#nodeShadow)"
-            class="node third-level"
-          />
-          <text
-            v-for="(node, index) in thirdLevelNodes"
-            :key="`third-text-${index}`"
-            :x="node.x"
-            :y="node.y"
-            class="node-text third-level-text"
-            text-anchor="middle"
-            dominant-baseline="middle"
+            class="third-level-group"
+            :style="{ animationDelay: `${index * 0.05}s` }"
           >
-            {{ node.name }}
-          </text>
+            <circle
+              :cx="node.x"
+              :cy="node.y"
+              :r="thirdLevelRadius"
+              :fill="index % 2 === 0 ? 'url(#thirdLevelGradient1)' : 'url(#thirdLevelGradient2)'"
+              filter="url(#nodeShadow)"
+              class="node third-level"
+            />
+            <text
+              :x="node.x"
+              :y="node.y"
+              class="node-text third-level-text"
+              text-anchor="middle"
+              dominant-baseline="middle"
+            >
+              {{ node.name }}
+            </text>
+          </g>
         </g>
       </svg>
     </div>
@@ -223,6 +282,7 @@ export default {
       secondLevelRadius: 30,
       thirdLevelRadius: 20,
       studentName: '李启明A¯',
+      animationEnabled: true,
       
       // 能力分类数据
       abilityData: {
@@ -422,7 +482,20 @@ export default {
     
   },
   methods: {
-    // 移除了节点交互方法
+    // 切换动画效果
+    toggleAnimation() {
+      this.animationEnabled = !this.animationEnabled
+    },
+    
+    // 暂停所有动画
+    pauseAnimations() {
+      this.animationEnabled = false
+    },
+    
+    // 恢复所有动画
+    resumeAnimations() {
+      this.animationEnabled = true
+    }
   }
 }
 </script>
@@ -482,6 +555,7 @@ export default {
   fill: none;
   transition: all 0.3s ease;
   opacity: 0.8;
+  will-change: stroke-width, opacity;
 }
 
 .connection-line.level-1 {
@@ -505,6 +579,209 @@ export default {
 .node {
   transition: all 0.3s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* 浮动动画 */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes floatFast {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 节点组动画 */
+.center-node-group {
+  animation: float 4s ease-in-out infinite;
+}
+
+.first-level-group {
+  animation: floatSlow 3s ease-in-out infinite;
+}
+
+.second-level-group {
+  animation: floatFast 2.5s ease-in-out infinite;
+}
+
+.third-level-group {
+  animation: floatSlow 2s ease-in-out infinite;
+}
+
+/* 动画控制类 */
+.animation-disabled .center-node-group,
+.animation-disabled .first-level-group,
+.animation-disabled .second-level-group,
+.animation-disabled .third-level-group {
+  animation: none;
+}
+
+.animation-disabled .connection-line {
+  animation: none;
+}
+
+.animation-disabled .ability-map-container {
+  animation: none;
+}
+
+.animation-disabled .node {
+  animation: none;
+}
+
+.animation-disabled .node-text {
+  animation: none;
+}
+
+/* 悬停效果 */
+.center-node-group:hover {
+  animation-play-state: paused;
+  transform: translateY(-12px) scale(1.1);
+  transition: all 0.3s ease;
+}
+
+.first-level-group:hover {
+  animation-play-state: paused;
+  transform: translateY(-8px) scale(1.08);
+  transition: all 0.3s ease;
+}
+
+.second-level-group:hover {
+  animation-play-state: paused;
+  transform: translateY(-10px) scale(1.06);
+  transition: all 0.3s ease;
+}
+
+.third-level-group:hover {
+  animation-play-state: paused;
+  transform: translateY(-6px) scale(1.04);
+  transition: all 0.3s ease;
+}
+
+/* 连接线动画 */
+.connection-line {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.connection-line.level-1 {
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.connection-line.level-2 {
+  animation: pulse 3.5s ease-in-out infinite;
+}
+
+.connection-line.level-3 {
+  animation: pulse 2.5s ease-in-out infinite;
+}
+
+/* 连接线悬停效果 */
+.connection-line:hover {
+  stroke-width: 4;
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+/* 整体容器动画 */
+.ability-map-container {
+  animation: containerFloat 6s ease-in-out infinite;
+}
+
+@keyframes containerFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* 节点呼吸效果 */
+@keyframes breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.02);
+    opacity: 1;
+  }
+}
+
+/* 为不同层级的节点添加不同的呼吸效果 */
+.first-level-group .node {
+  animation: breathe 4s ease-in-out infinite;
+}
+
+.second-level-group .node {
+  animation: breathe 3s ease-in-out infinite;
+}
+
+.third-level-group .node {
+  animation: breathe 2s ease-in-out infinite;
+}
+
+/* 文字闪烁效果 */
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.5);
+  }
+}
+
+.center-text {
+  animation: textGlow 3s ease-in-out infinite;
+}
+
+.first-level-text {
+  animation: textGlow 4s ease-in-out infinite;
+}
+
+.second-level-text {
+  animation: textGlow 3.5s ease-in-out infinite;
+}
+
+.third-level-text {
+  animation: textGlow 2.5s ease-in-out infinite;
 }
 
 

@@ -218,8 +218,8 @@ import { ref, computed, onMounted, nextTick, onBeforeUnmount } from 'vue'
 import * as echarts from 'echarts'
 import AbilityMap from './AbilityMap.vue'
 
-// 选中的能力分类
-const selectedCategory = ref(null)
+// 选中的能力分类 - 默认选中第一个"学习能力"
+const selectedCategory = ref('learning')
 
 // 雷达图引用
 const radarChart = ref(null)
@@ -241,7 +241,7 @@ const showCourseModal = ref(false)
 const careerPositions = ref([
   {
     id: 'teacher',
-    name: '教师',
+    name: '人工智能工程师',
     level: '初级',
     description: '负责课堂教学、学生指导、课程设计等工作，是教育行业的核心岗位。',
     requirements: [
@@ -254,7 +254,7 @@ const careerPositions = ref([
   },
   {
     id: 'researcher',
-    name: '研究员',
+    name: '高级提示词研究员',
     level: '中级',
     description: '从事学术研究、科研项目申报、论文写作等工作，推动学科发展。',
     requirements: [
@@ -267,7 +267,7 @@ const careerPositions = ref([
   },
   {
     id: 'consultant',
-    name: '咨询师',
+    name: '大模型售前技术咨询师',
     level: '高级',
     description: '为企业或机构提供专业咨询服务，解决实际问题并提供解决方案。',
     requirements: [
@@ -280,7 +280,7 @@ const careerPositions = ref([
   },
   {
     id: 'manager',
-    name: '项目经理',
+    name: '智能化项目经理',
     level: '中级',
     description: '负责项目的规划、执行、监控和收尾，确保项目目标的实现。',
     requirements: [
@@ -297,7 +297,7 @@ const careerPositions = ref([
 const professionalCourses = ref([
   {
     id: 'pedagogy',
-    name: '教育学原理',
+    name: '人工智能原理',
     credits: 3,
     description: '学习教育学的基本理论、教育规律和教育方法，为从事教育工作奠定理论基础。',
     objectives: [
@@ -606,60 +606,60 @@ const getRadarData = () => {
 const getRelatedAbilities = (categoryId) => {
   const abilityMap = {
     'learning': [
-      { name: '自主学习', standard: 90, current: 88 },
-      { name: '知识获取', standard: 85, current: 82 },
-      { name: '学习方法', standard: 88, current: 85 },
-      { name: '学习效率', standard: 82, current: 80 },
-      { name: '学习兴趣', standard: 85, current: 83 }
+      { name: '自主学习', standard: 90, current: 95 }, // 优势项
+      { name: '知识获取', standard: 85, current: 70 }, // 待提升
+      { name: '学习方法', standard: 88, current: 92 }, // 优势项
+      { name: '学习效率', standard: 82, current: 65 }, // 待提升
+      { name: '学习兴趣', standard: 85, current: 88 }  // 略高于标准
     ],
     'innovation': [
-      { name: '创新思维', standard: 88, current: 82 },
-      { name: '问题解决', standard: 85, current: 80 },
-      { name: '创意表达', standard: 82, current: 78 },
-      { name: '发散思维', standard: 80, current: 75 },
-      { name: '实践创新', standard: 83, current: 79 }
+      { name: '创新思维', standard: 88, current: 75 }, // 待提升
+      { name: '问题解决', standard: 85, current: 90 }, // 优势项
+      { name: '创意表达', standard: 82, current: 68 }, // 待提升
+      { name: '发散思维', standard: 80, current: 85 }, // 优势项
+      { name: '实践创新', standard: 83, current: 72 }  // 待提升
     ],
     'research': [
-      { name: '文献调研', standard: 90, current: 75 },
-      { name: '数据分析', standard: 85, current: 72 },
-      { name: '论文写作', standard: 88, current: 70 },
-      { name: '实验设计', standard: 82, current: 68 },
-      { name: '学术思维', standard: 86, current: 74 }
+      { name: '文献调研', standard: 90, current: 85 }, // 略低于标准
+      { name: '数据分析', standard: 85, current: 60 }, // 待大幅提升
+      { name: '论文写作', standard: 88, current: 55 }, // 待大幅提升
+      { name: '实验设计', standard: 82, current: 70 }, // 待提升
+      { name: '学术思维', standard: 86, current: 80 }  // 略低于标准
     ],
     'communication': [
-      { name: '口头表达', standard: 88, current: 85 },
-      { name: '书面表达', standard: 85, current: 82 },
-      { name: '倾听理解', standard: 90, current: 88 },
-      { name: '团队协作', standard: 87, current: 84 },
-      { name: '跨文化沟通', standard: 80, current: 76 }
+      { name: '口头表达', standard: 88, current: 92 }, // 优势项
+      { name: '书面表达', standard: 85, current: 75 }, // 待提升
+      { name: '倾听理解', standard: 90, current: 95 }, // 优势项
+      { name: '团队协作', standard: 87, current: 88 }, // 略高于标准
+      { name: '跨文化沟通', standard: 80, current: 65 } // 待提升
     ],
     'leadership': [
-      { name: '团队管理', standard: 85, current: 78 },
-      { name: '决策能力', standard: 88, current: 80 },
-      { name: '激励他人', standard: 82, current: 75 },
-      { name: '冲突解决', standard: 80, current: 73 },
-      { name: '战略思维', standard: 86, current: 79 }
+      { name: '团队管理', standard: 85, current: 70 }, // 待提升
+      { name: '决策能力', standard: 88, current: 85 }, // 略低于标准
+      { name: '激励他人', standard: 82, current: 90 }, // 优势项
+      { name: '冲突解决', standard: 80, current: 65 }, // 待提升
+      { name: '战略思维', standard: 86, current: 75 }  // 待提升
     ],
     'technology': [
-      { name: '基础软件', standard: 85, current: 72 },
-      { name: '编程思维', standard: 80, current: 65 },
-      { name: '数据分析工具', standard: 82, current: 68 },
-      { name: '数字化素养', standard: 78, current: 70 },
-      { name: '技术学习', standard: 88, current: 75 }
+      { name: '基础软件', standard: 85, current: 95 }, // 优势项
+      { name: '编程思维', standard: 80, current: 45 }, // 待大幅提升
+      { name: '数据分析工具', standard: 82, current: 55 }, // 待大幅提升
+      { name: '数字化素养', standard: 78, current: 85 }, // 优势项
+      { name: '技术学习', standard: 88, current: 90 }  // 优势项
     ],
     'critical-thinking': [
-      { name: '逻辑分析', standard: 90, current: 80 },
-      { name: '问题识别', standard: 85, current: 78 },
-      { name: '论证能力', standard: 88, current: 82 },
-      { name: '独立思考', standard: 86, current: 79 },
-      { name: '批判性思维', standard: 84, current: 77 }
+      { name: '逻辑分析', standard: 90, current: 85 }, // 略低于标准
+      { name: '问题识别', standard: 85, current: 90 }, // 优势项
+      { name: '论证能力', standard: 88, current: 70 }, // 待提升
+      { name: '独立思考', standard: 86, current: 92 }, // 优势项
+      { name: '批判性思维', standard: 84, current: 75 } // 待提升
     ],
     'adaptability': [
-      { name: '环境适应', standard: 88, current: 83 },
-      { name: '变化应对', standard: 85, current: 80 },
-      { name: '压力管理', standard: 82, current: 78 },
-      { name: '心理韧性', standard: 80, current: 75 },
-      { name: '学习新技能', standard: 87, current: 82 }
+      { name: '环境适应', standard: 88, current: 95 }, // 优势项
+      { name: '变化应对', standard: 85, current: 80 }, // 略低于标准
+      { name: '压力管理', standard: 82, current: 70 }, // 待提升
+      { name: '心理韧性', standard: 80, current: 85 }, // 优势项
+      { name: '学习新技能', standard: 87, current: 90 } // 优势项
     ]
   }
   
@@ -1125,7 +1125,10 @@ onBeforeUnmount(() => {
 
 .spectrum-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .spectrum-title {
@@ -1168,7 +1171,7 @@ onBeforeUnmount(() => {
   gap: 8px;
   padding: 8px 16px;
   background: #f8f9fa;
-  border: 2px solid #e5e7eb;
+  border: 1px solid #e5e7eb;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1207,7 +1210,7 @@ onBeforeUnmount(() => {
 .position-tag:not(.active) .position-level,
 .course-tag:not(.active) .course-credits {
   background: #e5e7eb;
-  color: #6b7280;
+  color: #000;
 }
 
 /* 弹窗样式 */
@@ -1288,6 +1291,7 @@ onBeforeUnmount(() => {
   font-weight: 600;
   color: #1f2937;
   margin: 0 0 8px 0;
+  text-align: left;
 }
 
 .detail-section p {
@@ -1295,6 +1299,7 @@ onBeforeUnmount(() => {
   color: #6b7280;
   line-height: 1.6;
   margin: 0;
+  text-align: left;
 }
 
 .detail-section ul {
@@ -1309,6 +1314,7 @@ onBeforeUnmount(() => {
   font-size: 14px;
   position: relative;
   padding-left: 16px;
+  text-align: left;
 }
 
 .detail-section li::before {
@@ -1361,8 +1367,8 @@ onBeforeUnmount(() => {
 }
 
 .section-header h3 {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
   color: #1f2937;
   margin: 0;
 }
@@ -1429,6 +1435,7 @@ onBeforeUnmount(() => {
   font-weight: 600;
   color: #1f2937;
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .categories-grid {

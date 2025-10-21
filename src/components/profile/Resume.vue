@@ -1,5 +1,21 @@
 <template>
   <div class="resume-container">
+    <!-- 顶部操作按钮 -->
+    <div class="resume-actions">
+      <button class="action-btn edit-btn" @click="handleEdit">
+        <i class="icon-edit"></i>
+        编辑
+      </button>
+      <button class="action-btn regenerate-btn" @click="handleRegenerate">
+        <i class="icon-refresh"></i>
+        重新生成
+      </button>
+      <button class="action-btn download-btn" @click="handleDownload">
+        <i class="icon-download"></i>
+        下载
+      </button>
+    </div>
+
     <div class="resume-header">
       <img class="avatar" src="/pic/student01.png" alt="头像" />
       <div class="info">
@@ -102,28 +118,326 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
+
+// 按钮点击事件处理
+const handleEdit = () => {
+  console.log('编辑简历')
+  // TODO: 实现编辑功能
+}
+
+const handleRegenerate = () => {
+  console.log('重新生成简历')
+  // TODO: 实现重新生成功能
+}
+
+const handleDownload = () => {
+  console.log('下载简历')
+  // TODO: 实现下载功能
+}
 </script>
 
 <style scoped>
-.resume-container { max-width: 900px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 24px; }
-.resume-header { display: flex; gap: 16px; align-items: center; margin-bottom: 12px; }
-.avatar { width: 88px; height: 88px; border-radius: 12px; object-fit: cover; }
-.info { display: flex; flex-direction: column; gap: 6px; }
-.name { font-size: 28px; font-weight: 700; color: #333; }
-.meta { color: #667085; }
-.contacts { display: flex; gap: 16px; color: #445066; font-size: 14px; }
-.section { margin-top: 18px; }
-.section-title { font-size: 18px; color: #333; font-weight: 600; margin-bottom: 10px; }
-.chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip { background: #f5f7ff; color: #475569; border: 1px solid #e3e8f4; padding: 6px 12px; border-radius: 3px; font-size: 13px; }
-.items { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
-.row { display: flex; justify-content: space-between; color: #374151; }
-.row.minor { color: #667085; font-size: 14px; }
-.bullets { display: grid; gap: 6px; color: #4b5563; margin-top: 8px; }
-.tags { display: flex; flex-wrap: wrap; gap: 8px; color: #6b7280; }
+.resume-container { 
+  max-width: 900px; 
+  margin: 0 auto; 
+  background: #fff; 
+  border-radius: 12px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+  padding: 32px; 
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+}
+
+/* 顶部操作按钮样式 */
+.resume-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.edit-btn {
+  background: #f8f9fa;
+  color: #495057;
+  border: 1px solid #dee2e6;
+}
+
+.edit-btn:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.regenerate-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: 1px solid #bbdefb;
+}
+
+.regenerate-btn:hover {
+  background: #bbdefb;
+  border-color: #90caf9;
+}
+
+.download-btn {
+  background: #e8f5e8;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
+}
+
+.download-btn:hover {
+  background: #c8e6c9;
+  border-color: #a5d6a7;
+}
+
+/* 图标样式 */
+.icon-edit::before { content: "✏️"; }
+.icon-refresh::before { content: "🔄"; }
+.icon-download::before { content: "⬇️"; }
+
+/* 简历头部样式 */
+.resume-header { 
+  display: flex; 
+  gap: 20px; 
+  align-items: center; 
+  margin-bottom: 32px; 
+  padding: 20px 0;
+}
+
+.avatar { 
+  width: 100px; 
+  height: 100px; 
+  border-radius: 16px; 
+  object-fit: cover; 
+  border: 3px solid #f8f9fa;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.info { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 8px; 
+  flex: 1;
+}
+
+.name { 
+  font-size: 32px; 
+  font-weight: 700; 
+  color: #1a1a1a; 
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+  text-align: left;
+}
+
+.meta { 
+  color: #6c757d; 
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.contacts { 
+  display: flex; 
+  gap: 20px; 
+  color: #495057; 
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.contacts span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* 章节样式 */
+.section { 
+  margin-top: 28px; 
+  padding: 20px 0;
+  border-bottom: 1px solid #f8f9fa;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section-title { 
+  font-size: 20px; 
+  color: #2c3e50; 
+  font-weight: 600; 
+  margin-bottom: 16px; 
+  position: relative;
+  padding-left: 12px;
+  text-align: left;
+}
+
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 2px;
+}
+
+/* 标签样式 */
+.chips { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 12px; 
+}
+
+.chip { 
+  background: linear-gradient(135deg, #f8f9ff 0%, #e8f0ff 100%); 
+  color: #4a5568; 
+  border: 1px solid #e2e8f0; 
+  padding: 8px 16px; 
+  border-radius: 20px; 
+  font-size: 14px; 
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* 列表项样式 */
+.items { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0; 
+  display: grid; 
+  gap: 20px; 
+}
+
+.items li {
+  padding: 20px;
+  background: #fafbfc;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  transition: all 0.2s ease;
+}
+
+.items li:hover {
+  background: #f8f9fa;
+  transform: translateX(4px);
+}
+
+.row { 
+  display: flex; 
+  justify-content: space-between; 
+  color: #2d3748; 
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.row.minor { 
+  color: #718096; 
+  font-size: 14px; 
+  font-weight: 400;
+}
+
+.bullets { 
+  display: grid; 
+  gap: 8px; 
+  color: #4a5568; 
+  margin-top: 12px; 
+  line-height: 1.6;
+}
+
+.bullets div {
+  position: relative;
+  padding-left: 16px;
+  text-align: left;
+}
+
+.bullets div::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: bold;
+}
+
+.tags { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 8px; 
+  color: #6b7280; 
+  margin-top: 12px;
+}
+
+.tags span {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #e2e8f0;
+}
+
+/* 响应式设计 */
 @media (max-width: 768px) {
-  .row { flex-direction: column; gap: 4px; }
-  .contacts { flex-direction: column; gap: 6px; }
+  .resume-container {
+    padding: 20px;
+    margin: 0 16px;
+  }
+  
+  .resume-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .action-btn {
+    justify-content: center;
+  }
+  
+  .resume-header { 
+    flex-direction: column; 
+    text-align: center;
+    gap: 16px;
+  }
+  
+  .row { 
+    flex-direction: column; 
+    gap: 4px; 
+  }
+  
+  .contacts { 
+    flex-direction: column; 
+    gap: 8px; 
+    align-items: center;
+  }
+  
+  .name {
+    font-size: 28px;
+  }
+  
+  .section-title {
+    font-size: 18px;
+  }
 }
 </style>
 

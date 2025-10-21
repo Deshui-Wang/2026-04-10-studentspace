@@ -13,6 +13,12 @@ export default {
     AIAssistant
   },
   setup() {
+    const isAIAssistantPanelVisible = ref(false)
+
+    const handleAIAssistantPanelToggle = (isVisible) => {
+      isAIAssistantPanelVisible.value = isVisible
+    }
+
     // 头像选择弹框状态
     const showAvatarSelector = ref(false)
     const avatarSelectorData = ref({
@@ -87,6 +93,8 @@ export default {
     })
 
     return {
+      isAIAssistantPanelVisible,
+      handleAIAssistantPanelToggle,
       showAvatarSelector,
       avatarSelectorData,
       selectedAvatarId,
@@ -109,12 +117,14 @@ export default {
 </script>
 
 <template>
-  <div id="app">
-    <MainNavbar v-if="shouldShowNavbar" />
-    <router-view />
-    <Footer v-if="!$route.meta.hideFooter" />
+  <div id="app" :class="{ 'ai-panel-visible': isAIAssistantPanelVisible }">
+    <div class="main-content">
+      <MainNavbar v-if="shouldShowNavbar" />
+      <router-view />
+      <Footer v-if="!$route.meta.hideFooter" />
+    </div>
     <!-- 小智人AI智能悬浮球 - 全局显示 -->
-    <AIAssistant />
+    <AIAssistant @panel-toggled="handleAIAssistantPanelToggle" />
     
     <!-- 头像选择弹层 - 放在最外层，不会被导航标签挡住 -->
     <div v-if="showAvatarSelector" class="avatar-selector-overlay" @click="closeAvatarSelector">
@@ -155,6 +165,18 @@ export default {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  transition: margin-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  transition: margin-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+#app.ai-panel-visible .main-content {
+  margin-right: 450px;
 }
 
 #app > * {

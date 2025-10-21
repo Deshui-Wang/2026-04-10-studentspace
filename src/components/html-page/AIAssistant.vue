@@ -22,7 +22,7 @@
     </div>
 
     <!-- 聊天面板 -->
-    <div v-show="isPanelVisible" class="chat-panel">
+    <div class="chat-panel" :class="{ 'is-visible': isPanelVisible }">
       <div class="panel-header">
         <div class="header-left">
           <div class="ai-avatar">
@@ -31,7 +31,27 @@
           </div>
           <div class="header-info">
             <h3>小智人</h3>
-            <span class="status">Gemini Pro · 正在为您服务</span>
+            <div class="model-selector" @click.stop="toggleModelSelector" ref="modelSelectorRef">
+              <span class="status">{{ selectedModel.name.split(' | ')[0] }}</span>
+              <span class="model-badge">{{ selectedModel.name.split(' | ')[1] }}</span>
+              <svg class="dropdown-arrow" :class="{ 'open': isModelSelectorVisible }" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+              <transition name="fade">
+                <div v-if="isModelSelectorVisible" class="model-dropdown">
+                  <ul>
+                    <li v-for="model in models" :key="model.id" @click="selectModel(model)">
+                      <div class="model-icon">
+                        <img :src="model.icon" :alt="model.name" class="model-icon-img" />
+                      </div>
+                      <div class="model-info-dropdown">
+                        <span class="model-name">{{ model.name }}</span>
+                        <span class="model-description">{{ model.description }}</span>
+                      </div>
+                      <svg v-if="selectedModel.id === model.id" class="checkmark-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                    </li>
+                  </ul>
+                </div>
+              </transition>
+            </div>
           </div>
         </div>
         <div class="header-actions">
@@ -248,16 +268,54 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
+import { ref, watch, onMounted, onUnmounted, nextTick, defineEmits } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+// Emits
+const emit = defineEmits(['panel-toggled'])
 
 // 响应式数据
 const isPanelVisible = ref(false)
 const activeTab = ref(null) // 默认为null，不显示任何内容
 const chatInput = ref('')
 const chatInputRef = ref(null)
+const modelSelectorRef = ref(null)
+const isModelSelectorVisible = ref(false)
 const route = useRoute()
 const router = useRouter()
+
+const models = ref([
+  { id: 'chaozhiren', name: '超智人', description: 'Your personal super assistant', icon: '/pic/image 1.png' },
+  { id: 'qianwen', name: '通义千问', description: '通义千问大模型', icon: '/pic/mini AI/qianwen.png' },
+  { id: 'zhipu', name: '智谱清言', description: '清华大学荣誉出品', icon: '/pic/mini AI/zhipu.png' },
+  { id: 'deepseek-fast', name: 'DeepSeek | Fast', description: 'For quick chats', icon: '/pic/mini AI/DeepSeek.png' },
+  { id: 'deepseek-thinking', name: 'DeepSeek | Thinking', description: 'For deep thoughts', icon: '/pic/mini AI/DeepSeek.png' },
+  { id: 'gemini-2.5-fast', name: 'Gemini 2.5 | Fast', description: 'For quick chats', icon: '/pic/mini AI/gemini.png' },
+  { id: 'grok-4-fast', name: 'Grok 4 | Fast', description: 'For quick chats', icon: '/pic/mini AI/grok.png' },
+  { id: 'chatgpt-5-fast', name: 'ChatGPT 5 | Fast', description: 'For quick chats', icon: '/pic/mini AI/gpt.png' },
+  { id: 'chatgpt-4o-fast', name: 'ChatGPT 4o | Fast', description: 'For quick chats', icon: '/pic/mini AI/gpt.png' }
+])
+const selectedModel = ref(models.value[2])
+
+const toggleModelSelector = () => {
+  isModelSelectorVisible.value = !isModelSelectorVisible.value
+}
+
+const selectModel = (model) => {
+  selectedModel.value = model
+  isModelSelectorVisible.value = false
+}
+
+const closeModelSelector = (event) => {
+  if (modelSelectorRef.value && !modelSelectorRef.value.contains(event.target)) {
+    isModelSelectorVisible.value = false
+  }
+}
+
+// 监听面板可见性变化并发出事件
+watch(isPanelVisible, (newValue) => {
+  emit('panel-toggled', newValue)
+})
 
 // 标签页配置 - 使用图片图标
 const tabs = ref([
@@ -388,23 +446,25 @@ const handleKeydown = (event) => {
 watch(() => route.path, (newPath) => {
   console.log('路由变化:', newPath)
   
-  const autoOpenPages = ['/EvaluationCenter', '/tch-ai', '/ai-thinking']
+  // const autoOpenPages = ['/EvaluationCenter', '/tch-ai', '/ai-thinking']
   
-  if (autoOpenPages.includes(newPath) && !isPanelVisible.value) {
-    console.log('自动打开面板')
-    openPanel()
-  }
+  // if (autoOpenPages.includes(newPath) && !isPanelVisible.value) {
+  //   console.log('自动打开面板')
+  //   openPanel()
+  // }
 }, { immediate: false })
 
 // 组件挂载时的初始化
 onMounted(() => {
   console.log('小智人AI助手已启动')
   document.addEventListener('keydown', handleKeydown)
+  document.addEventListener('click', closeModelSelector)
 })
 
 // 组件卸载时清理
 onUnmounted(() => {
   document.removeEventListener('keydown', handleKeydown)
+  document.removeEventListener('click', closeModelSelector)
 })
 </script>
 
@@ -568,45 +628,37 @@ onUnmounted(() => {
   transform: scale(0.95);
 }
 
-/* 聊天面板样式 - 增加高度 */
+/* 聊天面板样式 - 改为侧边栏 */
 .chat-panel {
   position: fixed;
-  right: 30px;
-  bottom: 30px;
-  width: 450px;
-  height: 800px; /* 从750px增加到800px */
+  top: 0;
+  right: 0;
+  width: 450px; /* 保持宽度 */
+  height: 100vh; /* 占满整个视窗高度 */
   background: white;
-  border-radius: 20px;
+  border-radius: 0; /* 左上和左下圆角 */
   box-shadow: 
-    0 20px 60px rgba(0, 0, 0, 0.15),
-    0 8px 32px rgba(0, 0, 0, 0.1);
+    -5px 0 20px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   z-index: 1000;
   overflow: hidden;
-  animation: panelSlideIn 0.3s ease-out;
+  transform: translateX(100%); /* 默认隐藏在右侧 */
+  transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* 平滑过渡效果 */
 }
 
-@keyframes panelSlideIn {
-  from {
-    transform: scale(0.8) translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1) translateY(0);
-    opacity: 1;
-  }
+.chat-panel.is-visible {
+  transform: translateX(0); /* 显示时移入视图 */
 }
 
 .panel-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 20px 24px;
+  padding: 13px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   position: relative;
-  overflow: hidden;
 }
 
 .panel-header::before {
@@ -671,6 +723,121 @@ onUnmounted(() => {
   font-size: 13px;
   opacity: 0.9;
   margin-top: 2px;
+}
+
+.model-selector {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  position: relative;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+
+.model-selector:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.model-badge {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.dropdown-arrow {
+  transition: transform 0.2s ease;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+.model-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 280px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  z-index: 10;
+  overflow: hidden;
+  padding: 8px;
+}
+
+.model-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.model-dropdown li {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: #333;
+}
+
+.model-dropdown li:hover {
+  background-color: #f7f7f7;
+}
+
+.model-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.model-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.model-info-dropdown {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.model-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1e293b;
+  text-align: left;
+}
+
+.model-description {
+  font-size: 12px;
+  color: #64748b;
+  text-align: left;
+}
+
+.checkmark-icon {
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+/* Fade transition for dropdown */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.fade-enter-from, .fade-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
 }
 
 .header-actions {
@@ -777,10 +944,6 @@ onUnmounted(() => {
 
 .nav-tab:hover .tab-icon-img {
   transform: scale(1.1);
-}
-
-.nav-tab.active .tab-icon-img {
-
 }
 
 .tab-text {
@@ -1054,7 +1217,6 @@ onUnmounted(() => {
 }
 
 .chat-input {
-  width: 100%;
   padding: 12px 16px;
   border: 1px solid #e2e8f0;
   border-radius: 8px;

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全局按钮布局测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        .test-description {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .test-steps {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .test-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .test-steps li {
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .before-after {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .before, .after {
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .before {
+            background: #fef2f2;
+            border-color: #fecaca;
+        }
+        .after {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+        .before h4, .after h4 {
+            margin: 0 0 12px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .before h4 {
+            color: #dc2626;
+        }
+        .after h4 {
+            color: #16a34a;
+        }
+        .layout-diagram {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .layout-box {
+            border: 2px solid #6366f1;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+            background: white;
+        }
+        .layout-box h4 {
+            margin: 0 0 8px 0;
+            color: #6366f1;
+            font-size: 14px;
+        }
+        .layout-box p {
+            margin: 0;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .button-demo {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 16px 0;
+        }
+        .button-demo button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            min-width: 140px;
+            justify-content: center;
+        }
+        .button-demo .primary {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.25);
+        }
+        .button-demo .secondary {
+            background: white;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 全局按钮布局调整测试</h1>
+        
+        <div class="test-section">
+            <div class="test-title">调整说明</div>
+            <div class="test-description">
+                将"保存目标计划"和"重置所有设置"按钮从"达成计划"模块中完全移出，放在目标里程碑和达成计划模块底部的外侧，作为整体操作区域
+            </div>
+        </div>
+
+        <div class="layout-diagram">
+            <h4>📐 新的布局结构</h4>
+            <div class="layout-box">
+                <h4>🎯 目标里程碑链路</h4>
+                <p>AI生成的目标分解和里程碑</p>
+            </div>
+            <div class="layout-box">
+                <h4>📋 达成计划配置</h4>
+                <p>学习方式、时间安排、关键里程碑、AI建议</p>
+            </div>
+            <div class="layout-box" style="border-color: #10b981; background: #f0fdf4;">
+                <h4 style="color: #10b981;">💾 全局操作区域</h4>
+                <p>保存目标计划 + 重置所有设置（独立于模块外）</p>
+            </div>
+        </div>
+
+        <div class="before-after">
+            <div class="before">
+                <h4>❌ 调整前</h4>
+                <ul style="margin: 0; padding-left: 16px; font-size: 13px; color: #6b7280;">
+                    <li>按钮在"达成计划"模块内部</li>
+                    <li>与模块内容混合在一起</li>
+                    <li>操作不够突出和统一</li>
+                </ul>
+            </div>
+            <div class="after">
+                <h4>✅ 调整后</h4>
+                <ul style="margin: 0; padding-left: 16px; font-size: 13px; color: #6b7280;">
+                    <li>按钮独立于所有模块之外</li>
+                    <li>作为整体操作区域显示</li>
+                    <li>操作更加突出和统一</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">按钮样式预览</div>
+            <div class="button-demo">
+                <button class="primary">
+                    <span>💾</span>
+                    保存目标计划
+                </button>
+                <button class="secondary">
+                    <span>🔄</span>
+                    重置所有设置
+                </button>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">测试步骤</div>
+            <div class="test-steps">
+                <ol>
+                    <li>打开目标路径页面，查看整体布局</li>
+                    <li>确认<span class="highlight">"达成计划"模块内部</span>不再有操作按钮</li>
+                    <li>滚动到页面底部，查看<span class="highlight">全局操作区域</span></li>
+                    <li>确认操作区域位于<span class="highlight">两列布局（目标里程碑+达成计划）下方</span></li>
+                    <li>确认操作区域有<span class="highlight">蓝色顶部边框</span>和<span class="highlight">独立背景</span></li>
+                    <li>确认显示<span class="highlight">"💾 保存目标计划"</span>和<span class="highlight">"🔄 重置所有设置"</span>按钮</li>
+                    <li>确认按钮区域包含<span class="highlight">提示文字</span>："配置完成后点击保存，系统将为您生成完整的学习路径"</li>
+                    <li>测试<span class="highlight">保存功能</span>是否正常工作</li>
+                    <li>测试<span class="highlight">重置功能</span>是否正常工作</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">预期效果</div>
+            <div class="test-steps">
+                <ul>
+                    <li>✅ 达成计划模块：纯配置内容，无操作按钮</li>
+                    <li>✅ 全局操作区域：独立于所有模块之外</li>
+                    <li>✅ 按钮样式：渐变背景、图标、居中对齐</li>
+                    <li>✅ 视觉层次：蓝色顶部边框、独立背景色</li>
+                    <li>✅ 用户体验：操作更加统一和直观</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">技术实现</div>
+            <div class="test-steps">
+                <ul>
+                    <li><strong>HTML结构：</strong>将按钮从达成计划模块移出，放在两列布局外部</li>
+                    <li><strong>CSS样式：</strong>新的全局操作区域样式，独立的视觉设计</li>
+                    <li><strong>布局优化：</strong>确保按钮区域在整个页面中突出显示</li>
+                    <li><strong>用户体验：</strong>统一的操作入口，清晰的视觉分离</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 自动跳转到目标路径页面
+        setTimeout(() => {
+            window.open('http://localhost:5173/#/growth-center/goal-path', '_blank');
+        }, 2000);
+    </script>
+</body>
+</html>

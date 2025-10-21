@@ -8,12 +8,10 @@ import TchAI from '../components/AI-chaozhiren/TchAI.vue'
 import AIThinking from '../components/AI-chaozhiren/AIThinking.vue'
 import Agent from '../components/AI-chaozhiren/Agent.vue'
 import AgentEditor from '../components/AI-chaozhiren/AgentEditor.vue'
-import ReportPreview from '../components/archive-center/ReportPreview.vue'
 import EvaluationCenter from '../components/growth-center/EvaluationCenter.vue'
 import Login from '../components/login/Login.vue'
 import LoginDemo from '../components/login/LoginDemo.vue'
 import DataCenter from '../components/data-center/data-types/DataCenter.vue'
-import ArchiveCenter from '../components/archive-center/ArchiveCenter.vue'
 import AbilityTest from '../components/ability-test/AbilityTest.vue'
 import CareerGuidance from '../components/career-guidance/CareerGuidance.vue'
 
@@ -22,9 +20,11 @@ import Profile from '../components/profile/Profile.vue'
 import BasicInfo from '../components/profile/BasicInfo.vue'
 import Resume from '../components/profile/Resume.vue'
 
+// 成长中心
+import GoalPath from '../components/growth-center/GoalPath.vue'
+
 // 教学管理页面 - 修复导入路径
 import WorkloadQuantification from '../components/data-center/teaching-data/WorkloadQuantification.vue'
-import TeacherEthics from '../components/growth-center/TeacherEthics.vue'
 import Attendance from '../components/data-center/teaching-data/Attendance.vue'
 import HomeworkManagement from '../components/data-center/teaching-data/HomeworkManagement.vue'
 
@@ -93,11 +93,6 @@ const routes = [
     component: AgentEditor
   },
   {
-    path: '/report-preview',
-    name: 'ReportPreview',
-    component: ReportPreview
-  },
-  {
     path: '/EvaluationCenter',
     name: 'EvaluationCenter',
     component: EvaluationCenter
@@ -126,11 +121,6 @@ const routes = [
     component: WorkloadQuantification
   },
   {
-    path: '/teacher-ethics',
-    name: 'TeacherEthics',
-    component: TeacherEthics
-  },
-  {
     path: '/attendance',
     name: 'Attendance',
     component: Attendance
@@ -154,6 +144,11 @@ const routes = [
     path: '/career-guidance',
     name: 'CareerGuidance',
     component: CareerGuidance
+  },
+  {
+    path: '/goal-path',
+    name: 'GoalPath',
+    component: GoalPath
   }
 ]
 

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI建议功能测试</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f7fa;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .test-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 16px;
+        }
+        .test-description {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .test-steps {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .test-steps ol {
+            margin: 0;
+            padding-left: 20px;
+        }
+        .test-steps li {
+            margin-bottom: 8px;
+            color: #374151;
+        }
+        .highlight {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 AI建议功能测试</h1>
+        
+        <div class="test-section">
+            <div class="test-title">功能说明</div>
+            <div class="test-description">
+                测试AI建议模块的默认隐藏和手动触发打字机效果功能
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">测试步骤</div>
+            <div class="test-steps">
+                <ol>
+                    <li>打开目标路径页面，查看<span class="highlight">AI建议</span>模块</li>
+                    <li>确认默认状态下显示占位符内容，包含<span class="highlight">"配置完目标后，点击下方按钮获取AI个性化建议"</span></li>
+                    <li>确认显示<span class="highlight">"✨ 自动生成AI建议"</span>按钮，且按钮为禁用状态（因为目标名称为空）</li>
+                    <li>输入目标名称（如"通过英语四级考试"）</li>
+                    <li>确认按钮变为可用状态</li>
+                    <li>点击<span class="highlight">"✨ 自动生成AI建议"</span>按钮</li>
+                    <li>观察AI建议内容以<span class="highlight">打字机效果</span>逐步显示</li>
+                    <li>确认显示<span class="highlight">打字机指示器</span>（三个跳动的点）</li>
+                    <li>确认打字完成后显示<span class="highlight">"重新生成"</span>和<span class="highlight">"复制建议"</span>按钮</li>
+                    <li>测试<span class="highlight">"重新生成"</span>按钮，确认重新开始打字机效果</li>
+                    <li>测试<span class="highlight">"重置"</span>按钮，确认AI建议区域回到初始状态</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">预期效果</div>
+            <div class="test-steps">
+                <ul>
+                    <li>✅ 默认状态：显示占位符，不显示AI建议内容</li>
+                    <li>✅ 按钮状态：根据目标名称输入状态自动启用/禁用</li>
+                    <li>✅ 打字机效果：AI建议内容逐字符显示，速度适中（30ms/字符）</li>
+                    <li>✅ 视觉反馈：打字过程中显示动画指示器</li>
+                    <li>✅ 交互完整：支持重新生成和复制功能</li>
+                    <li>✅ 状态管理：重置功能正确恢复初始状态</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <div class="test-title">技术实现</div>
+            <div class="test-steps">
+                <ul>
+                    <li><strong>状态管理：</strong>使用 <code>showAISuggestion</code>、<code>isTyping</code>、<code>displayedSuggestion</code> 控制显示状态</li>
+                    <li><strong>打字机效果：</strong>使用 <code>setInterval</code> 每30ms添加一个字符</li>
+                    <li><strong>动画指示器：</strong>CSS动画实现三个点的跳动效果</li>
+                    <li><strong>响应式设计：</strong>占位符和内容区域自适应高度</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 自动跳转到目标路径页面
+        setTimeout(() => {
+            window.open('http://localhost:5173/#/growth-center/goal-path', '_blank');
+        }, 2000);
+    </script>
+</body>
+</html>

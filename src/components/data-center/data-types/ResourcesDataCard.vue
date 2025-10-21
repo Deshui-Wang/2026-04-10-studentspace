@@ -4,7 +4,7 @@
     :class="{ active: activeTab === 'resources' }"
     @click="$emit('tab-change', 'resources')"
   >
-    <h3 class="card-title">学习资源</h3>
+    <h3 class="card-title">资源数据</h3>
     <div class="card-content">
       <div class="data-row">
         <div class="data-item">

@@ -9,27 +9,18 @@
       <!-- 面试统计 -->
       <div class="stats-section">
         <div class="stat-card">
-          <div class="stat-icon">
-            <i class="el-icon-video-camera"></i>
-          </div>
           <div class="stat-content">
             <div class="stat-number">{{ interviewStats.totalInterviews }}</div>
             <div class="stat-label">总面试次数</div>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">
-            <i class="el-icon-trophy"></i>
-          </div>
           <div class="stat-content">
             <div class="stat-number">{{ interviewStats.averageScore }}</div>
             <div class="stat-label">平均得分</div>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon">
-            <i class="el-icon-time"></i>
-          </div>
           <div class="stat-content">
             <div class="stat-number">{{ interviewStats.totalTime }}</div>
             <div class="stat-label">总练习时长</div>
@@ -43,7 +34,7 @@
         <div class="settings-grid">
           <div class="setting-item">
             <label>面试官性格</label>
-            <el-select v-model="aiSettings.personality" placeholder="选择面试官性格">
+            <el-select v-model="aiSettings.personality" placeholder="选择面试官性格" class="setting-select">
               <el-option label="友好温和" value="friendly"></el-option>
               <el-option label="专业严谨" value="professional"></el-option>
               <el-option label="挑战性" value="challenging"></el-option>
@@ -51,7 +42,7 @@
           </div>
           <div class="setting-item">
             <label>面试难度</label>
-            <el-select v-model="aiSettings.difficulty" placeholder="选择面试难度">
+            <el-select v-model="aiSettings.difficulty" placeholder="选择面试难度" class="setting-select">
               <el-option label="初级" value="beginner"></el-option>
               <el-option label="中级" value="intermediate"></el-option>
               <el-option label="高级" value="advanced"></el-option>
@@ -59,7 +50,7 @@
           </div>
           <div class="setting-item">
             <label>面试时长</label>
-            <el-select v-model="aiSettings.duration" placeholder="选择面试时长">
+            <el-select v-model="aiSettings.duration" placeholder="选择面试时长" class="setting-select">
               <el-option label="15分钟" value="15"></el-option>
               <el-option label="30分钟" value="30"></el-option>
               <el-option label="45分钟" value="45"></el-option>
@@ -67,16 +58,17 @@
           </div>
           <div class="setting-item">
             <label>问题类型</label>
-            <el-checkbox-group v-model="aiSettings.questionTypes">
-              <el-checkbox label="behavioral">行为问题</el-checkbox>
-              <el-checkbox label="technical">技术问题</el-checkbox>
-              <el-checkbox label="situational">情景问题</el-checkbox>
-            </el-checkbox-group>
+            <el-select v-model="aiSettings.questionType" placeholder="选择问题类型" class="setting-select">
+              <el-option label="行为问题" value="behavioral"></el-option>
+              <el-option label="技术问题" value="technical"></el-option>
+              <el-option label="情景问题" value="situational"></el-option>
+              <el-option label="综合问题" value="mixed"></el-option>
+            </el-select>
           </div>
-        </div>
-        <div class="settings-actions">
-          <el-button type="primary" @click="saveSettings">保存设置</el-button>
-          <el-button @click="resetSettings">重置设置</el-button>
+          <div class="settings-actions">
+            <el-button type="primary" @click="saveSettings">保存</el-button>
+            <el-button @click="resetSettings">重置</el-button>
+          </div>
         </div>
       </div>
 
@@ -91,22 +83,30 @@
             :class="{ active: selectedOption === option.id }"
             @click="selectOption(option.id)"
           >
-            <div class="option-icon">
-              <i :class="option.icon"></i>
+            <!-- 右侧上方的小图片 -->
+            <div class="option-image">
+              <img :src="option.backgroundImage" :alt="option.title" />
             </div>
+            
             <div class="option-content">
-              <h4>{{ option.title }}</h4>
-              <p>{{ option.description }}</p>
+              <!-- 1. 名称 -->
+              <h4 class="option-title">{{ option.title }}</h4>
+              
+              <!-- 2. 描述 -->
+              <p class="option-description">{{ option.description }}</p>
+              
+              <!-- 3. 时间等级 -->
               <div class="option-meta">
                 <span class="duration">{{ option.duration }}</span>
                 <span class="difficulty">{{ option.difficulty }}</span>
               </div>
             </div>
+            
+            <!-- 4. 开始面试按钮 -->
             <div class="option-action">
               <el-button 
                 type="primary" 
-                :disabled="selectedOption !== option.id"
-                @click="startInterview(option)"
+                @click.stop="startInterview(option)"
               >
                 开始面试
               </el-button>
@@ -221,7 +221,8 @@ const interviewOptions = ref([
     description: '针对技术岗位的专业面试',
     icon: 'el-icon-cpu',
     duration: '30分钟',
-    difficulty: '中等'
+    difficulty: '中等',
+    backgroundImage: '/pic/mianshi/jishu.png'
   },
   {
     id: 2,
@@ -229,7 +230,8 @@ const interviewOptions = ref([
     description: '基于STAR法则的行为面试',
     icon: 'el-icon-s-order',
     duration: '20分钟',
-    difficulty: '简单'
+    difficulty: '简单',
+    backgroundImage: '/pic/mianshi/xingwei.png'
   },
   {
     id: 3,
@@ -237,15 +239,17 @@ const interviewOptions = ref([
     description: '模拟高压环境下的面试',
     icon: 'el-icon-warning-outline',
     duration: '25分钟',
-    difficulty: '困难'
+    difficulty: '困难',
+    backgroundImage: '/pic/mianshi/yali.png'
   },
   {
     id: 4,
     title: '综合面试',
-    description: '包含技术、行为、情景等多种问题类型',
+    description: '包含多种面试问题类型',
     icon: 'el-icon-s-grid',
     duration: '45分钟',
-    difficulty: '中等'
+    difficulty: '中等',
+    backgroundImage: '/pic/mianshi/zonghe.png'
   }
 ])
 
@@ -286,7 +290,7 @@ const aiSettings = ref({
   personality: 'professional',
   difficulty: 'intermediate',
   duration: '30',
-  questionTypes: ['behavioral', 'technical']
+  questionType: 'behavioral'
 })
 
 // 面试弹窗
@@ -303,6 +307,8 @@ const selectOption = (optionId) => {
 // 开始面试
 const startInterview = (option) => {
   console.log('开始面试:', option)
+  // 清除选中状态，避免卡片保持紫色边框
+  selectedOption.value = null
   interviewDialogVisible.value = true
   startTimer()
 }
@@ -400,6 +406,8 @@ onUnmounted(() => {
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  max-width: 100%;
+  overflow: hidden;
 }
 
 .page-header {
@@ -429,38 +437,25 @@ onUnmounted(() => {
 }
 
 .stats-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  background: #f8f9fa;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-around;
   gap: 16px;
 }
 
 .stat-card {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color: white;
-  border-radius: 12px;
+  background: transparent;
+  color: #1f2937;
   padding: 20px;
   display: flex;
   align-items: center;
-  gap: 16px;
 }
 
-.stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.stat-icon i {
-  font-size: 20px;
-}
 
 .stat-content {
   flex: 1;
+  display: flex;
 }
 
 .stat-number {
@@ -471,7 +466,7 @@ onUnmounted(() => {
 
 .stat-label {
   font-size: 12px;
-  opacity: 0.9;
+  color: #6b7280;
 }
 
 .quick-start-section, .history-section, .settings-section {
@@ -484,48 +479,75 @@ onUnmounted(() => {
   font-size: 18px;
   font-weight: 600;
   color: #1f2937;
-  margin: 0 0 20px 0;
+  margin: 0 0 30px 0;
 }
 
 .interview-options {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  width: 100%;
+  max-width: 100%;
 }
+
+/* 移除不再需要的样式 */
 
 .interview-option {
   background: white;
   border-radius: 8px;
   padding: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
+  transition: border-color 0.3s ease;
+  border: 1px solid #e5e7eb;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 16px;
   flex-direction: column;
-  min-height: 200px;
+  min-height: 120px;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding-right: 68px; /* 为右侧图片预留空间 */
 }
 
-.interview-option:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* 右侧上方的小图片样式 */
+.option-image {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  width: 68px;
+  height: 68px;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 2;
+  flex-shrink: 0;
 }
+
+.option-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
 
 .interview-option.active {
   border-color: #667eea;
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
 }
 
 .option-icon {
   width: 48px;
   height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 24px;
+  background: linear-gradient(135deg, #d2dafc8d, #a762ec80);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .option-icon i {
@@ -535,118 +557,263 @@ onUnmounted(() => {
 
 .option-content {
   flex: 1;
+  position: relative;
+  z-index: 3;
+  min-width: 0; /* 防止flex子元素溢出 */
+  overflow: hidden; /* 防止内容溢出 */
 }
 
-.option-content h4 {
-  font-size: 16px;
+.option-title {
+  font-size: 18px;
   font-weight: 600;
   color: #1f2937;
-  margin: 0 0 4px 0;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
 }
 
-.option-content p {
-  font-size: 13px;
+.option-description {
+  font-size: 14px;
   color: #6b7280;
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
+  line-height: 1.5;
 }
 
 .option-meta {
   display: flex;
   gap: 12px;
+  margin-bottom: 16px;
 }
 
 .duration, .difficulty {
-  font-size: 11px;
+  font-size: 12px;
   color: #9ca3af;
+  background: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .option-action {
   flex-shrink: 0;
+  position: relative;
+  z-index: 3;
+  align-self: flex-end;
+}
+
+.option-action .el-button {
+  width: 120px;
+  height: 36px;
+  border-radius: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.option-action .el-button:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.option-action .el-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
 }
 
 /* 响应式设计 */
 @media (max-width: 1200px) {
   .interview-options {
     grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  .option-title {
+    font-size: 16px;
   }
 }
 
 @media (max-width: 768px) {
   .interview-options {
     grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .option-title {
+    font-size: 16px;
   }
 }
 
 .history-list {
   display: flex;
-  gap: 12px;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .history-item {
   background: white;
   border-radius: 8px;
-  padding: 16px;
+  padding: 16px 20px;
   cursor: pointer;
   transition: all 0.3s ease;
-  border: 2px solid transparent;
+  border: 1px solid #e5e7eb;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .history-item:hover {
   border-color: #667eea;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #f8fafc;
+}
+
+.history-info {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  gap: 33px;
 }
 
 .history-title {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   color: #1f2937;
-  margin-bottom: 4px;
+  margin: 0;
+  text-align: left;
 }
 
 .history-meta {
   display: flex;
-  gap: 12px;
-  font-size: 12px;
+  gap: 16px;
+  font-size: 14px;
+  color: #6b7280;
+  align-items: center;
+}
+
+.history-meta .date {
+  color: #9ca3af;
+}
+
+.history-meta .duration {
   color: #6b7280;
 }
 
-.score.excellent { color: #10b981; }
-.score.good { color: #3b82f6; }
-.score.average { color: #f59e0b; }
-.score.poor { color: #ef4444; }
+.score.excellent { color: #10b981; font-weight: 600; }
+.score.good { color: #3b82f6; font-weight: 600; }
+.score.average { color: #f59e0b; font-weight: 600; }
+.score.poor { color: #ef4444; font-weight: 600; }
 
 .history-actions {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.history-actions .el-button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  min-width: 80px;
+}
+
+.history-actions .el-button--primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: #667eea;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(102, 126, 234, 0.25);
+}
+
+.history-actions .el-button--primary:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(102, 126, 234, 0.35);
+}
+
+.history-actions .el-button:not(.el-button--primary) {
+  background: #ffffff;
+  border-color: #e5e7eb;
+  color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.history-actions .el-button:not(.el-button--primary):hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .settings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(258px, 1fr));
-  gap: 20px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(4, 1fr) auto;
+  gap: 16px;
+  align-items: end;
 }
 
 .setting-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
   gap: 8px;
 }
 
 .setting-item label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   color: #374151;
-  text-align: left;
+  white-space: nowrap;
+  min-width: 70px;
+}
+
+.setting-select {
+  width: 120px;
 }
 
 .settings-actions {
   display: flex;
-  gap: 12px;
+  flex-direction: row;
+  gap: 8px;
+  align-items: stretch;
+  min-width: 100px;
+}
+
+.settings-actions .el-button {
+  height: 36px;
+  font-size: 13px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+.settings-actions .el-button--primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.settings-actions .el-button--primary:hover {
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+  transform: translateY(-1px);
+}
+
+.settings-actions .el-button:not(.el-button--primary) {
+  background: #f8f9fa;
+  border: 1px solid #e5e7eb;
+  color: #6b7280;
+}
+
+.settings-actions .el-button:not(.el-button--primary):hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #374151;
+  transform: translateY(-1px);
 }
 
 .interview-dialog {
@@ -719,7 +886,58 @@ onUnmounted(() => {
 
 .interview-actions {
   display: flex;
-  gap: 12px;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.interview-actions .el-button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.interview-actions .el-button--primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: #667eea;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.interview-actions .el-button--primary:hover {
+  background: linear-gradient(135deg, #5a67d8, #6b46c1);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.interview-actions .el-button--danger {
+  background: linear-gradient(135deg, #f56565, #e53e3e);
+  border-color: #f56565;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(245, 101, 101, 0.3);
+}
+
+.interview-actions .el-button--danger:hover {
+  background: linear-gradient(135deg, #e53e3e, #c53030);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 101, 101, 0.4);
+}
+
+.interview-actions .el-button:not(.el-button--primary):not(.el-button--danger) {
+  background: #ffffff;
+  border-color: #d1d5db;
+  color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.interview-actions .el-button:not(.el-button--primary):not(.el-button--danger):hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 /* 麦克风可视化（纯CSS动画） */
@@ -782,20 +1000,89 @@ onUnmounted(() => {
   .interview-option {
     flex-direction: column;
     text-align: center;
+    min-height: 160px;
+    padding-right: 20px; /* 移动端恢复正常的padding */
+  }
+  
+  .option-image {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 12px auto;
+  }
+  
+  .option-content {
+    padding-right: 0;
+    text-align: center;
+  }
+  
+  .option-action {
+    align-self: center;
+  }
+  
+  .option-action .el-button {
+    width: 100%;
   }
   
   .history-item {
     flex-direction: column;
     gap: 12px;
     align-items: stretch;
+    padding: 16px;
+  }
+  
+  .history-info {
+    text-align: center;
+  }
+  
+  .history-meta {
+    justify-content: center;
+    flex-wrap: wrap;
   }
   
   .history-actions {
     justify-content: center;
+    gap: 8px;
+  }
+  
+  .history-actions .el-button {
+    padding: 6px 12px;
+    font-size: 12px;
+    min-width: 70px;
   }
   
   .settings-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  
+  .setting-item {
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .setting-item label {
+    min-width: 60px;
+    font-size: 12px;
+  }
+  
+  .setting-select {
+    width: 100px;
+  }
+  
+  .settings-actions {
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 16px;
+    gap: 12px;
+  }
+  
+  .settings-actions .el-button {
+    flex: 1;
+    max-width: 120px;
   }
   
   .interview-dialog {
@@ -808,6 +1095,12 @@ onUnmounted(() => {
   
   .interview-actions {
     flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .interview-actions .el-button {
+    width: 100%;
+    margin-bottom: 8px;
   }
 }
 </style>

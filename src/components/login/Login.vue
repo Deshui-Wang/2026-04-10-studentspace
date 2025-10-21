@@ -21,13 +21,12 @@
       <div class="logo-section">
         <div class="logo-container">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="currentColor"/>
+            <circle cx="12" cy="12" r="3" fill="white"/>
           </svg>
         </div>
-        <h1 class="login-title">教师成长树</h1>
-        <p class="login-subtitle">欢迎回来，请登录您的账户</p>
+        <h1 class="login-title">学生智慧成长空间</h1>
+        <p class="login-subtitle">欢迎来到你的学习天地，请登录开始探索</p>
       </div>
       
       <!-- 登录表单 -->
@@ -226,12 +225,12 @@ const handleLogin = async () => {
     await new Promise(resolve => setTimeout(resolve, 1500))
     
     // 验证账号密码
-    if (formData.username === 'zhangwanting' && formData.password === '123456') {
+    if (formData.username === 'liqiming' && formData.password === '123456') {
       // 登录成功 - 修复存储逻辑
       const userInfo = {
         username: '李启明',
         id: 1,
-        role: 'teacher'
+        role: 'student'
       }
       
       // 存储认证信息
@@ -274,7 +273,7 @@ onMounted(() => {
 <style scoped>
 .login-container {
   min-height: 100vh;
-  background: linear-gradient(135deg, #f0f4ff 0%, #e8f2ff 25%, #dde8ff 50%, #f0f8ff 75%, #f8fbff 100%);
+  background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #f8b500 50%, #ff9ff3 75%, #54a0ff 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -296,7 +295,7 @@ onMounted(() => {
 
 .particle {
   position: absolute;
-  background: linear-gradient(45deg, #667eea, #764ba2);
+  background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500);
   border-radius: 50%;
   opacity: 0.6;
   animation: floatParticle linear infinite;
@@ -323,7 +322,7 @@ onMounted(() => {
 .glow-effect {
   position: absolute;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 107, 157, 0.3) 0%, transparent 70%);
   pointer-events: none;
   z-index: 1;
 }
@@ -389,10 +388,10 @@ onMounted(() => {
   justify-content: center;
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #667eea, #764ba2, #8b5cf6);
+  background: linear-gradient(135deg, #ff6b9d, #c44569, #f8b500);
   border-radius: 20px;
   margin-bottom: 24px;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 24px rgba(255, 107, 157, 0.3);
 }
 
 .logo-icon {
@@ -404,7 +403,7 @@ onMounted(() => {
 .login-title {
   font-size: 2.5rem;
   font-weight: 800;
-  background: linear-gradient(135deg, #667eea, #06b6d4);
+  background: linear-gradient(135deg, #ff6b9d, #c44569, #f8b500);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -412,7 +411,7 @@ onMounted(() => {
 }
 
 .login-subtitle {
-  color: #64748b;
+  color: #fff;
   font-size: 1.1rem;
   margin: 0;
   font-weight: 400;
@@ -464,9 +463,9 @@ onMounted(() => {
 
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #ff6b9d;
   background: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 0 0 4px rgba(255, 107, 157, 0.1);
 }
 
 .form-input.error {
@@ -488,7 +487,7 @@ onMounted(() => {
 }
 
 .password-toggle:hover {
-  color: #667eea;
+  color: #ff6b9d;
 }
 
 .password-toggle svg {
@@ -532,8 +531,8 @@ onMounted(() => {
 }
 
 .checkbox-input:checked + .checkbox-custom {
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  border-color: #667eea;
+  background: linear-gradient(135deg, #ff6b9d, #c44569);
+  border-color: #ff6b9d;
 }
 
 .checkbox-input:checked + .checkbox-custom::after {
@@ -554,21 +553,21 @@ onMounted(() => {
 }
 
 .forgot-password {
-  color: #667eea;
+  color: #ff6b9d;
   text-decoration: none;
   font-size: 14px;
   transition: color 0.3s ease;
 }
 
 .forgot-password:hover {
-  color: #764ba2;
+  color: #c44569;
 }
 
 /* 登录按钮 */
 .login-button {
   width: 100%;
   padding: 16px;
-  background: linear-gradient(135deg, #667eea, #764ba2, #8b5cf6);
+  background: linear-gradient(135deg, #ff6b9d, #c44569, #e84393);
   color: white;
   border: none;
   border-radius: 12px;
@@ -583,7 +582,7 @@ onMounted(() => {
 
 .login-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 12px 32px rgba(255, 107, 157, 0.4);
 }
 
 .login-button:disabled {
@@ -623,14 +622,14 @@ onMounted(() => {
 }
 
 .register-link a {
-  color: #667eea;
+  color: #ff6b9d;
   text-decoration: none;
   font-weight: 600;
   transition: color 0.3s ease;
 }
 
 .register-link a:hover {
-  color: #764ba2;
+  color: #c44569;
 }
 
 /* 响应式设计 */

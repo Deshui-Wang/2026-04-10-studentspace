@@ -93,18 +93,18 @@
           <img :src="job.companyLogo" :alt="job.company" class="company-logo" />
           <span class="company-name">{{ job.company }}</span>
           <el-tag size="small" type="info">{{ job.location }}</el-tag>
+          <div class="job-tags">
+            <el-tag
+              v-for="tag in job.tags"
+              :key="tag"
+              size="small"
+              class="job-tag"
+            >
+              {{ tag }}
+            </el-tag>
+          </div>
         </div>
         <div class="job-description">{{ job.description }}</div>
-        <div class="job-tags">
-          <el-tag
-            v-for="tag in job.tags"
-            :key="tag"
-            size="small"
-            class="job-tag"
-          >
-            {{ tag }}
-          </el-tag>
-        </div>
         <div class="job-footer">
           <span class="publish-time">{{ job.publishTime }}</span>
           <el-button type="primary" size="small" @click.stop="applyJob(job)">
@@ -194,7 +194,7 @@ const jobs = ref([
     industryValue: 'internet',
     position: '前端开发',
     positionValue: 'frontend',
-    description: '负责公司前端产品的开发与维护，参与产品需求分析和技术方案设计...',
+    description: '负责公司前端产品的开发与维护，参与产品需求分析和技术方案设计。熟练掌握Vue.js、React等主流框架，具备良好的代码规范和团队协作能力，能够独立完成复杂的前端项目开发任务。',
     tags: ['Vue.js', 'React', 'JavaScript', 'HTML5'],
     publishTime: '2天前'
   },
@@ -211,7 +211,7 @@ const jobs = ref([
     industryValue: 'internet',
     position: '产品经理',
     positionValue: 'product',
-    description: '负责产品规划、需求分析、用户体验设计，协调开发团队完成产品迭代...',
+    description: '负责产品规划、需求分析、用户体验设计，协调开发团队完成产品迭代。具备敏锐的市场洞察力和用户思维，能够制定产品策略并推动项目落地，有丰富的B端和C端产品经验。',
     tags: ['产品设计', '用户研究', '数据分析', '项目管理'],
     publishTime: '1天前'
   },
@@ -228,7 +228,7 @@ const jobs = ref([
     industryValue: 'internet',
     position: 'UI/UX设计',
     positionValue: 'design',
-    description: '负责移动端和Web端界面设计，参与产品视觉规范制定...',
+    description: '负责移动端和Web端界面设计，参与产品视觉规范制定。具备扎实的设计功底和创意思维，熟练使用Sketch、Figma等设计工具，能够独立完成从概念到落地的完整设计流程。',
     tags: ['UI设计', 'Sketch', 'Figma', 'Photoshop'],
     publishTime: '3天前'
   },
@@ -245,7 +245,7 @@ const jobs = ref([
     industryValue: 'finance',
     position: '数据分析',
     positionValue: 'data',
-    description: '负责金融市场分析、风险评估和投资建议，参与金融产品设计...',
+    description: '负责金融市场分析、风险评估和投资建议，参与金融产品设计。具备深厚的金融理论基础和丰富的实战经验，能够运用数据分析工具进行市场研究和风险评估，为投资决策提供专业支持。',
     tags: ['金融分析', '风险评估', '投资', 'CFA'],
     publishTime: '1天前'
   },
@@ -262,7 +262,7 @@ const jobs = ref([
     industryValue: 'education',
     position: '产品经理',
     positionValue: 'product',
-    description: '负责在线教育产品的规划与设计，分析用户需求，制定产品策略...',
+    description: '负责在线教育产品的规划与设计，分析用户需求，制定产品策略。深入了解教育行业特点和用户学习习惯，能够设计出符合教学规律的产品功能，推动教育数字化转型。',
     tags: ['教育', '产品设计', '在线教育', '用户研究'],
     publishTime: '2天前'
   }
@@ -448,6 +448,7 @@ onMounted(() => {
   align-items: center;
   gap: 8px;
   margin-bottom: 12px;
+  justify-content: space-between;
 }
 
 .company-logo {
@@ -472,13 +473,14 @@ onMounted(() => {
   line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  text-align: left;
 }
 
 .job-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  margin-bottom: 12px;
+  margin-left: auto;
 }
 
 .job-tag {

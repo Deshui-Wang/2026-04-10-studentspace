@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import JobPostings from './JobPostings.vue'
 import InterviewCoaching from './InterviewCoaching.vue'
 import AIVirtualInterview from './AIVirtualInterview.vue'
@@ -82,27 +82,7 @@ const switchTab = (tab) => {
   }
 }
 
-onMounted(() => {
-  console.log('就业指导页面已加载')
-  
-  // 添加键盘导航支持
-  const handleKeydown = (event) => {
-    if (event.key === '1') {
-      switchTab('job-postings')
-    } else if (event.key === '2') {
-      switchTab('interview-coaching')
-    } else if (event.key === '3') {
-      switchTab('ai-interview')
-    }
-  }
-  
-  document.addEventListener('keydown', handleKeydown)
-  
-  // 清理事件监听器
-  onUnmounted(() => {
-    document.removeEventListener('keydown', handleKeydown)
-  })
-})
+// 取消数字键快捷切换，保留点击切换
 </script>
 
 <style scoped>

@@ -133,6 +133,11 @@
       </div>
     </div>
 
+    <!-- 课程表区域 -->
+    <div class="course-schedule-section">
+      <CourseSchedule />
+    </div>
+
     <!-- 学习仪表盘（学生） -->
     <div class="work-section">
       <h2 class="section-title">学习仪表盘</h2>
@@ -183,29 +188,13 @@
       </div>
     </div>
 
-    <!-- 知识点抽查区域 -->
-    <div class="knowledge-section">
-      <h2 class="section-title">知识点抽查</h2>
-      <div class="knowledge-content">
-        <div class="knowledge-check">
-          <div class="knowledge-item" v-for="kp in knowledgePoints" :key="kp.id">
-            <div class="kp-title">{{ kp.title }}</div>
-            <div class="kp-desc">{{ kp.desc }}</div>
-            <div class="kp-tags">
-              <span class="kp-tag" v-for="tag in kp.tags" :key="tag">#{{ tag }}</span>
-            </div>
-          </div>
-          <div class="knowledge-actions">
-            <button class="refresh-btn" @click="refreshKnowledge">换一组</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import CourseSchedule from './CourseSchedule.vue'
 
 // 当前日期信息（学生版问候 + 日期/星期/天气）
 const currentDate = ref('')
@@ -321,22 +310,7 @@ const bannerImages = ref([
     { id: 4, name: 'AI智能问答', icon: 'fas fa-robot', color: '#10b981', image: '/pic/home/wenda.png' }
   ])
 
-// 知识点抽查（模拟）
-const knowledgePoints = ref([])
-const knowledgePool = [
-  { title: '导数定义与几何意义', desc: '理解极限形式与切线斜率关系。', tags: ['高数', '极限', '导数'] },
-  { title: '矩阵秩与线性相关性', desc: '会判断列向量线性无关与秩关系。', tags: ['线代', '矩阵', '秩'] },
-  { title: '英语时态：现在完成时', desc: '掌握 have/has + 过去分词 的用法。', tags: ['英语', '语法', '时态'] },
-  { title: '概率分布：正态分布', desc: '了解参数含义与标准化思想。', tags: ['概率论', '分布', '正态'] },
-  { title: '二项式定理', desc: '能够展开 (a+b)^n 并理解系数来源。', tags: ['代数', '组合'] },
-  { title: '听力技巧：抓关键词', desc: '先捕捉数字、时间、地点等关键信息。', tags: ['英语', '听力'] },
-  { title: '微积分基本定理', desc: '掌握导数与积分之间的互逆关系。', tags: ['高数', '微积分', '定理'] },
-]
-const generateKnowledge = () => {
-  const shuffled = [...knowledgePool].sort(() => Math.random() - 0.5)
-  knowledgePoints.value = shuffled.slice(0, 5).map((kp, idx) => ({ id: idx + 1, ...kp }))
-}
-const refreshKnowledge = () => generateKnowledge()
+ 
 
 // 获取当前日期信息
 const getCurrentDateInfo = () => {
@@ -438,7 +412,6 @@ onMounted(() => {
   // 启动自动播放
   startAutoPlay()
   generateCancerHoroscope()
-  generateKnowledge()
 })
 
 onBeforeUnmount(() => { 
@@ -514,7 +487,14 @@ const getAppCardStyle = (app) => {
 
 /* 重要事件提醒 */
 .events-section {
-  padding: 10px 24px 0px 24px;
+  padding: 10px 24px 10px 24px;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 课程表区域 */
+.course-schedule-section {
+  padding: 0 24px;
   backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -590,16 +570,7 @@ const getAppCardStyle = (app) => {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-/* 知识点抽查区域 */
-.knowledge-section {
-  padding: 24px;
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.knowledge-content {
-  margin-top: 16px;
-}
+ 
 
 .work-categories {
   display: grid;
@@ -1010,55 +981,7 @@ const getAppCardStyle = (app) => {
   gap: 16px;
 }
 
-/* 知识点抽查 */
-.knowledge-check {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 12px;
-}
-
-.knowledge-item {
-  padding: 16px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  border-left: 4px solid #10b981;
-  text-align: left;
-}
-
-.kp-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #111827;
-}
-
-.kp-desc {
-  margin-top: 6px;
-  font-size: 14px;
-  color: #374151;
-}
-
-.kp-tags {
-  margin-top: 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.kp-tag {
-  font-size: 12px;
-  color: #065f46;
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  border-radius: 999px;
-  padding: 2px 8px;
-}
-
-.knowledge-actions {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: flex-end;
-}
+ 
 
 .app-card {
   display: flex;
@@ -1144,8 +1067,7 @@ const getAppCardStyle = (app) => {
 @media (max-width: 768px) {
   .welcome-section,
   .events-section,
-  .work-section,
-  .knowledge-section {
+  .work-section {
     padding: 16px;
   }
   
