@@ -15,10 +15,42 @@
     <div class="glow-effect glow-2"></div>
     <div class="glow-effect glow-3"></div>
     
-    <!-- 登录卡片 -->
-    <div class="login-card">
-      <!-- Logo区域 -->
-      <div class="logo-section">
+    <!-- 登录卡片容器 -->
+    <div class="login-card-wrapper">
+      <!-- 测试账号气泡 -->
+      <div class="test-account-bubble">
+        <div class="bubble-content">
+          <div class="bubble-header">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="info-icon">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="12" y1="16" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              <line x1="12" y1="8" x2="12.01" y2="8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span>测试账号</span>
+          </div>
+          <div class="account-info">
+            <div class="info-item">
+              <span class="label">账号：</span>
+              <span class="value">liqiming</span>
+            </div>
+            <div class="info-item">
+              <span class="label">密码：</span>
+              <span class="value">123456</span>
+            </div>
+          </div>
+          <button class="fill-button" @click="fillTestAccount">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="fill-icon">
+              <path d="M20 6L9 17L4 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            一键填入
+          </button>
+        </div>
+      </div>
+      
+      <!-- 登录卡片 -->
+      <div class="login-card">
+        <!-- Logo区域 -->
+        <div class="logo-section">
         <div class="logo-container">
           <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="logo-icon">
             <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" fill="currentColor"/>
@@ -124,6 +156,7 @@
           <a href="#" @click.prevent="handleRegister">申请注册</a>
         </div>
       </form>
+      </div>
     </div>
   </div>
 </template>
@@ -264,6 +297,15 @@ const handleRegister = () => {
   alert('请联系管理员申请注册')
 }
 
+// 一键填入测试账号
+const fillTestAccount = () => {
+  formData.username = 'liqiming'
+  formData.password = '123456'
+  // 清除之前的错误信息
+  clearError('username')
+  clearError('password')
+}
+
 // 页面加载时生成粒子
 onMounted(() => {
   generateParticles()
@@ -360,6 +402,98 @@ onMounted(() => {
     transform: translateY(-20px) scale(1.1);
     opacity: 0.6;
   }
+}
+
+/* 登录卡片容器 */
+.login-card-wrapper {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  position: relative;
+  z-index: 2;
+}
+
+/* 测试账号气泡 */
+.test-account-bubble {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  width: 220px;
+  animation: fadeInRight 0.8s ease-out;
+}
+
+.bubble-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.bubble-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.info-icon {
+  width: 16px;
+  height: 16px;
+  color: #ffd700;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.info-item {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.info-item .label {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.info-item .value {
+  font-weight: 600;
+  color: #ffd700;
+  font-family: 'Courier New', monospace;
+}
+
+.fill-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  margin-top: 4px;
+}
+
+.fill-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.fill-icon {
+  width: 14px;
+  height: 14px;
 }
 
 /* 登录卡片 */
@@ -633,6 +767,23 @@ onMounted(() => {
 }
 
 /* 响应式设计 */
+@media (max-width: 768px) {
+  .login-card-wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .test-account-bubble {
+    width: 100%;
+    max-width: 420px;
+    order: 2;
+  }
+  
+  .login-card {
+    order: 1;
+  }
+}
+
 @media (max-width: 480px) {
   .login-card {
     margin: 20px;
@@ -652,6 +803,10 @@ onMounted(() => {
     width: 30px;
     height: 30px;
   }
+  
+  .test-account-bubble {
+    padding: 16px;
+  }
 }
 
 /* 淡入动画 */
@@ -667,6 +822,17 @@ onMounted(() => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 </style>

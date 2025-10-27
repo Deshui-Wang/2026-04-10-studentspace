@@ -16,10 +16,6 @@
         成长中心
         <div class="notification-dot" v-if="hasNewNotifications"></div>
       </li>
-      <li class="nav-item tch-ai-item" :class="{active: currentPath.startsWith('/tch-ai')}" @click="goNav('/tch-ai')">
-        <span class="tch-ai-text">超智人</span>
-        <div class="tch-ai-glow"></div>
-      </li>
       <li class="nav-item" :class="{active: currentPath.startsWith('/profile')}" @click="goNav('/profile')">个人中心</li>
     </ul>
     <div class="nav-user" @click="toggleUserMenu">

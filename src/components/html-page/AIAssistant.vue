@@ -335,7 +335,7 @@ const tabs = ref([
     id: 'pocket',
     label: 'AI笔记',
     count: null,
-    icon: '/pic/koudai.png'
+    icon: '/pic/biji.png'
   },
   {
     id: 'center',

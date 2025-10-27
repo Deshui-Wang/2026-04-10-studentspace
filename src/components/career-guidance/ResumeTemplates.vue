@@ -1,7 +1,6 @@
 <template>
   <div class="resume-templates-container">
     <div class="page-header">
-      <h2 class="section-title">简历模板</h2>
       <p class="section-description">精选专业简历模板，一键应用，快速制作完美简历</p>
     </div>
 

@@ -192,11 +192,9 @@
           <ResumeBuilder />
         </div>
         <div v-if="currentComponent === 'ResumeReview'">
-          <h3>简历诊断组件</h3>
           <ResumeReview />
         </div>
         <div v-if="currentComponent === 'ResumeTemplates'">
-          <h3>简历模板组件</h3>
           <ResumeTemplates />
         </div>
       </div>
