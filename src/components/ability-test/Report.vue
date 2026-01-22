@@ -19,7 +19,7 @@
       <!-- 左侧时间菜单 -->
       <div class="report-sidebar">
         <div class="sidebar-header">
-          <h3>历史报告</h3>
+          <h3>学生档案报告</h3>
         </div>
         <div class="report-timeline">
           <div 

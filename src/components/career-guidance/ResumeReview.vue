@@ -65,15 +65,15 @@
         <!-- 总体评分 -->
         <transition name="slide-fade">
           <div v-if="showOverallScore" class="overall-score">
-            <div class="score-circle">
-              <div class="score-number">{{ analysisResult.overallScore }}</div>
-              <div class="score-label">综合评分</div>
-            </div>
-            <div class="score-description">
-              <h4>{{ getScoreLevel(analysisResult.overallScore) }}</h4>
-              <p>{{ analysisResult.overallComment }}</p>
-            </div>
+          <div class="score-circle">
+            <div class="score-number">{{ analysisResult.overallScore }}</div>
+            <div class="score-label">综合评分</div>
           </div>
+          <div class="score-description">
+            <h4>{{ getScoreLevel(analysisResult.overallScore) }}</h4>
+            <p>{{ analysisResult.overallComment }}</p>
+          </div>
+        </div>
         </transition>
 
         <!-- 问题清单 -->
@@ -107,97 +107,97 @@
             <!-- 内容完整性 -->
             <transition name="slide-fade">
               <div v-if="showContentCompleteness" class="analysis-card">
-                <div class="card-header">
-                  <i class="el-icon-document-checked"></i>
-                  <h4>内容完整性</h4>
-                  <div class="score-badge" :class="getScoreClass(analysisResult.contentCompleteness)">
-                    {{ analysisResult.contentCompleteness }}
-                  </div>
-                </div>
-                <div class="card-content">
-                  <p>{{ analysisResult.contentCompletenessComment }}</p>
-                  <div class="improvement-tips">
-                    <h5>改进建议：</h5>
-                    <ul>
-                      <li v-for="tip in analysisResult.contentCompletenessTips" :key="tip">
-                        {{ tip }}
-                      </li>
-                    </ul>
-                  </div>
+              <div class="card-header">
+                <i class="el-icon-document-checked"></i>
+                <h4>内容完整性</h4>
+                <div class="score-badge" :class="getScoreClass(analysisResult.contentCompleteness)">
+                  {{ analysisResult.contentCompleteness }}
                 </div>
               </div>
+              <div class="card-content">
+                <p>{{ analysisResult.contentCompletenessComment }}</p>
+                <div class="improvement-tips">
+                  <h5>改进建议：</h5>
+                  <ul>
+                    <li v-for="tip in analysisResult.contentCompletenessTips" :key="tip">
+                      {{ tip }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             </transition>
 
             <!-- 格式规范性 -->
             <transition name="slide-fade">
               <div v-if="showFormatStandard" class="analysis-card">
-                <div class="card-header">
-                  <i class="el-icon-edit-outline"></i>
-                  <h4>格式规范性</h4>
-                  <div class="score-badge" :class="getScoreClass(analysisResult.formatStandard)">
-                    {{ analysisResult.formatStandard }}
-                  </div>
-                </div>
-                <div class="card-content">
-                  <p>{{ analysisResult.formatStandardComment }}</p>
-                  <div class="improvement-tips">
-                    <h5>改进建议：</h5>
-                    <ul>
-                      <li v-for="tip in analysisResult.formatStandardTips" :key="tip">
-                        {{ tip }}
-                      </li>
-                    </ul>
-                  </div>
+              <div class="card-header">
+                <i class="el-icon-edit-outline"></i>
+                <h4>格式规范性</h4>
+                <div class="score-badge" :class="getScoreClass(analysisResult.formatStandard)">
+                  {{ analysisResult.formatStandard }}
                 </div>
               </div>
+              <div class="card-content">
+                <p>{{ analysisResult.formatStandardComment }}</p>
+                <div class="improvement-tips">
+                  <h5>改进建议：</h5>
+                  <ul>
+                    <li v-for="tip in analysisResult.formatStandardTips" :key="tip">
+                      {{ tip }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             </transition>
 
             <!-- 关键词匹配 -->
             <transition name="slide-fade">
               <div v-if="showKeywordMatch" class="analysis-card">
-                <div class="card-header">
-                  <i class="el-icon-search"></i>
-                  <h4>关键词匹配</h4>
-                  <div class="score-badge" :class="getScoreClass(analysisResult.keywordMatch)">
-                    {{ analysisResult.keywordMatch }}
-                  </div>
-                </div>
-                <div class="card-content">
-                  <p>{{ analysisResult.keywordMatchComment }}</p>
-                  <div class="improvement-tips">
-                    <h5>改进建议：</h5>
-                    <ul>
-                      <li v-for="tip in analysisResult.keywordMatchTips" :key="tip">
-                        {{ tip }}
-                      </li>
-                    </ul>
-                  </div>
+              <div class="card-header">
+                <i class="el-icon-search"></i>
+                <h4>关键词匹配</h4>
+                <div class="score-badge" :class="getScoreClass(analysisResult.keywordMatch)">
+                  {{ analysisResult.keywordMatch }}
                 </div>
               </div>
+              <div class="card-content">
+                <p>{{ analysisResult.keywordMatchComment }}</p>
+                <div class="improvement-tips">
+                  <h5>改进建议：</h5>
+                  <ul>
+                    <li v-for="tip in analysisResult.keywordMatchTips" :key="tip">
+                      {{ tip }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             </transition>
 
             <!-- 职业匹配度 -->
             <transition name="slide-fade">
               <div v-if="showCareerMatch" class="analysis-card">
-                <div class="card-header">
-                  <i class="el-icon-user"></i>
-                  <h4>职业匹配度</h4>
-                  <div class="score-badge" :class="getScoreClass(analysisResult.careerMatch)">
-                    {{ analysisResult.careerMatch }}
-                  </div>
-                </div>
-                <div class="card-content">
-                  <p>{{ analysisResult.careerMatchComment }}</p>
-                  <div class="improvement-tips">
-                    <h5>改进建议：</h5>
-                    <ul>
-                      <li v-for="tip in analysisResult.careerMatchTips" :key="tip">
-                        {{ tip }}
-                      </li>
-                    </ul>
-                  </div>
+              <div class="card-header">
+                <i class="el-icon-user"></i>
+                <h4>职业匹配度</h4>
+                <div class="score-badge" :class="getScoreClass(analysisResult.careerMatch)">
+                  {{ analysisResult.careerMatch }}
                 </div>
               </div>
+              <div class="card-content">
+                <p>{{ analysisResult.careerMatchComment }}</p>
+                <div class="improvement-tips">
+                  <h5>改进建议：</h5>
+                  <ul>
+                    <li v-for="tip in analysisResult.careerMatchTips" :key="tip">
+                      {{ tip }}
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
             </transition>
 
             <!-- 表达专业度 -->
@@ -253,31 +253,31 @@
         <!-- 优化建议 -->
         <transition name="slide-fade">
           <div v-if="showSuggestions" class="optimization-suggestions">
-            <div class="section-header">
-              <i class="el-icon-lightbulb"></i>
-              <h3>优化建议</h3>
-            </div>
-            <div class="suggestions-list">
-              <div
-                v-for="(suggestion, index) in analysisResult.suggestions"
-                :key="index"
-                class="suggestion-item"
-              >
-                <div class="suggestion-header">
-                  <div class="suggestion-icon">
-                    <i :class="getSuggestionIcon(suggestion.type)"></i>
-                  </div>
-                  <div class="suggestion-content">
-                    <h4>{{ suggestion.title }}</h4>
-                    <p>{{ suggestion.description }}</p>
-                  </div>
-                  <div class="suggestion-priority" :class="suggestion.priority">
-                    {{ getPriorityText(suggestion.priority) }}
-                  </div>
+          <div class="section-header">
+            <i class="el-icon-lightbulb"></i>
+            <h3>优化建议</h3>
+          </div>
+          <div class="suggestions-list">
+            <div
+              v-for="(suggestion, index) in analysisResult.suggestions"
+              :key="index"
+              class="suggestion-item"
+            >
+              <div class="suggestion-header">
+                <div class="suggestion-icon">
+                  <i :class="getSuggestionIcon(suggestion.type)"></i>
+                </div>
+                <div class="suggestion-content">
+                  <h4>{{ suggestion.title }}</h4>
+                  <p>{{ suggestion.description }}</p>
+                </div>
+                <div class="suggestion-priority" :class="suggestion.priority">
+                  {{ getPriorityText(suggestion.priority) }}
                 </div>
               </div>
             </div>
           </div>
+        </div>
         </transition>
 
         <!-- 操作按钮 -->
@@ -299,7 +299,7 @@
       </div>
 
       
-    </div>
+        </div>
   </div>
 
   <!-- AI优化进度弹窗 -->
@@ -343,11 +343,11 @@
             <i v-if="step.status === 'completed'" class="el-icon-check"></i>
             <i v-else-if="step.status === 'processing'" class="el-icon-loading"></i>
             <i v-else class="el-icon-more"></i>
-          </div>
+            </div>
           <div class="step-content">
             <div class="step-title">{{ step.title }}</div>
             <div class="step-description" v-if="step.status !== 'pending'">{{ step.description }}</div>
-          </div>
+            </div>
           <div class="step-status">
             <span v-if="step.status === 'completed'" class="status-badge success">✓</span>
             <span v-else-if="step.status === 'processing'" class="status-badge processing">
@@ -361,7 +361,7 @@
       <div v-if="optimizationComplete" class="optimization-complete">
         <div class="complete-icon">
           <i class="el-icon-circle-check"></i>
-        </div>
+    </div>
         <h3>简历优化完成！</h3>
         <p>已根据AI分析结果优化您的简历，提升了内容完整性、格式规范性和关键词匹配度</p>
         <div class="complete-actions">
@@ -372,7 +372,7 @@
           <el-button size="large" @click="closeOptimization">
             关闭
           </el-button>
-        </div>
+  </div>
       </div>
     </div>
   </el-dialog>
@@ -1396,7 +1396,7 @@ const reAnalyze = () => {
   }
   
   .overall-score {
-    flex-direction: column;
+  flex-direction: column;
     text-align: center;
     gap: 20px;
   }
@@ -1422,10 +1422,10 @@ const reAnalyze = () => {
   .issue-item {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+  gap: 12px;
     padding: 12px;
-  }
-  
+}
+
   .issue-item:hover {
     transform: translateX(0);
   }
@@ -1444,7 +1444,7 @@ const reAnalyze = () => {
   
   .action-buttons {
     flex-direction: column;
-    align-items: center;
+  align-items: center;
   }
   
   .action-buttons .el-button {
@@ -1613,14 +1613,14 @@ const reAnalyze = () => {
 .status-badge.processing {
   background: #dbeafe;
   color: #3b82f6;
-}
-
+  }
+  
 .status-badge.processing i {
   animation: spin 1s linear infinite;
-}
-
+  }
+  
 .optimization-complete {
-  text-align: center;
+    text-align: center;
   padding: 20px;
   background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
   border-radius: 12px;
@@ -1647,15 +1647,15 @@ const reAnalyze = () => {
     transform: scale(1);
     opacity: 1;
   }
-}
-
+  }
+  
 .optimization-complete h3 {
   font-size: 22px;
   font-weight: 600;
   color: #1f2937;
   margin: 0 0 12px 0;
-}
-
+  }
+  
 .optimization-complete p {
   font-size: 14px;
   color: #6b7280;
@@ -1665,7 +1665,7 @@ const reAnalyze = () => {
 
 .complete-actions {
   display: flex;
-  gap: 12px;
+    gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
@@ -1678,7 +1678,7 @@ const reAnalyze = () => {
 
 :deep(.el-progress-bar__outer) {
   background-color: #e5e7eb;
-}
+  }
 
 :deep(.el-progress-bar__inner) {
   background: linear-gradient(90deg, #10b981 0%, #34d399 100%);

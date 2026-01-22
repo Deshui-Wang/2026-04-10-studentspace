@@ -9,7 +9,7 @@
         </li>
         <li class="nav-item">
           <router-link to="/profile/resume" active-class="active" class="nav-link">
-            <span>我的简历</span>
+            <span>简历档案</span>
           </router-link>
         </li>
       </ul>
