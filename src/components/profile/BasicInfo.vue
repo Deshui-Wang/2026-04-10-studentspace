@@ -19,11 +19,11 @@
           </div>
           <div class="meta">
             <span>户籍：北京市朝阳区</span>
-            <span>就读院校：北京理工大学</span>
+            <span>就读院校：北京劳动保障职业学院</span>
           </div>
           <div class="meta">
-            <span>系别：信息工程学院</span>
-            <span>班级：计算机科学与技术 2101班</span>
+            <span>系别：智慧健康养老服务与管理专业</span>
+            <span>班级：智慧康养 01班</span>
           </div>
         </div>
       </div>
@@ -35,9 +35,9 @@
         <div class="section-card">
           <h2 class="section-title">在读状态</h2>
           <div class="chips">
-            <span class="chip">本科·大四</span>
-            <span class="chip">学号：2021001001</span>
-            <span class="chip">辅导员：王老师</span>
+            <span class="chip">专科·大三</span>
+            <span class="chip">学号：2023001001</span>
+            <span class="chip">辅导员：王元</span>
           </div>
           <div class="divider"></div>
           <div class="block">
@@ -52,10 +52,10 @@
         <div class="section-card">
           <h2 class="section-title">兴趣方向</h2>
           <div class="chips">
-            <span class="chip type-1">人工智能</span>
-            <span class="chip type-2">算法工程</span>
-            <span class="chip type-3">前端开发</span>
-            <span class="chip type-4">开源社区</span>
+            <span class="chip type-1">社会服务</span>
+            <span class="chip type-2">养护看护</span>
+            <span class="chip type-3">人工智能</span>
+            <span class="chip type-4">健康理疗</span>
           </div>
         </div>
       </div>
@@ -72,7 +72,7 @@
             <span class="chip type-2">GPA：3.6/4.0</span>
             <span class="chip type-2">成绩排名：前15%</span>
             <span class="chip type-4">奖学金：校级一等奖学金</span>
-            <span class="chip type-3">竞赛：ACM省赛银奖</span>
+            <span class="chip type-3">竞赛：个护赛银奖</span>
           </div>
         </div>
       </div>

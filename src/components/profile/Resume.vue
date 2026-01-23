@@ -24,7 +24,7 @@
       <img class="avatar" src="/pic/student01.png" alt="头像" />
       <div class="info">
         <div class="name">李启明</div>
-        <div class="meta">应届毕业生｜计算机科学与技术（本科）｜北京理工大学</div>
+        <div class="meta">大三在读｜智慧健康养老服务与管理专业｜北京劳动保障职业学院（2023 级，预计 2026 年毕业）</div>
         <div class="contacts">
           <span>电话：138****1234</span>
           <span>邮箱：liqiming@example.com</span>
@@ -36,9 +36,9 @@
     <div class="section">
       <div class="section-title">求职意向</div>
       <div class="chips">
-        <span class="chip">前端开发工程师</span>
-        <span class="chip">Web全栈工程师</span>
-        <span class="chip">算法工程师（实习）</span>
+        <span class="chip">养老机构管理</span>
+        <span class="chip">健康管理师</span>
+        <span class="chip">社区养老服务</span>
       </div>
     </div>
 
@@ -47,10 +47,10 @@
       <ul class="items">
         <li>
           <div class="row">
-            <span>北京理工大学 · 计算机科学与技术（本科）</span>
-            <span>2021.09 - 2025.06</span>
+            <span>北京劳动保障职业学院 · 智慧健康养老服务与管理专业</span>
+            <span>2023.09 - 2026.06（专科）</span>
           </div>
-          <div class="row minor">GPA：3.6/4.0 · 专业前15% · 校级一等奖学金</div>
+          <div class="row minor">专科（三年制）大三在读 · GPA：3.7/4.0 · 专业前10% · 校级一等奖学金</div>
         </li>
       </ul>
     </div>
@@ -60,29 +60,16 @@
       <ul class="items">
         <li>
           <div class="row">
-            <span>智能学习空间（前端负责人）</span>
+            <span>智慧养老社区服务平台（课程项目）</span>
             <span>2024.03 - 2024.12</span>
           </div>
           <div class="bullets">
-            <div>负责基于 Vue 3 + Vite 的前端架构与组件设计，沉淀 20+ 可复用组件。</div>
-            <div>实现数据中心、个人中心、成长中心等核心模块，性能优化后首屏时间降低 35%。</div>
-            <div>接入 ECharts 完成 10+ 数据可视化图表，支持按学期筛选与响应式布局。</div>
+            <div>在指导老师带领下参与社区养老服务需求调研与方案设计，协助完成 200+ 户老年人健康档案的整理与录入。</div>
+            <div>配合团队完成智慧健康监测功能的方案设计与流程梳理，熟悉常用智能设备在养老场景中的应用。</div>
+            <div>参与策划并协助执行健康知识讲座、文娱活动等社区服务活动，提升老年人参与度与满意度。</div>
           </div>
           <div class="tags">
-            <span>Vue3</span><span>Vite</span><span>Vue Router</span><span>ECharts</span><span>Element Plus</span>
-          </div>
-        </li>
-        <li>
-          <div class="row">
-            <span>校园招聘助手（全栈）</span>
-            <span>2023.09 - 2023.12</span>
-          </div>
-          <div class="bullets">
-            <div>设计职位匹配算法，实现简历要素与岗位 JD 的 TF-IDF 相似度匹配，Top-K 推荐。</div>
-            <div>前端实现岗位筛选、收藏与面试日程提醒，后端提供 REST API 与鉴权。</div>
-          </div>
-          <div class="tags">
-            <span>Node.js</span><span>Express</span><span>MongoDB</span><span>TF-IDF</span>
+            <span>健康管理</span><span>社区服务</span><span>活动策划</span><span>档案管理</span><span>智慧养老</span>
           </div>
         </li>
       </ul>
@@ -93,11 +80,13 @@
       <ul class="items">
         <li>
           <div class="row">
-            <span>字节跳动 · 前端实习生</span>
+            <span>北京市朝阳区某养老机构 · 养老服务实践（校外实习）</span>
             <span>2024.07 - 2024.09</span>
           </div>
           <div class="bullets">
-            <div>参与中后台组件库优化，推动 Table 虚拟滚动与列宽自适应，渲染性能提升 40%+</div>
+            <div>在带教老师指导下协助开展日常照护服务，参与 30+ 位老人的生活照料、基础健康监测和简单康复训练。</div>
+            <div>协助整理老年人健康档案，参与了解个性化照护计划制定流程，初步熟悉老年人综合评估要点。</div>
+            <div>协助组织文娱活动、生日会、健康小讲堂等，提高老人日常陪伴感和活动参与度。</div>
           </div>
         </li>
       </ul>
@@ -106,16 +95,17 @@
     <div class="section">
       <div class="section-title">荣誉奖项</div>
       <div class="chips">
-        <span class="chip">ACM省赛银奖</span>
-        <span class="chip">蓝桥杯省一等奖</span>
+        <span class="chip">全国职业院校技能大赛养老服务赛项三等奖</span>
+        <span class="chip">北京市养老服务技能竞赛二等奖</span>
         <span class="chip">校级一等奖学金</span>
+        <span class="chip">优秀学生干部</span>
       </div>
     </div>
 
     <div class="section">
       <div class="section-title">技能特长</div>
       <div class="tags">
-        <span>JavaScript/TypeScript</span><span>Vue3/React</span><span>Node.js</span><span>数据结构与算法</span><span>可视化</span>
+        <span>老年人健康评估</span><span>护理技能</span><span>活动策划与组织</span><span>沟通协调能力</span><span>档案管理</span><span>智慧养老设备操作</span>
       </div>
     </div>
 
