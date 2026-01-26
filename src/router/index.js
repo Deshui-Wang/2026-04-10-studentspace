@@ -27,6 +27,7 @@ import GoalPath from '../components/growth-center/GoalPath.vue'
 import WorkloadQuantification from '../components/data-center/teaching-data/WorkloadQuantification.vue'
 import Attendance from '../components/data-center/teaching-data/Attendance.vue'
 import HomeworkManagement from '../components/data-center/teaching-data/HomeworkManagement.vue'
+import {useCommonStore} from "@/stores/index.js";
 
 // 全局状态管理
 const isLoggedIn = ref(false)
@@ -34,11 +35,16 @@ const currentUser = ref(null)
 
 // 认证检查函数
 const checkAuth = () => {
+    const commonStore = useCommonStore()
+  if (commonStore.isInIframe){
+      isLoggedIn.value = true
+      return true
+  }
   // 检查多种认证状态
   const token = localStorage.getItem('token')
   const isLoggedInFlag = localStorage.getItem('isLoggedIn')
   const user = localStorage.getItem('user')
-  
+
   if (token && isLoggedInFlag === 'true' && user) {
     isLoggedIn.value = true
     currentUser.value = JSON.parse(user)
@@ -159,14 +165,14 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  checkAuth()
-  
+  // checkAuth()
+
   console.log('路由守卫检查:', {
     to: to.name,
     isLoggedIn: isLoggedIn.value,
     currentUser: currentUser.value
   })
-  
+
   // 如果用户未登录且访问的不是登录页面，重定向到登录页
   if (!isLoggedIn.value && to.name !== 'Login' && to.name !== 'LoginDemo') {
     console.log('重定向到登录页')

@@ -5,11 +5,12 @@ import App from './App.vue'
 // 添加 Element Plus 导入
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import { createPinia } from 'pinia'
 // 导入路由
 import router, { isLoggedIn, currentUser, checkAuth } from './router/index.js'
 
 const app = createApp(App)
-
+const pinia = createPinia()
 // 提供全局状态
 app.provide('isLoggedIn', isLoggedIn)
 app.provide('currentUser', currentUser)
@@ -20,7 +21,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
-
+app.use(pinia)
 app.use(router)
 app.use(ElementPlus)
 app.mount('#app')
