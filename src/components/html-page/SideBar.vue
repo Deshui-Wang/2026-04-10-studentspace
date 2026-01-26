@@ -23,7 +23,7 @@ const goNav = (path) => {
 
 // 侧边栏菜单项
 const menuItems = [
-  { path: '/', label: '首页', icon: '🏠' },
+  { path: '/', label: '主页', icon: '🏠' },
   { path: '/data-center', label: '学习中心', icon: '📚' },
   { path: '/ability-test', label: '能力检测', icon: '📊' },
   { path: '/career-guidance', label: '就业指导', icon: '💼' },
@@ -39,29 +39,20 @@ const menuItems = [
     <div class="sidebar-toggle" @click="toggleSidebar">
       <span class="toggle-icon">{{ isCollapsed ? '»' : '«' }}</span>
     </div>
-    
-    <!-- Logo 和标题 -->
-    <div v-if="!isCollapsed" class="sidebar-header">
-      <img src="/pic/logo.ico" class="logo" alt="logo" />
-      <div class="title-container">
-        <span class="brand-title">Student SpaceX</span>
-        <span class="system-title">高校大学生·自由成长·学习空间</span>
-      </div>
-    </div>
-    
+
     <!-- 菜单项 -->
     <ul class="sidebar-menu">
-      <li 
-        v-for="item in menuItems" 
+      <li
+        v-for="item in menuItems"
         :key="item.path"
-        class="sidebar-menu-item" 
-        :class="{ 
+        class="sidebar-menu-item"
+        :class="{
           active: currentPath === item.path || currentPath.startsWith(item.path + '/'),
-          collapsed: isCollapsed 
+          collapsed: isCollapsed
         }"
         @click="goNav(item.path)"
       >
-        <span class="menu-icon" v-if="!isCollapsed">{{ item.icon }}</span>
+        <span class="menu-icon">{{ item.icon }}</span>
         <span class="menu-label" v-if="!isCollapsed">{{ item.label }}</span>
         <span v-if="isCollapsed" class="tooltip">{{ item.label }}</span>
       </li>
@@ -71,7 +62,7 @@ const menuItems = [
 
 <style scoped>
 .sidebar {
-  width: 200px;
+  max-width: 200px;
   height: 100vh;
   background: #fff;
   display: flex;
@@ -90,7 +81,7 @@ const menuItems = [
 
 .sidebar-toggle {
   position: absolute;
-  right: -12px;
+  right: -20px;
   top: 50%;
   transform: translateY(-50%);
   width: 20px;
@@ -106,39 +97,6 @@ const menuItems = [
   font-size: 12px;
 }
 
-.sidebar-header {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.logo {
-  width: 40px;
-  height: 40px;
-}
-
-.title-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.brand-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #6841ea;
-  line-height: 1.2;
-  margin-bottom: 2px;
-}
-
-.system-title {
-  font-size: 12px;
-  font-weight: 500;
-  color: #f3a209;
-  line-height: 1.2;
-}
 
 .sidebar-menu {
   display: flex;
@@ -159,6 +117,8 @@ const menuItems = [
   transition: background 0.2s, color 0.2s;
   position: relative;
   font-size: 14px;
+  gap: 10px;
+
 }
 
 .sidebar-menu-item:not(.collapsed) {
@@ -177,12 +137,15 @@ const menuItems = [
 }
 
 .menu-icon {
-  margin-right: 10px;
   font-size: 16px;
 }
 
 .menu-label {
   flex: 1;
+  overflow: hidden;
+  white-space: none;
+  text-overflow: ellipsis;
+  text-align: left;
 }
 
 /* 在收起状态下显示工具提示 */

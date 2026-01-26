@@ -5,6 +5,7 @@ import AIAssistant from './components/html-page/AIAssistant.vue'
 import { ref, provide, onMounted, computed } from 'vue'
 import { isLoggedIn, currentUser, checkAuth } from './router/index.js'
 import {useCommonStore} from "@/stores/index.js";
+import SideBar from "@/components/html-page/SideBar.vue";
 
 // AI助手面板可见性
 const isAIAssistantPanelVisible = ref(false)
@@ -97,7 +98,8 @@ const shouldShowNavbar = computed(() => {
 <template>
   <div id="app" :class="{ 'ai-panel-visible': isAIAssistantPanelVisible }">
     <div class="main-content">
-      <MainNavbar v-if="shouldShowNavbar" />
+      <MainNavbar v-if="shouldShowNavbar && !commonStore.isInIframe" />
+      <SideBar v-if="commonStore.isInIframe"/>
       <router-view />
       <Footer v-if="!$route.meta.hideFooter" />
     </div>
