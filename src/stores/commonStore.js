@@ -16,7 +16,7 @@ export const useCommonStore = defineStore('common', {
       dialogOptions: {}
     }
   },
-  
+
   getters: {
     getLoading: (state) => state.loading,
     getMessage: (state) => state.message,
@@ -31,60 +31,59 @@ export const useCommonStore = defineStore('common', {
       try {
         return window.self !== window.top;
       } catch (e) {
-        // 如果无法访问window.top，则可能在iframe中
-        return true;
+        return false;
       }
     }
   },
-  
+
   actions: {
     // 设置加载状态
     setLoading(status) {
       this.loading = status
     },
-    
+
     // 显示消息提示
     showMessage(message, type = 'info') {
       this.message = message
       this.messageType = type
-      
+
       // 自动清除消息（3秒后）
       setTimeout(() => {
         this.clearMessage()
       }, 3000)
     },
-    
+
     // 清除消息
     clearMessage() {
       this.message = ''
       this.messageType = 'info'
     },
-    
+
     // 切换侧边栏状态
     toggleSidebar() {
       this.sidebarCollapsed = !this.sidebarCollapsed
     },
-    
+
     // 设置侧边栏状态
     setSidebarStatus(collapsed) {
       this.sidebarCollapsed = collapsed
     },
-    
+
     // 切换主题
     toggleTheme() {
       this.theme = this.theme === 'light' ? 'dark' : 'light'
     },
-    
+
     // 设置主题
     setTheme(theme) {
       this.theme = theme
     },
-    
+
     // 设置语言
     setLanguage(lang) {
       this.language = lang
     },
-    
+
     // 添加通知
     addNotification(notification) {
       const newNotification = {
@@ -93,23 +92,23 @@ export const useCommonStore = defineStore('common', {
         ...notification
       }
       this.notifications.push(newNotification)
-      
+
       // 限制通知数量，最多保留10条
       if (this.notifications.length > 10) {
         this.notifications.shift()
       }
     },
-    
+
     // 清除通知
     clearNotifications() {
       this.notifications = []
     },
-    
+
     // 移除单个通知
     removeNotification(id) {
       this.notifications = this.notifications.filter(notif => notif.id !== id)
     },
-    
+
     // 显示对话框
     showDialog(options = {}) {
       this.dialogOptions = {
@@ -122,7 +121,7 @@ export const useCommonStore = defineStore('common', {
       }
       this.dialogVisible = true
     },
-    
+
     // 隐藏对话框
     hideDialog() {
       this.dialogVisible = false
