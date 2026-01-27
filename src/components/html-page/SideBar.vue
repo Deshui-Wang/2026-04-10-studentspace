@@ -1,6 +1,6 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import {computed, nextTick, ref, watch} from 'vue'
+import {useRoute, useRouter} from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
@@ -31,11 +31,18 @@ const menuItems = [
   { path: '/profile', label: '档案中心', icon: '📁' },
   { path: '/AIAssistant', label: 'AI助手', icon: '🤖' }
 ]
+watch(()=>route.query.activeRoute,() => {
+  nextTick(()=>{
+    if (route.query.activeRoute){
+      console.log('侧边栏已加载',route.query)
+      goNav(route.query.activeRoute)
+    }
+  })
+})
 </script>
 
 <template>
   <div class="sidebar" :class="{ collapsed: isCollapsed }">
-    <!-- 折叠/展开按钮 -->
     <div class="sidebar-toggle" @click="toggleSidebar">
       <span class="toggle-icon">{{ isCollapsed ? '»' : '«' }}</span>
     </div>
