@@ -253,39 +253,29 @@ const filters = ref({
 
 // 学期列表
 const semesterList = ref([
-  '2024春季学期',
-  '2023秋季学期',
-  '2023春季学期',
-  '2022秋季学期',
-  '2022春季学期'
+  '2025下学期',
+  '2025初学期',
+  '2024下学期',
+  '2024初学期'
 ])
 
 // 学科列表
 const subjectList = ref([
-  '计算机科学与技术',
-  '软件工程',
-  '数据科学与大数据技术',
-  '人工智能',
-  '网络工程',
-  '信息安全',
-  '数学',
-  '物理',
-  '英语',
-  '思想政治'
+  '健康管理',
+  '护理研究',
+  '政策法规'
 ])
 
 // 课程列表
 const courseList = ref([
-  '高等数学',
-  '线性代数',
-  '概率论与数理统计',
-  '数据结构',
-  '算法设计',
-  '计算机组成原理',
-  '操作系统',
-  '数据库原理',
-  '软件工程',
-  '计算机网络'
+  '老年学概论',
+  '老年社会工作实务',
+  '老年心理护理实训',
+  '智慧养老终端实操',
+  '老年政策与法规',
+  '健康管理学',
+  '智能康复辅助器具应用',
+  '养老机构评估与管理'
 ])
 
 // 分页
@@ -311,22 +301,38 @@ const generateInteractionData = () => {
   const data = []
   const emotions = ['消极', '热情', '疑惑']
   const chapterContents = [
-    '第一章：函数与极限',
-    '第二章：导数与微分',
-    '第三章：积分学',
-    '第四章：多元函数微分学',
-    '第五章：重积分',
-    '第六章：曲线积分与曲面积分',
-    '第七章：无穷级数',
-    '第八章：常微分方程'
+    '第一章：老龄化背景概论',
+    '第二章：智能监护与体征监测',
+    '第三章：社会支持网络构建',
+    '第四章：失能与半失能照护',
+    '第五章：政策支持与法规体系',
+    '第六章：服务质量沟通及应对技巧',
+    '第七章：智慧终端软件使用指南',
+    '第八章：机构运营与实地调研'
   ]
   
   for (let i = 0; i < 50; i++) {
     const emotion = emotions[Math.floor(Math.random() * emotions.length)]
     const semester = semesterList.value[Math.floor(Math.random() * semesterList.value.length)]
     const subject = subjectList.value[Math.floor(Math.random() * subjectList.value.length)]
-    const course = courseList.value[Math.floor(Math.random() * courseList.value.length)]
+    
+    // 学科与课程的对应关系
+    const courseMap = {
+      '健康管理': ['老年学概论', '老年社会工作实务', '健康管理学', '智慧养老终端实操'],
+      '护理研究': ['老年心理护理实训', '智能康复辅助器具应用'],
+      '政策法规': ['老年政策与法规', '养老机构评估与管理']
+    }
+    
+    const subjectCourses = courseMap[subject] || []
+    const course = subjectCourses[Math.floor(Math.random() * subjectCourses.length)] || courseList.value[0]
+    
     const chapterContent = chapterContents[Math.floor(Math.random() * chapterContents.length)]
+    
+    // 生成上课时间（根据学期限定年份和大致月份）
+    let baseYear = 2024
+    if (semester.includes('2025')) baseYear = 2025
+    else if (semester.includes('2023')) baseYear = 2023
+    let baseMonth = semester.includes('初学期') ? '03' : '09'
     
     data.push({
       id: i + 1,
@@ -334,7 +340,7 @@ const generateInteractionData = () => {
       subject: subject,
       course: course,
       chapterContent: chapterContent,
-      classTime: `2024-01-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')} ${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+      classTime: `${baseYear}-${baseMonth}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')} ${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
       questionResponseRate: Math.floor(Math.random() * 40) + 60,
       emotionCapture: emotion,
       // 详细数据

@@ -228,80 +228,80 @@ const timeSlots = [
 const baseCourses = [
   {
     id: 1,
-    code: 'CS101',
-    name: '数据结构与算法',
+    code: 'HE101',
+    name: '老年学概论',
     type: '理论课',
-    classes: ['计算机21-1班', '计算机21-2班'],
+    classes: ['养老21-1班', '养老21-2班'],
     totalHours: 64,
     totalCredits: 4,
     progress: 75
   },
   {
     id: 2,
-    code: 'CS102',
-    name: '软件工程实践',
+    code: 'HE102',
+    name: '老年社会工作实务',
     type: '实践课',
-    classes: ['计算机21-1班'],
+    classes: ['养老21-1班'],
     totalHours: 48,
     totalCredits: 3,
     progress: 60
   },
   {
     id: 3,
-    code: 'CS103',
-    name: '计算机网络实验',
+    code: 'HE103',
+    name: '老年心理护理实训',
     type: '实验课',
-    classes: ['计算机21-2班', '计算机21-3班'],
+    classes: ['养老21-2班', '养老21-3班'],
     totalHours: 32,
     totalCredits: 2,
     progress: 45
   },
   {
     id: 4,
-    code: 'CS104',
-    name: '数据库原理',
-    type: '理论课',
-    classes: ['计算机21-1班', '计算机21-2班', '计算机21-3班'],
+    code: 'HE104',
+    name: '智慧养老终端实操',
+    type: '实践课',
+    classes: ['养老21-1班', '养老21-2班', '养老21-3班'],
     totalHours: 48,
     totalCredits: 3,
     progress: 60
   },
   {
     id: 5,
-    code: 'CS105',
-    name: '操作系统原理',
+    code: 'HE105',
+    name: '老年政策与法规',
     type: '理论课',
-    classes: ['计算机21-1班', '计算机21-2班'],
+    classes: ['养老21-1班', '养老21-2班'],
     totalHours: 48,
     totalCredits: 3,
     progress: 60
   },
   {
     id: 6,
-    code: 'CS106',
-    name: '编译原理',
+    code: 'HE106',
+    name: '健康管理学',
     type: '理论课',
-    classes: ['计算机21-3班'],
+    classes: ['养老21-3班'],
     totalHours: 48,
     totalCredits: 3,
     progress: 60
   },
   {
     id: 7,
-    code: 'CS107',
-    name: '人工智能导论',
+    code: 'HE107',
+    name: '智能康复辅助器具应用',
     type: '理论课',
-    classes: ['计算机21-1班', '计算机21-2班', '计算机21-3班'],
+    classes: ['养老21-1班', '养老21-2班', '养老21-3班'],
     totalHours: 32,
     totalCredits: 2,
     progress: 45
   },
   {
     id: 8,
-    code: 'CS108',
-    name: '机器学习',
+    code: 'HE108',
+    name: '养老机构评估与管理',
     type: '理论课', 
-    classes: ['计算机21-1班'],
+    classes: ['养老21-1班'],
     totalHours: 48,
     totalCredits: 3,
     progress: 60
@@ -309,7 +309,7 @@ const baseCourses = [
 ]
 
 // 教室配置
-const classrooms = ['主楼101', '主楼102', '实验楼103', '教学二楼104', '教学二楼201', '实验楼202', '主楼203', '主楼301', '主楼302', '主楼303', '实验室401', '机房402']
+const classrooms = ['主楼101', '主楼102', '实验楼103', '教学二楼104', '教学二楼201', '实验楼202', '主楼203', '主楼301', '主楼302', '主楼303', '实验室401', '智慧养老实训室']
 
 // 生成指定日期的课程安排（轮询使用基础课程数据）
 const generateCoursesForDate = (dateStr) => {
@@ -501,52 +501,52 @@ const dailyCourses = computed(() => {
 const otherSchedules = ref([
   {
     id: 1,
-    title: '教学研讨会',
-    type: '会议',
+    title: '智慧养老发展趋势在线公开课',
+    type: '公开课',
     timeSlot: '14:00-15:30',
     dateInfo: '2024-01-15',
-    location: '会议室A',
-    organizer: '教务处',
+    location: '线上',
+    organizer: '健康服务与管理学院',
     priority: '高'
   },
   {
     id: 2,
-    title: '学生答辩',
-    type: '答辩',
+    title: '适老化适装设计前沿系列讲座',
+    type: '讲座',
     timeSlot: '09:00-11:00',
     dateInfo: '2024-01-16',
-    location: '答辩室B',
-    organizer: '计算机学院',
+    location: '阶梯教室',
+    organizer: '健康服务与管理学院',
     priority: '中'
   },
   {
     id: 3,
-    title: '课程评估',
-    type: '评估',
+    title: '智慧养老终端设计大赛赛前研讨会',
+    type: '研讨会',
     timeSlot: '16:00-17:00',
     dateInfo: '2024-01-17',
-    location: '在线',
-    organizer: '质量办',
+    location: '活动室',
+    organizer: '学生处',
     priority: '低'
   },
   {
     id: 4,
-    title: '学术讲座',
-    type: '讲座',
+    title: '银发经济发展研讨交流会',
+    type: '研讨会',
     timeSlot: '19:00-20:30',
     dateInfo: '2024-01-18',
-    location: '学术报告厅',
-    organizer: '科研处',
+    location: '图书馆',
+    organizer: '校团委',
     priority: '中'
   },
   {
     id: 5,
-    title: '部门例会',
-    type: '会议',
+    title: '老龄化社会与应对策略专家论坛',
+    type: '专家论坛',
     timeSlot: '10:00-11:00',
     dateInfo: '2024-01-19',
-    location: '部门办公室',
-    organizer: '计算机学院',
+    location: '学术报告厅',
+    organizer: '健康服务与管理学院',
     priority: '高'
   }
 ])
@@ -584,13 +584,14 @@ const selectedSemester = ref('')
 
 // 筛选选项
 const courseOptions = ref([
-  { value: 'math', label: '高等数学' },
-  { value: 'physics', label: '大学物理' },
-  { value: 'chemistry', label: '有机化学' },
-  { value: 'computer', label: '计算机基础' },
-  { value: 'english', label: '大学英语' },
-  { value: 'biology', label: '生物化学' },
-  { value: 'statistics', label: '统计学' }
+  { value: 'HE101', label: '老年学概论' },
+  { value: 'HE102', label: '老年社会工作实务' },
+  { value: 'HE103', label: '老年心理护理实训' },
+  { value: 'HE104', label: '智慧养老终端实操' },
+  { value: 'HE105', label: '老年政策与法规' },
+  { value: 'HE106', label: '健康管理学' },
+  { value: 'HE107', label: '智能康复辅助器具应用' },
+  { value: 'HE108', label: '养老机构评估与管理' }
 ])
 
 const typeOptions = ref([

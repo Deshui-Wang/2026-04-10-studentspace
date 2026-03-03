@@ -166,19 +166,19 @@ const filters = ref({
 
 // 选项数据
 const classOptions = ref([
-  { value: 'class1', label: '计算机科学与技术1班' },
-  { value: 'class2', label: '计算机科学与技术2班' },
-  { value: 'class3', label: '软件工程1班' },
-  { value: 'class4', label: '软件工程2班' },
-  { value: 'class5', label: '数据科学与大数据技术1班' }
+  { value: 'class1', label: '智慧健康养老服务与管理2401班' },
+  { value: 'class2', label: '智慧健康养老服务与管理2402班' },
+  { value: 'class3', label: '老年保健与管理2301班' },
+  { value: 'class4', label: '护理(老年护理方向)2302班' },
+  { value: 'class5', label: '康复工程技术2401班' }
 ])
 
 const courseOptions = ref([
-  { value: 'course1', label: '数据结构与算法' },
-  { value: 'course2', label: '操作系统原理' },
-  { value: 'course3', label: '数据库系统原理' },
-  { value: 'course4', label: '计算机网络' },
-  { value: 'course5', label: '软件工程' }
+  { value: 'course1', label: '老年心理学' },
+  { value: 'course2', label: '康复护理实务' },
+  { value: 'course3', label: '智能健康监测系统' },
+  { value: 'course4', label: '适老化环境设计' },
+  { value: 'course5', label: '老年社会学' }
 ])
 
 // 词云数据
@@ -197,36 +197,36 @@ const wordCloudData = ref([
 const rawData = ref([
   {
     id: 1,
-    courseName: '数据结构与算法',
-    className: '计算机科学与技术1班',
+    courseName: '老年心理学',
+    className: '智慧健康养老服务与管理2401班',
     totalStudents: 42,
     goodRating: 92
   },
   {
     id: 2,
-    courseName: '操作系统原理',
-    className: '计算机科学与技术2班',
+    courseName: '康复护理实务',
+    className: '智慧健康养老服务与管理2402班',
     totalStudents: 38,
     goodRating: 89
   },
   {
     id: 3,
-    courseName: '数据库系统原理',
-    className: '软件工程1班',
+    courseName: '智能健康监测系统',
+    className: '老年保健与管理2301班',
     totalStudents: 45,
     goodRating: 95
   },
   {
     id: 4,
-    courseName: '计算机网络',
-    className: '软件工程2班',
+    courseName: '适老化环境设计',
+    className: '护理(老年护理方向)2302班',
     totalStudents: 40,
     goodRating: 87
   },
   {
     id: 5,
-    courseName: '软件工程',
-    className: '数据科学与大数据技术1班',
+    courseName: '老年社会学',
+    className: '康复工程技术2401班',
     totalStudents: 43,
     goodRating: 91
   }

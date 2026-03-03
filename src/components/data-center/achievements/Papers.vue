@@ -336,102 +336,102 @@ const fileInput = ref(null)
 const papers = ref([
   {
     id: 1,
-    title: '基于深度学习的智能教学系统设计与实现',
-    authors: ['张三', '李四', '王五'],
+    title: '基于多模态融合的智能家居养老监测系统研究与实现',
+    authors: ['张海', '李明华', '王建强'],
     publishYear: '2024',
-    publication: '计算机教育',
+    publication: '智能健康与康复工程',
     volume: '15',
     issue: '3',
     pages: '45-52',
     articleId: 'CE202403001',
     doi: '10.3969/j.issn.1672-5913.2024.03.001',
     isbnIssn: 'ISSN 1672-5913',
-    abstract: '本文提出了一种基于深度学习的智能教学系统，通过分析学生学习行为数据，提供个性化学习建议，有效提升了教学效果和学习体验。',
-    keywords: ['深度学习', '智能教学', '个性化学习', '教育技术'],
+    abstract: '本文提出了一种基于多模态多维传感的居家养老监测系统，通过分析老人的日常起居行为数据，提供早期跌倒预警和照护建议，有效提升了居家养老的安全水平。',
+    keywords: ['智慧养老', '多模态融合', '跌倒监测', '智能家居'],
     image: '/pic/data.png',
     documents: [
-      { name: '论文全文.pdf', size: '2.1MB', uploadTime: '2024-03-10' },
-      { name: '实验数据.xlsx', size: '1.5MB', uploadTime: '2024-03-12' }
+      { name: '养老健康监测系统综述.pdf', size: '2.1MB', uploadTime: '2024-03-10' },
+      { name: '多模态行为数据集.xlsx', size: '1.5MB', uploadTime: '2024-03-12' }
     ]
   },
   {
     id: 2,
-    title: '虚拟现实技术在工程教育中的应用研究',
-    authors: ['赵六', '孙七', '周八'],
+    title: '适老化康复辅助器具的生物力学设计与临床评价机制',
+    authors: ['赵莉', '孙红梅', '周强'],
     publishYear: '2023',
-    publication: '高等工程教育研究',
+    publication: '康复医学技术',
     volume: '8',
     issue: '2',
     pages: '78-85',
     articleId: 'HEER202302001',
     doi: '10.3969/j.issn.1001-4233.2023.02.001',
     isbnIssn: 'ISSN 1001-4233',
-    abstract: '本研究探讨了虚拟现实技术在工程教育中的应用，通过构建VR教学环境，显著提高了学生的实践能力和学习兴趣。',
-    keywords: ['虚拟现实', '工程教育', '实践教学', 'VR技术'],
+    abstract: '本研究探讨了老年康复辅具的人机料配合度问题，通过构建数字虚拟受力模型，显著改善了辅具在实际应用中的适老化支撑力和穿戴舒适度。',
+    keywords: ['适老化改造', '康复辅具', '生物力学', '临床评价'],
     image: '/pic/data.png',
     documents: [
-      { name: '论文全文.pdf', size: '1.8MB', uploadTime: '2023-02-15' },
-      { name: 'VR演示视频.mp4', size: '15.2MB', uploadTime: '2023-02-18' }
+      { name: '辅具受力测试对比.pdf', size: '1.8MB', uploadTime: '2023-02-15' },
+      { name: '步态恢复演示.mp4', size: '15.2MB', uploadTime: '2023-02-18' }
     ]
   },
   {
     id: 3,
-    title: '人工智能驱动的个性化学习路径推荐算法',
-    authors: ['吴九', '郑十', '钱十一'],
+    title: '职业暴露人群特种护具的耐受材料分析与智能穿戴研究',
+    authors: ['吴大鹏', '郑建设', '钱小强'],
     publishYear: '2024',
-    publication: '现代教育技术',
+    publication: '劳动保护科学与工业卫生',
     volume: '34',
     issue: '1',
     pages: '23-30',
     articleId: 'MET202401001',
     doi: '10.3969/j.issn.1009-8097.2024.01.001',
     isbnIssn: 'ISSN 1009-8097',
-    abstract: '本文提出了一种基于人工智能的个性化学习路径推荐算法，通过分析学习者的知识状态和学习偏好，为其推荐最优的学习路径。',
-    keywords: ['人工智能', '个性化学习', '推荐算法', '学习路径'],
+    abstract: '本文研发了一种针对矿井与化工暴露环境下的智能防护服及生理特征传输机制，大幅提高了特种作业工人的职业伤害防护层级。',
+    keywords: ['劳动保护', '智能穿戴', '新材料', '职业暴露'],
     image: '/pic/data.png',
     documents: [
-      { name: '论文全文.pdf', size: '2.3MB', uploadTime: '2024-01-08' },
-      { name: '算法实现代码.zip', size: '3.1MB', uploadTime: '2024-01-10' }
+      { name: '耐受度测试报告.pdf', size: '2.3MB', uploadTime: '2024-01-08' },
+      { name: '生理反馈算法.zip', size: '3.1MB', uploadTime: '2024-01-10' }
     ]
   },
   {
     id: 4,
-    title: '基于大数据的在线教育质量评估体系构建',
-    authors: ['孙十二', '李十三'],
+    title: '失智老人防走失轨迹算法研究及在可穿戴设备中的应用',
+    authors: ['孙健康', '李康复'],
     publishYear: '2023',
-    publication: '电化教育研究',
+    publication: '智慧康养信息工程',
     volume: '44',
     issue: '6',
     pages: '67-74',
     articleId: 'EER202306001',
     doi: '10.3969/j.issn.1003-1553.2023.06.001',
     isbnIssn: 'ISSN 1003-1553',
-    abstract: '本研究构建了基于大数据的在线教育质量评估体系，通过多维度数据分析，为在线教育平台提供科学的质量评估方法。',
-    keywords: ['大数据', '在线教育', '质量评估', '教育评价'],
+    abstract: '本研究构建了基于大数据与北斗定位的异常偏航轨迹算法体系，为社区养老防走失管理提供科学准确的决策评估方法。',
+    keywords: ['失智老人', '防走失预测', '轨迹算法', '可穿戴设备'],
     image: '/pic/data.png',
     documents: [
-      { name: '论文全文.pdf', size: '1.9MB', uploadTime: '2023-06-12' },
-      { name: '评估指标体系.xlsx', size: '856KB', uploadTime: '2023-06-15' }
+      { name: '轨迹算法分析论文.pdf', size: '1.9MB', uploadTime: '2023-06-12' },
+      { name: '活动边界预警模型.xlsx', size: '856KB', uploadTime: '2023-06-15' }
     ]
   },
   {
     id: 5,
-    title: '混合式教学模式在计算机专业课程中的应用实践',
-    authors: ['王十四', '张十五', '刘十六', '陈十七'],
+    title: '工伤康复期患者心理干预量表的数字化构建及其应用',
+    authors: ['王明哲', '张华健', '刘志刚', '陈小雨'],
     publishYear: '2024',
-    publication: '计算机应用与软件',
+    publication: '心理护理与健康大数据',
     volume: '41',
     issue: '4',
     pages: '89-96',
     articleId: 'CAS202404001',
     doi: '10.3969/j.issn.1000-386X.2024.04.001',
     isbnIssn: 'ISSN 1000-386X',
-    abstract: '本文探讨了混合式教学模式在计算机专业课程中的应用，通过线上线下相结合的方式，有效提升了教学效果和学生参与度。',
-    keywords: ['混合式教学', '计算机专业', '教学模式', '教学实践'],
+    abstract: '本文探讨了在针对工伤后应激障碍与康复困难群体的心理评测系统，通过数字游戏化交互，有效提升了心理量表信效度与患者康复积极性。',
+    keywords: ['工伤康复', '心理测量', '应激障碍', '数字疗法'],
     image: '/pic/data.png',
     documents: [
-      { name: '论文全文.pdf', size: '2.0MB', uploadTime: '2024-04-05' },
-      { name: '教学案例集.docx', size: '1.2MB', uploadTime: '2024-04-08' }
+      { name: '心理测量量表分析.pdf', size: '2.0MB', uploadTime: '2024-04-05' },
+      { name: '干预记录集.docx', size: '1.2MB', uploadTime: '2024-04-08' }
     ]
   }
 ])

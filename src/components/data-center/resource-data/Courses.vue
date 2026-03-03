@@ -135,79 +135,79 @@ const currentFile = ref(null)
 const filesData = ref([
   {
     id: 1,
-    name: '数据结构与算法课件.pdf',
+    name: '老年学概论系统课件.pdf',
     format: 'PDF',
     size: '2.5MB',
-    author: '张教授',
+    author: '王教授',
     views: 156,
-    uploadTime: '2024-12-01'
+    uploadTime: '2025-02-01'
   },
   {
     id: 2,
-    name: '软件工程导论.pptx',
+    name: '社会工作实务流程规范.pptx',
     format: 'PPTX',
     size: '8.2MB',
-    author: '李教授',
+    author: '陈主任',
     views: 89,
-    uploadTime: '2024-11-28'
+    uploadTime: '2025-01-28'
   },
   {
     id: 3,
-    name: '机器学习基础视频.mp4',
+    name: '老年心理沟通实训演示视频.mp4',
     format: 'MP4',
     size: '125.6MB',
-    author: '王教授',
+    author: '刘护士长',
     views: 234,
-    uploadTime: '2024-11-20'
+    uploadTime: '2025-01-20'
   },
   {
     id: 4,
-    name: '数据库系统原理实验指导.docx',
+    name: '智能监护手环配置手册.docx',
     format: 'DOCX',
     size: '1.8MB',
-    author: '赵教授',
+    author: '张技师',
     views: 67,
-    uploadTime: '2024-11-15'
+    uploadTime: '2024-12-15'
   },
   {
     id: 5,
-    name: 'Web开发技术代码示例.zip',
+    name: '各省市养老机构补贴配套文件原件集.zip',
     format: 'ZIP',
     size: '15.3MB',
-    author: '陈教授',
+    author: '政策法规科',
     views: 198,
-    uploadTime: '2024-11-10'
+    uploadTime: '2024-12-10'
   },
   {
     id: 6,
-    name: '操作系统原理习题集.pdf',
+    name: '健康评估基本项测试表.pdf',
     format: 'PDF',
     size: '3.7MB',
-    author: '刘教授',
+    author: '李医生',
     views: 112,
     uploadTime: '2024-11-05'
   },
   {
     id: 7,
-    name: '计算机网络技术教程.pdf',
+    name: '康复辅助器具使用指南图册.pdf',
     format: 'PDF',
     size: '4.2MB',
-    author: '孙教授',
+    author: '孙康复师',
     views: 145,
     uploadTime: '2024-10-28'
   },
   {
     id: 8,
-    name: '人工智能应用案例.pptx',
+    name: '星级养老院服务与管理标准.pptx',
     format: 'PPTX',
     size: '12.8MB',
-    author: '周教授',
+    author: '周院长',
     views: 203,
     uploadTime: '2024-10-22'
   },
   {
     id: 9,
-    name: 'Java编程实战视频.mp4',
+    name: '四六级英语听力精选.mp4',
     format: 'MP4',
     size: '98.4MB',
     author: '吴教授',
@@ -216,7 +216,7 @@ const filesData = ref([
   },
   {
     id: 10,
-    name: '软件测试方法学.docx',
+    name: '老年人防跌倒风险评估量表.docx',
     format: 'DOCX',
     size: '2.1MB',
     author: '郑教授',
@@ -225,43 +225,43 @@ const filesData = ref([
   },
   {
     id: 11,
-    name: '移动应用开发资源包.zip',
+    name: '智慧养老终端系统开发API集.zip',
     format: 'ZIP',
     size: '22.6MB',
-    author: '冯教授',
+    author: '冯工',
     views: 167,
     uploadTime: '2024-10-08'
   },
   {
     id: 12,
-    name: '计算机图形学基础.pdf',
+    name: '养老护理急救基础.pdf',
     format: 'PDF',
     size: '5.8MB',
-    author: '韩教授',
+    author: '韩主任',
     views: 89,
     uploadTime: '2024-10-03'
   },
   {
     id: 13,
-    name: '云计算技术架构.pptx',
+    name: '银发经济市场分析报告.pptx',
     format: 'PPTX',
     size: '9.7MB',
-    author: '杨教授',
+    author: '杨研究员',
     views: 156,
     uploadTime: '2024-09-28'
   },
   {
     id: 14,
-    name: 'Python数据分析实战.mp4',
+    name: '失智症照护案例实拍记录.mp4',
     format: 'MP4',
     size: '87.3MB',
-    author: '朱教授',
+    author: '朱主任',
     views: 189,
     uploadTime: '2024-09-24'
   },
   {
     id: 15,
-    name: '信息安全防护指南.docx',
+    name: '机构消防安全合规指南.docx',
     format: 'DOCX',
     size: '3.4MB',
     author: '秦教授',
@@ -270,7 +270,7 @@ const filesData = ref([
   },
   {
     id: 16,
-    name: '大数据处理工具集.zip',
+    name: '全国百佳养老院调研数据包.zip',
     format: 'ZIP',
     size: '31.2MB',
     author: '许教授',

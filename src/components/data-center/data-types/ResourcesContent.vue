@@ -24,31 +24,10 @@
       </div>
       <div 
         class="tab-item" 
-        :class="{ active: activeSubTab === 'video' }"
-        @click="$emit('sub-tab-change', 'video')"
+        :class="{ active: activeSubTab === 'agent' }"
+        @click="$emit('sub-tab-change', 'agent')"
       >
-        视频
-      </div>
-      <div 
-        class="tab-item" 
-        :class="{ active: activeSubTab === 'voice-over' }"
-        @click="$emit('sub-tab-change', 'voice-over')"
-      >
-        配音
-      </div>
-      <div 
-        class="tab-item" 
-        :class="{ active: activeSubTab === 'knowledge-graph' }"
-        @click="$emit('sub-tab-change', 'knowledge-graph')"
-      >
-        知识图谱
-      </div>
-      <div 
-        class="tab-item" 
-        :class="{ active: activeSubTab === 'ability-graph' }"
-        @click="$emit('sub-tab-change', 'ability-graph')"
-      >
-        能力图谱
+        智能体
       </div>
       <div 
         class="tab-item" 
@@ -57,13 +36,6 @@
       >
         数字人
       </div>
-      <div 
-        class="tab-item" 
-        :class="{ active: activeSubTab === 'agent' }"
-        @click="$emit('sub-tab-change', 'agent')"
-      >
-        智能体
-      </div>
     </div>
     
     <!-- 内容展示区域 -->
@@ -71,35 +43,27 @@
       <!-- 资源数据-课程页面 -->
       <Courses v-if="activeSubTab === 'courses'" />
       
-      <!-- 资源数据-工作流页面 (待开发) -->
-      <!-- <Workflow v-if="activeSubTab === 'workflow'" /> -->
+      <!-- 资源数据-工作流页面 -->
+      <Workflow v-if="activeSubTab === 'workflow'" />
       
-      <!-- 资源数据-知识库页面 (待开发) -->
-      <!-- <KnowledgeBase v-if="activeSubTab === 'knowledge-base'" /> -->
+      <!-- 资源数据-知识库页面 -->
+      <KnowledgeBase v-if="activeSubTab === 'knowledge-base'" />
       
-      <!-- 资源数据-视频页面 (待开发) -->
-      <!-- <Video v-if="activeSubTab === 'video'" /> -->
-      
-      <!-- 资源数据-配音页面 (待开发) -->
-      <!-- <VoiceOver v-if="activeSubTab === 'voice-over'" /> -->
-      
-      <!-- 资源数据-知识图谱页面 (待开发) -->
-      <!-- <KnowledgeGraph v-if="activeSubTab === 'knowledge-graph'" /> -->
-      
-      <!-- 资源数据-能力图谱页面 (待开发) -->
-      <!-- <AbilityGraph v-if="activeSubTab === 'ability-graph'" /> -->
-      
-      <!-- 资源数据-数字人页面 (待开发) -->
-      <!-- <DigitalHuman v-if="activeSubTab === 'digital-human'" /> -->
-      
-      <!-- 资源数据-智能体页面 (待开发) -->
-      <!-- <Agent v-if="activeSubTab === 'agent'" /> -->
+      <!-- 资源数据-智能体页面 -->
+      <Agent v-if="activeSubTab === 'agent'" />
+
+      <!-- 资源数据-数字人页面 -->
+      <DigitalHuman v-if="activeSubTab === 'digital-human'" />
     </div>
   </div>
 </template>
 
 <script setup>
 import Courses from '@/components/data-center/resource-data/Courses.vue'
+import Workflow from '@/components/data-center/resource-data/Workflow.vue'
+import KnowledgeBase from '@/components/data-center/resource-data/KnowledgeBase.vue'
+import Agent from '@/components/data-center/resource-data/Agent.vue'
+import DigitalHuman from '@/components/data-center/resource-data/DigitalHuman.vue'
 
 defineProps({
   activeSubTab: {

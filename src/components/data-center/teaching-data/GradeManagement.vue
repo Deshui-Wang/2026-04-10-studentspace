@@ -154,9 +154,9 @@ let scoreChart = null
 let trendChartInstance = null
 
 // 模拟数据
-const semesterList = ['2024春季', '2024秋季', '2023春季', '2023秋季', '2022春季', '2022秋季']
-const subjectList = ['数学', '物理', '计算机', '英语', '化学', '生物']
-const courseList = ['高等数学', '线性代数', '大学物理', '程序设计', '数据结构', '操作系统', '英语听说', '有机化学', '分子生物学']
+const semesterList = ['2025下学期', '2025初学期', '2024下学期', '2024初学期', '2023下学期', '2023初学期']
+const subjectList = ['健康管理', '护理研究', '政策法规', '英语']
+const courseList = ['老年学概论', '老年社会工作实务', '老年心理护理实训', '智慧养老终端实操', '老年政策与法规', '健康管理学', '智能康复辅助器具应用', '养老机构评估与管理', '大学英语']
 
 // 生成模拟成绩数据
 const generateGradeData = () => {
@@ -177,8 +177,8 @@ const generateGradeData = () => {
           const score = Math.max(0, Math.min(100, Math.round(baseScore + variation)))
           
           // 生成考试时间
-          const year = semester.includes('2024') ? 2024 : semester.includes('2023') ? 2023 : 2022
-          const month = semester.includes('春季') ? Math.floor(Math.random() * 3) + 3 : Math.floor(Math.random() * 3) + 9
+          const year = semester.includes('2025') ? 2025 : semester.includes('2024') ? 2024 : 2023
+          const month = semester.includes('初学期') ? Math.floor(Math.random() * 3) + 3 : Math.floor(Math.random() * 3) + 9
           const day = Math.floor(Math.random() * 28) + 1
           const examTime = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`
           

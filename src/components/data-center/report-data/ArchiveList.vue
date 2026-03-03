@@ -260,190 +260,135 @@ const sortOrder = ref('desc')
 const files = ref([
   {
     id: 1,
-    name: '个人简历_前端开发.pdf',
-    description: '包含项目经验、技能展示、实习经历等内容',
+    name: '康复护理实务_实操手册.pdf',
+    description: '包含老人体位转移、进食辅助等标准实操规范',
     type: 'pdf',
     typeText: 'PDF文档',
     size: 2048576,
-    uploadTime: '2024-12-15 10:30:00',
+    uploadTime: '2025-05-15 10:30:00',
     downloadCount: 15,
-    path: '/personal/resume.pdf'
+    path: '/personal/care_manual.pdf'
   },
   {
     id: 2,
-    name: '项目作品集_电商系统.pptx',
-    description: '展示电商系统项目的完整设计思路和实现过程',
+    name: '适老化环境改造设计方案集.pptx',
+    description: '展示居家及机构养老环境的无障碍设计思路',
     type: 'pptx',
     typeText: 'PPT演示',
     size: 15360000,
-    uploadTime: '2024-12-12 14:25:00',
-    downloadCount: 8,
-    path: '/personal/projects/ecommerce.pptx'
+    uploadTime: '2025-04-12 14:25:00',
+    downloadCount: 22,
+    path: '/personal/projects/aging_design.pptx'
   },
   {
     id: 3,
-    name: '学习笔记_数据结构.docx',
-    description: '数据结构与算法的学习笔记和练习题',
+    name: '学习笔记_老年心理学.docx',
+    description: '老年心理学课程核心理论、干预方法与案例分析',
     type: 'docx',
     typeText: 'Word文档',
     size: 5120000,
-    uploadTime: '2024-12-10 09:15:00',
-    downloadCount: 23,
-    path: '/personal/notes/datastructure.docx'
+    uploadTime: '2025-03-10 09:15:00',
+    downloadCount: 45,
+    path: '/personal/notes/elder_psychology.docx'
   },
   {
     id: 4,
-    name: '毕业设计_智能推荐系统.zip',
-    description: '基于机器学习的智能推荐系统完整代码',
+    name: '智慧健康监测云平台_资料包.zip',
+    description: '包含物联网床垫、防跌倒雷达监测系统设备技术规格及配置',
     type: 'zip',
     typeText: '压缩包',
     size: 25600000,
-    uploadTime: '2024-12-08 16:40:00',
+    uploadTime: '2025-02-08 16:40:00',
     downloadCount: 12,
-    path: '/personal/graduation/recommendation.zip'
+    path: '/personal/graduation/smart_monitor.zip'
   },
   {
     id: 5,
-    name: '实习报告_腾讯科技.pdf',
-    description: '在腾讯科技实习期间的详细工作报告',
+    name: '实习日记_市第一养老院.pdf',
+    description: '在社区及机构养老基地的完整实习照护记录',
     type: 'pdf',
     typeText: 'PDF文档',
     size: 8192000,
-    uploadTime: '2024-12-05 11:20:00',
-    downloadCount: 6,
-    path: '/personal/internship/tencent.pdf'
+    uploadTime: '2025-01-05 11:20:00',
+    downloadCount: 30,
+    path: '/personal/internship/nursing_home.pdf'
   },
   {
     id: 6,
-    name: '技能证书_Java认证.jpg',
-    description: 'Oracle Java SE 8 Programmer认证证书',
+    name: '技能证书_高级养老护理员.jpg',
+    description: '人社局颁发的高级养老护理职业技能等级证书高清扫描件',
     type: 'jpg',
     typeText: '图片文件',
     size: 2048000,
     uploadTime: '2024-12-03 15:30:00',
     downloadCount: 4,
-    path: '/personal/certificates/java.jpg'
+    path: '/personal/certificates/senior_care.jpg'
   },
   {
     id: 7,
-    name: '课程作业_数据库设计.xlsx',
-    description: '数据库系统原理课程设计作业',
+    name: '课程作业_吞咽困难老人周食谱.xlsx',
+    description: '针对慢病和不同吞咽障碍老人的营养流质膳食搭配明细',
     type: 'xlsx',
     typeText: 'Excel表格',
     size: 1024000,
     uploadTime: '2024-12-01 13:45:00',
     downloadCount: 18,
-    path: '/personal/homework/database.xlsx'
+    path: '/personal/homework/elder_diet.xlsx'
   },
   {
     id: 8,
-    name: '技术分享_前端性能优化.mp4',
-    description: '关于前端性能优化的技术分享视频',
+    name: '心肺复苏(CPR)实训教学视频.mp4',
+    description: '对突发心脏骤停老人的实操施救标准演练视频',
     type: 'mp4',
     typeText: '视频文件',
     size: 128000000,
     uploadTime: '2024-11-28 20:15:00',
-    downloadCount: 35,
-    path: '/personal/videos/performance.mp4'
+    downloadCount: 88,
+    path: '/personal/videos/cpr_training.mp4'
   },
   {
     id: 9,
-    name: '学习资料_React教程.pdf',
-    description: 'React框架学习教程和最佳实践',
+    name: '失智老人安宁疗护指南.pdf',
+    description: '阿尔茨海默症长者照护重点与临终关怀实务操作策略',
     type: 'pdf',
     typeText: 'PDF文档',
     size: 12288000,
     uploadTime: '2024-11-25 08:30:00',
     downloadCount: 29,
-    path: '/personal/learning/react.pdf'
+    path: '/personal/learning/dementia_care.pdf'
   },
   {
     id: 10,
-    name: '代码片段_常用工具函数.js',
-    description: '日常开发中常用的JavaScript工具函数集合',
-    type: 'js',
-    typeText: 'JavaScript',
+    name: '老年人健康风险评估表.csv',
+    description: '涵盖ADL、跌倒风险、压疮风险等综合评估量表模型数据',
+    type: 'csv',
+    typeText: 'CSV数据',
     size: 512000,
     uploadTime: '2024-11-22 17:20:00',
-    downloadCount: 41,
-    path: '/personal/code/utils.js'
+    downloadCount: 61,
+    path: '/personal/data/risk_assessment.csv'
   },
   {
     id: 11,
-    name: '设计稿_移动端UI设计.psd',
-    description: '移动端应用UI设计稿和原型图',
+    name: '智能康复辅具产品原型.psd',
+    description: '改良版助力防跌倒智能手杖工业与外观设计源文件',
     type: 'psd',
     typeText: 'PSD文件',
     size: 51200000,
     uploadTime: '2024-11-20 14:10:00',
     downloadCount: 7,
-    path: '/personal/designs/mobile.psd'
+    path: '/personal/designs/smart_cane.psd'
   },
   {
     id: 12,
-    name: '论文草稿_人工智能应用.docx',
-    description: '关于人工智能在教育领域应用的论文初稿',
+    name: '毕业设计_智慧养老社区建设标准.docx',
+    description: '结合多维度传感器的未来社区智慧化养老模型论文草稿',
     type: 'docx',
     typeText: 'Word文档',
     size: 8192000,
     uploadTime: '2024-11-18 10:45:00',
     downloadCount: 13,
-    path: '/personal/papers/ai_education.docx'
-  },
-  {
-    id: 13,
-    name: '实验数据_机器学习结果.csv',
-    description: '机器学习模型训练的实验数据和结果',
-    type: 'csv',
-    typeText: 'CSV数据',
-    size: 2048000,
-    uploadTime: '2024-11-15 16:25:00',
-    downloadCount: 19,
-    path: '/personal/data/ml_results.csv'
-  },
-  {
-    id: 14,
-    name: '项目文档_API接口说明.md',
-    description: '项目API接口的详细说明文档',
-    type: 'md',
-    typeText: 'Markdown',
-    size: 256000,
-    uploadTime: '2024-11-12 12:30:00',
-    downloadCount: 26,
-    path: '/personal/docs/api.md'
-  },
-  {
-    id: 15,
-    name: '配置文件_项目环境.env',
-    description: '项目环境配置文件模板',
-    type: 'env',
-    typeText: '环境配置',
-    size: 1024,
-    uploadTime: '2024-11-10 09:15:00',
-    downloadCount: 8,
-    path: '/personal/config/.env'
-  },
-  {
-    id: 16,
-    name: '测试用例_单元测试.js',
-    description: 'JavaScript单元测试用例集合',
-    type: 'js',
-    typeText: 'JavaScript',
-    size: 1024000,
-    uploadTime: '2024-11-08 15:40:00',
-    downloadCount: 15,
-    path: '/personal/tests/unit_tests.js'
-  },
-  {
-    id: 17,
-    name: '备份文件_重要资料.rar',
-    description: '重要学习资料和项目的备份文件',
-    type: 'rar',
-    typeText: 'RAR压缩',
-    size: 102400000,
-    uploadTime: '2024-11-05 18:20:00',
-    downloadCount: 3,
-    path: '/personal/backup/important.rar'
+    path: '/personal/papers/smart_community.docx'
   }
 ])
 

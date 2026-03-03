@@ -349,80 +349,80 @@ const abilityTypeMap = {
 const abilities = ref([
   {
     id: 1,
-    name: '计算机软件资格考试高级程序员',
-    number: 'SC2024001',
-    organization: '工业和信息化部',
+    name: '健康管理师（三级）',
+    number: 'HC2024001',
+    organization: '国家卫生健康委员会',
     certificationDate: '2024-03-15',
     type: 'professional',
     image: '/pic/data.png',
     documents: [
-      { name: '高级程序员证书.pdf', size: '2.3MB', uploadTime: '2024-03-20' },
-      { name: '成绩单.pdf', size: '856KB', uploadTime: '2024-03-22' }
+      { name: '健康管理师证书.pdf', size: '2.3MB', uploadTime: '2024-03-20' },
+      { name: '理论与实操成绩单.pdf', size: '856KB', uploadTime: '2024-03-22' }
     ]
   },
   {
     id: 2,
-    name: '全国计算机等级考试四级网络工程师',
-    number: 'NCRE2024002',
-    organization: '教育部考试中心',
+    name: '养老护理员（高级）',
+    number: 'EC2024002',
+    organization: '人力资源和社会保障部',
     certificationDate: '2024-01-20',
     type: 'skill',
     image: '/pic/data.png',
     documents: [
-      { name: '四级证书.pdf', size: '1.2MB', uploadTime: '2024-01-25' },
-      { name: '成绩报告单.pdf', size: '945KB', uploadTime: '2024-01-26' }
+      { name: '高级养老护理员证书.pdf', size: '1.2MB', uploadTime: '2024-01-25' },
+      { name: '职业能力鉴定表.pdf', size: '945KB', uploadTime: '2024-01-26' }
     ]
   },
   {
     id: 3,
-    name: '雅思英语能力测试',
-    number: 'IELTS2024003',
-    organization: '英国文化教育协会',
+    name: '康复辅助器具适配师（高级）',
+    number: 'AT2024003',
+    organization: '中国康复辅助器具协会',
     certificationDate: '2024-02-10',
-    type: 'language',
+    type: 'professional',
     image: '/pic/data.png',
     documents: [
-      { name: '雅思成绩单.pdf', size: '1.5MB', uploadTime: '2024-02-15' },
-      { name: '考试确认信.pdf', size: '856KB', uploadTime: '2024-02-08' }
+      { name: '辅具适配师证书.pdf', size: '1.5MB', uploadTime: '2024-02-15' },
+      { name: '培训结业证明.pdf', size: '856KB', uploadTime: '2024-02-08' }
     ]
   },
   {
     id: 4,
-    name: '注册会计师证书',
-    number: 'CPA2024004',
-    organization: '中国注册会计师协会',
+    name: '红十字救护员（CPR+AED）',
+    number: 'RC2024004',
+    organization: '中国红十字会',
     certificationDate: '2024-04-05',
-    type: 'professional',
+    type: 'skill',
     image: '/pic/data.png',
     documents: [
-      { name: 'CPA证书.pdf', size: '2.1MB', uploadTime: '2024-04-10' },
-      { name: '执业证书.pdf', size: '1.8MB', uploadTime: '2024-04-12' }
+      { name: '红十字救护员证.pdf', size: '2.1MB', uploadTime: '2024-04-10' },
+      { name: '急救理论考核单.pdf', size: '1.8MB', uploadTime: '2024-04-12' }
     ]
   },
   {
     id: 5,
-    name: '日语能力测试N1级',
-    number: 'JLPT2024005',
-    organization: '日本国际交流基金会',
+    name: '失智老人照护（1+X）初级证书',
+    number: 'DC2024005',
+    organization: '教育部职业教育与成人教育司',
     certificationDate: '2024-01-15',
-    type: 'language',
+    type: 'skill',
     image: '/pic/data.png',
     documents: [
-      { name: 'N1证书.pdf', size: '1.3MB', uploadTime: '2024-01-20' },
-      { name: '成绩通知书.pdf', size: '892KB', uploadTime: '2024-01-22' }
+      { name: '1+x职业技能等级证书.pdf', size: '1.3MB', uploadTime: '2024-01-20' },
+      { name: '实操模块考核成绩.pdf', size: '892KB', uploadTime: '2024-01-22' }
     ]
   },
   {
     id: 6,
-    name: '电工职业技能等级证书（高级）',
-    number: 'ELEC2024006',
-    organization: '人力资源和社会保障部',
+    name: '心理咨询师基础培训合格证书',
+    number: 'PC2024006',
+    organization: '中国科学院心理研究所',
     certificationDate: '2024-02-28',
-    type: 'skill',
+    type: 'professional',
     image: '/pic/data.png',
     documents: [
-      { name: '高级电工证书.pdf', size: '1.7MB', uploadTime: '2024-03-05' },
-      { name: '技能鉴定表.pdf', size: '1.1MB', uploadTime: '2024-03-06' }
+      { name: '心理咨询基础证书.pdf', size: '1.7MB', uploadTime: '2024-03-05' },
+      { name: '综合考试成绩单.pdf', size: '1.1MB', uploadTime: '2024-03-06' }
     ]
   }
 ])

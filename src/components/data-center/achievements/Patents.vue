@@ -393,93 +393,93 @@ const patents = ref([
     id: 1,
     patentNumber: 'ZL202410001234.5',
     applicationNumber: '202410001234.5',
-    name: '一种基于人工智能的智能教学系统',
-    technicalField: '人工智能',
-    patentee: '某某大学',
-    applicant: '某某大学',
-    inventor: '张三, 李四, 王五',
+    name: '一种集成生命体征监测的智能养老床垫及预警方法',
+    technicalField: '适老智能家居',
+    patentee: '某某健康科技发展有限公司',
+    applicant: '某某健康科技发展有限公司',
+    inventor: '张海, 李飞, 王强',
     status: 'granted',
     protectionPeriod: '2024-01-15 至 2044-01-14',
     agentInfo: '北京某某专利代理事务所',
-    description: '本发明公开了一种基于人工智能的智能教学系统，通过机器学习算法分析学生学习行为，提供个性化教学方案，提高教学效果。',
+    description: '本发明公开了一种内部包含柔性传感材料的养老床垫，通过静息心率与呼吸频率的不间断提取，结合深度学习算法判断异样，提高夜间看护质量。',
     image: '/pic/data.png',
     documents: [
       { name: '专利证书.pdf', size: '1.2MB', uploadTime: '2024-01-10' },
-      { name: '专利申请文件.pdf', size: '2.1MB', uploadTime: '2024-01-12' }
+      { name: '床垫布线原理解析.pdf', size: '2.1MB', uploadTime: '2024-01-12' }
     ]
   },
   {
     id: 2,
     patentNumber: 'ZL202310002345.6',
     applicationNumber: '202310002345.6',
-    name: '一种虚拟现实教学设备',
-    technicalField: '虚拟现实',
-    patentee: '某某大学',
-    applicant: '某某大学',
+    name: '一种防摔倒与助力功能的适老化手杖',
+    technicalField: '康复辅助器具',
+    patentee: '某某康复器材制造厂',
+    applicant: '某某康复器材制造厂',
     inventor: '赵六, 孙七',
     status: 'under-review',
     protectionPeriod: '2023-06-20 至 2043-06-19',
     agentInfo: '上海某某知识产权代理有限公司',
-    description: '本实用新型涉及一种虚拟现实教学设备，通过VR技术为学生提供沉浸式学习体验，适用于各种教学场景。',
+    description: '本实用新型涉及一种在手柄处集成了微型气囊和跌倒传感器监测系统的手杖，以提高高龄老人日常行走的安全性。',
     image: '/pic/data.png',
     documents: [
-      { name: '专利申请文件.pdf', size: '1.8MB', uploadTime: '2023-06-18' },
-      { name: '技术交底书.docx', size: '1.5MB', uploadTime: '2023-06-22' }
+      { name: '气囊爆破测试报告.pdf', size: '1.8MB', uploadTime: '2023-06-18' },
+      { name: '传感器设计图纸.docx', size: '1.5MB', uploadTime: '2023-06-22' }
     ]
   },
   {
     id: 3,
     patentNumber: 'ZL202210003456.7',
     applicationNumber: '202210003456.7',
-    name: '一种在线教育平台的数据处理方法',
-    technicalField: '计算机软件',
-    patentee: '某某大学',
-    applicant: '某某大学',
-    inventor: '周八, 吴九, 郑十',
+    name: '一种基于柔性传感材料的安全帽及工人疲劳监测系统',
+    technicalField: '劳动保护用品',
+    patentee: '某某矿建安全工程装备集团',
+    applicant: '某某矿建安全工程装备集团',
+    inventor: '周大强, 吴国庆, 郑铁生',
     status: 'granted',
     protectionPeriod: '2022-12-10 至 2042-12-09',
     agentInfo: '广州某某专利代理有限公司',
-    description: '本发明公开了一种在线教育平台的数据处理方法，通过优化数据处理算法，提高平台运行效率，改善用户体验。',
+    description: '本发明公开了一种带有多端柔性脉搏波扫描模块的安全帽及系统平台，可实时对特殊环境下的工人体力疲劳值进行预警拦截。',
     image: '/pic/data.png',
     documents: [
-      { name: '专利证书.pdf', size: '1.5MB', uploadTime: '2022-12-08' }
+      { name: '疲劳算法证书.pdf', size: '1.5MB', uploadTime: '2022-12-08' }
     ]
   },
   {
     id: 4,
     patentNumber: 'ZL202410004567.8',
     applicationNumber: '202410004567.8',
-    name: '一种智能批改系统',
-    technicalField: '教育技术',
-    patentee: '某某大学',
-    applicant: '某某大学',
-    inventor: '钱十一, 孙十二',
+    name: '一种模块化的快速穿脱式劳保防护隔离服',
+    technicalField: '劳动保护/防护服',
+    patentee: '某某科技大学材料学院',
+    applicant: '某某科技大学材料学院',
+    inventor: '钱明明, 孙亮亮',
     status: 'applied',
     protectionPeriod: '2024-03-05 至 2044-03-04',
     agentInfo: '深圳某某知识产权代理事务所',
-    description: '本实用新型涉及一种智能批改系统，通过OCR技术和自然语言处理，实现作业自动批改，减轻教师工作负担。',
+    description: '本实用新型涉及一种带有自吸附无极调节卡扣及抗撕裂材料的防护隔离服，可以缩短穿戴时间并有效防御有害物腐蚀。',
     image: '/pic/data.png',
     documents: [
-      { name: '专利申请文件.pdf', size: '2.3MB', uploadTime: '2024-03-01' },
-      { name: '技术方案.docx', size: '1.1MB', uploadTime: '2024-03-03' }
+      { name: '隔离服专利申请书.pdf', size: '2.3MB', uploadTime: '2024-03-01' },
+      { name: '打样及着装指南.docx', size: '1.1MB', uploadTime: '2024-03-03' }
     ]
   },
   {
     id: 5,
     patentNumber: 'ZL202110005678.9',
     applicationNumber: '202110005678.9',
-    name: '一种多媒体教学设备',
-    technicalField: '教育设备',
+    name: '一种用于老年人下肢康复的外骨骼机器人驱动控制装置',
+    technicalField: '医疗康复机器人',
     patentee: '某某大学',
     applicant: '某某大学',
-    inventor: '李十三, 王十四',
+    inventor: '李博导, 王博士',
     status: 'expired',
     protectionPeriod: '2021-08-15 至 2024-08-14',
     agentInfo: '成都某某专利代理事务所',
-    description: '本实用新型公开了一种多媒体教学设备，集成了投影、音响、交互等功能，为现代化教学提供便利。',
+    description: '本实用新型公开了一种新型外骨骼腿部双关节液压阻尼驱动装置，为卒中及退化性下肢障碍老人提供辅助训练与康复。',
     image: '/pic/data.png',
     documents: [
-      { name: '专利证书.pdf', size: '1.8MB', uploadTime: '2021-08-10' }
+      { name: '下肢康复实测数据集.pdf', size: '1.8MB', uploadTime: '2021-08-10' }
     ]
   }
 ])

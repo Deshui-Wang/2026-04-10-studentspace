@@ -138,9 +138,9 @@ const showDetailDialog = ref(false)
 const currentDetailList = ref([])
 
 // 模拟数据
-const semesterList = ['2024春季学期', '2024秋季学期', '2025春季学期']
-const subjectList = ['数学', '计算机科学', '软件工程', '数据科学']
-const courseList = ['高等数学', '线性代数', '数据结构', '算法设计', '数据库原理']
+const semesterList = ['2025下学期', '2025初学期', '2024下学期', '2024初学期']
+const subjectList = ['健康管理', '护理研究', '政策法规', '英语']
+const courseList = ['老年学概论', '老年社会工作实务', '老年心理护理实训', '智慧养老终端实操', '老年政策与法规', '健康管理学', '智能康复辅助器具应用', '养老机构评估与管理', '大学英语']
 
 // 生成模拟出勤数据
 const generateAttendanceData = () => {
@@ -157,16 +157,32 @@ const generateAttendanceData = () => {
   const classTimes = ['08:00-09:40', '10:00-11:40', '14:00-15:40', '16:00-17:40', '19:00-20:40']
   
   let id = 1
-  const startDate = new Date('2024-01-01')
-  
   // 生成50条数据
   for (let i = 0; i < 50; i++) {
-    const currentDate = new Date(startDate)
-    currentDate.setDate(startDate.getDate() + i * 2) // 每2天生成一条数据
-    
     semesterList.forEach(semester => {
+      // 根据学期决定基础年份和月份
+      let baseYear = 2024
+      if (semester.includes('2025')) baseYear = 2025
+      else if (semester.includes('2023')) baseYear = 2023
+      
+      let baseMonth = semester.includes('初学期') ? '03' : '09'
+      const startDate = new Date(`${baseYear}-${baseMonth}-01`)
+      const currentDate = new Date(startDate)
+      currentDate.setDate(startDate.getDate() + i * 2) // 每2天生成一条数据
+      
       subjectList.forEach(subject => {
-        courseList.forEach(course => {
+        // 定义学科与课程的对应关系
+        const courseMap = {
+          '健康管理': ['老年学概论', '老年社会工作实务', '健康管理学', '智慧养老终端实操'],
+          '护理研究': ['老年心理护理实训', '智能康复辅助器具应用'],
+          '政策法规': ['老年政策与法规', '养老机构评估与管理'],
+          '英语': ['大学英语']
+        }
+        
+        // 获取当前学科对应的课程列表
+        const subjectCourses = courseMap[subject] || []
+        
+        subjectCourses.forEach(course => {
           const classTime = classTimes[Math.floor(Math.random() * classTimes.length)]
           const attendanceStatus = attendanceStatuses[Math.floor(Math.random() * attendanceStatuses.length)]
           

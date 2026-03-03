@@ -257,29 +257,29 @@ const interviewOptions = ref([
 const interviewHistory = ref([
   {
     id: 1,
-    title: '技术面试 - 前端开发',
-    date: '2024-01-15',
+    title: '技术面试 - 康复辅具评估师',
+    date: '2025-02-15',
     duration: '28分钟',
     score: 88
   },
   {
     id: 2,
-    title: '行为面试 - 产品经理',
-    date: '2024-01-14',
+    title: '行为面试 - 养老社区运营专员',
+    date: '2025-02-14',
     duration: '22分钟',
     score: 92
   },
   {
     id: 3,
-    title: '压力面试 - 管理岗位',
-    date: '2024-01-13',
+    title: '压力面试 - 智慧养老系统实施',
+    date: '2025-02-13',
     duration: '30分钟',
     score: 75
   },
   {
     id: 4,
-    title: '综合面试 - 全栈开发',
-    date: '2024-01-12',
+    title: '综合面试 - 高级养老照护专员',
+    date: '2025-02-12',
     duration: '42分钟',
     score: 85
   }

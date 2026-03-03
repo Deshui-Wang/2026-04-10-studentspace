@@ -215,8 +215,8 @@ export default {
       workflows: [
         {
           id: 1,
-          title: '编辑助理',
-          description: '日常帮我编辑随记文本内容',
+          title: '照护计划生成助理',
+          description: '日常帮我根据长者体征生成照护计划',
           stats: { number: '4.2k', date: '08-27 11:51 更新' },
           status: 'draft',
           statusText: '草稿',
@@ -225,8 +225,8 @@ export default {
         },
         {
           id: 2,
-          title: '智能客服',
-          description: '自动处理客户咨询和问题',
+          title: '智能用药提醒客服',
+          description: '自动处理家属对老人用药及健康的咨询',
           stats: { number: '3.8k', date: '08-26 15:30 更新' },
           status: 'draft',
           statusText: '草稿',
@@ -235,8 +235,8 @@ export default {
         },
         {
           id: 3,
-          title: '数据分析师',
-          description: '自动分析数据并生成报告',
+          title: '慢病数据分析师',
+          description: '自动分析院内长者慢病数据并生成报告',
           stats: { number: '2.9k', date: '08-25 09:15 更新' },
           status: 'draft',
           statusText: '草稿',
@@ -245,8 +245,8 @@ export default {
         },
         {
           id: 4,
-          title: '代码助手',
-          description: '帮助编写和调试代码',
+          title: '智慧终端配置助手',
+          description: '帮助运维人员快速完成各终端指令交互',
           stats: { number: '5.1k', date: '08-24 14:20 更新' },
           status: 'draft',
           statusText: '草稿',
@@ -255,8 +255,8 @@ export default {
         },
         {
           id: 5,
-          title: '创意策划师',
-          description: '生成创意内容和营销方案',
+          title: '文娱活动策划师',
+          description: '为日间照料中心生成节假日或常规创意活动方案',
           stats: { number: '3.5k', date: '08-23 16:45 更新' },
           status: 'draft',
           statusText: '草稿',

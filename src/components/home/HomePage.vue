@@ -262,23 +262,23 @@ const refreshHoroscope = () => generateCancerHoroscope()
 
 // 学习仪表盘数据（模拟）
 const studyProgress = ref([
-  { id: 1, course: '高等数学', completed: 72 },
-  { id: 2, course: '线性代数', completed: 45 },
+  { id: 1, course: '老年学概论', completed: 72 },
+  { id: 2, course: '老年社会工作实务', completed: 45 },
   { id: 3, course: '大学英语', completed: 88 },
 ])
 
 const examScores = ref([
-  { id: 1, course: '高等数学阶段测', score: 86 },
+  { id: 1, course: '老年学概论阶段测', score: 86 },
   { id: 2, course: '大学英语随堂测', score: 92 },
 ])
 
 const homeworkPush = ref([
-  { id: 1, title: '线性代数 第3章作业', due: '10-18' },
-  { id: 2, title: '高等数学 第5周作业', due: '10-20' },
+  { id: 1, title: '老年社会工作实务 第3章作业', due: '10-18' },
+  { id: 2, title: '老年学概论 第5周作业', due: '10-20' },
 ])
 
 const evaluationPush = ref([
-  { id: 1, title: '课堂表现评价（高数）', status: '已发布' },
+  { id: 1, title: '课堂表现评价（老年学）', status: '已发布' },
   { id: 2, title: '小组协作互评（英语）', status: '待完成' },
 ])
 

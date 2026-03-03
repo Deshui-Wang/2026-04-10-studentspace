@@ -32,12 +32,12 @@
           <label>适用行业：</label>
           <el-select v-model="selectedIndustry" placeholder="选择行业" @change="filterTemplates">
             <el-option label="全部" value="" />
-            <el-option label="互联网" value="互联网" />
-            <el-option label="金融" value="金融" />
-            <el-option label="教育" value="教育" />
-            <el-option label="医疗" value="医疗" />
-            <el-option label="制造业" value="制造业" />
-            <el-option label="服务业" value="服务业" />
+            <el-option label="智慧养老" value="智慧养老" />
+            <el-option label="医疗康复" value="医疗康复" />
+            <el-option label="健康管理" value="健康管理" />
+            <el-option label="机构运营" value="机构运营" />
+            <el-option label="适老设计" value="适老设计" />
+            <el-option label="社会工作" value="社会工作" />
           </el-select>
         </div>
         <div class="filter-group">
@@ -177,104 +177,104 @@ const categories = ref([
 const templates = ref([
   {
     id: 1,
-    name: '经典商务简历',
-    description: '简洁大方，适合大多数职位，突出专业形象',
+    name: '经典护工简历',
+    description: '简洁大方，适合一线养老护理职位，突出专业形象与爱心',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 1,
-    industry: '通用',
+    industry: '医疗康复',
     style: '经典',
-    tags: ['商务', '通用', '专业'],
+    tags: ['一线护理', '通用', '专业'],
     rating: 4.5,
     downloads: 1250,
     createdAt: '2024-01-01'
   },
   {
     id: 2,
-    name: '现代科技简历',
-    description: '设计感强，适合互联网和科技行业',
+    name: '智慧康养实施简历',
+    description: '设计感强，适合物联网适老设备落地和系统培训行业',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 2,
-    industry: '互联网',
+    industry: '智慧养老',
     style: '现代',
-    tags: ['科技', '互联网', '现代'],
+    tags: ['科技', '物联网', '现代'],
     rating: 4.8,
     downloads: 980,
     createdAt: '2024-01-15'
   },
   {
     id: 3,
-    name: '创意设计师简历',
-    description: '色彩丰富，适合设计师和创意类职位',
+    name: '适老空间设计师简历',
+    description: '色彩柔和，适合无障碍改造、适老家具设计等创意类职位',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 3,
-    industry: '设计',
+    industry: '适老设计',
     style: '创意',
-    tags: ['设计', '创意', '艺术'],
+    tags: ['设计', '无障碍', '艺术'],
     rating: 4.6,
     downloads: 750,
     createdAt: '2024-01-20'
   },
   {
     id: 4,
-    name: '简约清新简历',
-    description: '极简设计，突出内容本身',
+    name: '社工服务清新简历',
+    description: '极简设计，突出社区志愿服务与长者心理慰藉能力',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 4,
-    industry: '通用',
+    industry: '社会工作',
     style: '简约',
-    tags: ['简约', '清新', '极简'],
+    tags: ['简约', '社工', '极简'],
     rating: 4.3,
     downloads: 1100,
     createdAt: '2024-01-25'
   },
   {
     id: 5,
-    name: '金融专业简历',
-    description: '严谨专业，适合金融和财务职位',
+    name: '机构运营主管简历',
+    description: '严谨专业，适合养老机构院牧、床位运营和后勤管理职位',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 5,
-    industry: '金融',
+    industry: '机构运营',
     style: '专业',
-    tags: ['金融', '财务', '专业'],
+    tags: ['运营', '管理', '专业'],
     rating: 4.7,
     downloads: 650,
     createdAt: '2024-02-01'
   },
   {
     id: 6,
-    name: '教育行业简历',
-    description: '温馨亲切，适合教育和培训行业',
+    name: '慢病康养管家简历',
+    description: '温馨亲切，适合在社区或个人提供全周期慢病营养指导',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 1,
-    industry: '教育',
+    industry: '健康管理',
     style: '经典',
-    tags: ['教育', '培训', '温馨'],
+    tags: ['慢病', '营养指导', '温馨'],
     rating: 4.4,
     downloads: 420,
     createdAt: '2024-02-05'
   },
   {
     id: 7,
-    name: '医疗专业简历',
-    description: '专业严谨，适合医疗和健康行业',
+    name: '高级康复理疗师简历',
+    description: '专业严谨，重点罗列执业资格与OT/PT康复实操经验',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 5,
-    industry: '医疗',
+    industry: '医疗康复',
     style: '专业',
-    tags: ['医疗', '健康', '专业'],
+    tags: ['理疗', '健康', '专业'],
     rating: 4.5,
     downloads: 380,
     createdAt: '2024-02-10'
   },
   {
     id: 8,
-    name: '销售精英简历',
-    description: '活力四射，适合销售和市场职位',
+    name: '辅具健康顾问简历',
+    description: '亲和力强，适合高端辅具租赁或康养保险销售顾问',
     preview: '/pic/mianshi/jianlimoban.png',
     categoryId: 2,
-    industry: '销售',
+    industry: '健康管理',
     style: '现代',
-    tags: ['销售', '市场', '活力'],
+    tags: ['辅具顾问', '市场', '亲和力'],
     rating: 4.2,
     downloads: 890,
     createdAt: '2024-02-15'

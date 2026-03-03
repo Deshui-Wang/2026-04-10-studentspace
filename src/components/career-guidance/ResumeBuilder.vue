@@ -465,14 +465,14 @@ const prefillResumeData = () => {
     }
     // 邮箱/电话项目暂无统一来源，保留为空以避免误导
 
-    // 教育经历：参考 `profile/Resume.vue` 与 `BasicInfo.vue`
+    // 教育经历：与康养大健康相关的默认数据
     const edu = resumeData.education && resumeData.education[0]
     if (edu) {
-      if (!edu.school) edu.school = '北京理工大学'
-      if (!edu.major) edu.major = '计算机科学与技术'
-      if (!edu.degree) edu.degree = '本科'
+      if (!edu.school) edu.school = '北京劳动保障职业学院'
+      if (!edu.major) edu.major = '智慧健康养老服务与管理'
+      if (!edu.degree) edu.degree = '大专'
       if (!edu.startDate) edu.startDate = '2021-09'
-      if (!edu.endDate) edu.endDate = '2025-06'
+      if (!edu.endDate) edu.endDate = '2024-06'
     }
   } catch (e) {
     // 静默失败，避免阻断页面

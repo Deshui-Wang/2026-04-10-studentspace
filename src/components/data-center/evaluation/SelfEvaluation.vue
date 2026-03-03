@@ -259,169 +259,104 @@ const filters = ref({
 
 // 选项数据
 const semesterOptions = ref([
+  { value: '2025-1', label: '2025年春季学期' },
+  { value: '2024-2', label: '2024年秋季学期' },
   { value: '2024-1', label: '2024年春季学期' },
-  { value: '2023-2', label: '2023年秋季学期' },
-  { value: '2023-1', label: '2023年春季学期' },
-  { value: '2022-2', label: '2022年秋季学期' }
+  { value: '2023-2', label: '2023年秋季学期' }
 ])
 
 const courseOptions = ref([
-  { value: 'course1', label: '数据结构与算法' },
-  { value: 'course2', label: '操作系统原理' },
-  { value: 'course3', label: '数据库系统原理' },
-  { value: 'course4', label: '计算机网络' },
-  { value: 'course5', label: '软件工程' },
-  { value: 'course6', label: '计算机组成原理' },
-  { value: 'course7', label: '人工智能基础' },
-  { value: 'course8', label: '编译原理' },
-  { value: 'course9', label: 'Web开发技术' },
-  { value: 'course10', label: '软件测试' }
+  { value: 'course1', label: '老年心理学' },
+  { value: 'course2', label: '康复护理实务' },
+  { value: 'course3', label: '智能健康监测系统' },
+  { value: 'course4', label: '适老化环境设计' },
+  { value: 'course5', label: '老年社会学' },
+  { value: 'course6', label: '老年营养与膳食' },
+  { value: 'course7', label: '安宁疗护与临终关怀' },
+  { value: 'course8', label: '常见老年病预防与照护' },
+  { value: 'course9', label: '智慧养老平台运营' },
+  { value: 'course10', label: '老年人活动策划与组织' }
 ])
 
 // 原始数据
 const rawData = ref([
   {
     id: 1,
-    courseName: '数据结构与算法',
-    semester: '2024年春季学期',
-    evaluationTime: '2024-03-15',
-    learningAttitude: 4.5,
-    knowledgeMastery: 4.2,
-    learningMethod: 4.0,
-    learningEffect: 4.3,
-    totalScore: 4.25,
-    evaluationContent: '本学期在数据结构与算法课程学习中，我保持了积极的学习态度，认真完成作业和实验。通过大量编程实践，对基本数据结构有了较好的理解，但在算法复杂度分析方面还需要加强。',
-    improvementPlan: '计划在下学期增加更多算法练习，特别是动态规划和图算法，同时加强数学基础的学习，提高算法分析能力。'
+    courseName: '老年心理学',
+    semester: '2025年春季学期',
+    evaluationTime: '2025-05-15',
+    learningAttitude: 4.8,
+    knowledgeMastery: 4.5,
+    learningMethod: 4.2,
+    learningEffect: 4.6,
+    totalScore: 4.53,
+    evaluationContent: '本学期在老年心理学课程学习中，我保持了极高的学习热情。通过多次去社区养老中心调研，深入理解了老年人常见的孤独感、失落感等心理特征，并掌握了基本的心理疏导技巧。',
+    improvementPlan: '计划在实习中更多地与老人交流，积累真实案例，提升共情能力和心理干预的实操水平。'
   },
   {
     id: 2,
-    courseName: '操作系统原理',
-    semester: '2024年春季学期',
-    evaluationTime: '2024-03-20',
-    learningAttitude: 4.3,
-    knowledgeMastery: 4.1,
-    learningMethod: 4.2,
-    learningEffect: 4.0,
-    totalScore: 4.15,
-    evaluationContent: '操作系统课程内容较为抽象，我通过阅读教材、观看视频和完成实验来学习。对进程管理、内存管理等核心概念有了基本理解，但在系统调用和内核机制方面还需要深入学习。',
-    improvementPlan: '计划通过阅读更多技术文档和开源代码，加深对操作系统底层机制的理解，同时多做实验来巩固理论知识。'
+    courseName: '智能健康监测系统',
+    semester: '2025年春季学期',
+    evaluationTime: '2025-04-20',
+    learningAttitude: 4.5,
+    knowledgeMastery: 4.2,
+    learningMethod: 4.6,
+    learningEffect: 4.4,
+    totalScore: 4.43,
+    evaluationContent: '通过理论结合实训设备的学习，我熟练掌握了各种适老化智能传感设备（如生命体征监测床垫、防跌倒雷达）的操作和数据分析。对智慧康养物联网架构有了清晰的认知。',
+    improvementPlan: '进一步探索智能设备在不同慢性病场景下的个性化监测方案设置，关注前沿康养科技产品。'
   },
   {
     id: 3,
-    courseName: '数据库系统原理',
-    semester: '2023年秋季学期',
-    evaluationTime: '2023-12-10',
-    learningAttitude: 4.6,
-    knowledgeMastery: 4.4,
+    courseName: '康复护理实务',
+    semester: '2024年秋季学期',
+    evaluationTime: '2024-12-10',
+    learningAttitude: 4.9,
+    knowledgeMastery: 4.6,
     learningMethod: 4.5,
-    learningEffect: 4.3,
-    totalScore: 4.45,
-    evaluationContent: '数据库课程学习效果良好，通过理论学习和实践操作，对SQL语言、数据库设计和事务处理有了较好的掌握。能够独立完成数据库设计和查询优化。',
-    improvementPlan: '继续保持当前的学习方法，计划学习更多高级数据库技术，如分布式数据库和NoSQL数据库。'
+    learningEffect: 4.7,
+    totalScore: 4.68,
+    evaluationContent: '实操性很强的一门课，我已经能够非常熟练地完成老人的体位转移、轮椅使用、吞咽障碍辅助进食等核心康复护理操作。在模拟病房的考核中表现优异。',
+    improvementPlan: '力量和技巧还有待提升，计划多进行实操练习，加强人体力学运用，避免在护理中对老人或自己造成二次伤害。'
   },
   {
     id: 4,
-    courseName: '计算机网络',
-    semester: '2024年春季学期',
-    evaluationTime: '2024-04-05',
-    learningAttitude: 4.0,
-    knowledgeMastery: 3.8,
-    learningMethod: 4.1,
-    learningEffect: 3.9,
-    totalScore: 3.95,
-    evaluationContent: '计算机网络课程涉及大量协议和概念，我通过绘制网络拓扑图和实验来理解各种协议的工作原理。对TCP/IP协议栈有了基本认识，但在网络安全和性能优化方面还需要加强。',
-    improvementPlan: '计划通过搭建小型网络实验环境，深入理解各种网络协议的实际应用，同时学习网络安全相关知识。'
-  },
-  {
-    id: 5,
-    courseName: '软件工程',
-    semester: '2023年秋季学期',
-    evaluationTime: '2023-11-25',
+    courseName: '常见老年病预防与照护',
+    semester: '2024年秋季学期',
+    evaluationTime: '2024-11-25',
     learningAttitude: 4.4,
     knowledgeMastery: 4.3,
     learningMethod: 4.2,
     learningEffect: 4.1,
     totalScore: 4.25,
-    evaluationContent: '软件工程课程让我学会了系统性的软件开发方法，通过团队项目实践，掌握了需求分析、系统设计、编码实现和测试的完整流程。对敏捷开发方法有了深入理解。',
-    improvementPlan: '计划学习更多项目管理工具和版本控制技术，提高团队协作能力，同时关注软件质量保证和持续集成。'
+    evaluationContent: '对高血压、糖尿病、阿尔茨海默症等典型老年性病理机制有了系统学习。掌握了发病征兆观察和日常照护规范，但在应对突发急性合并症的预案处理上稍显生疏。',
+    improvementPlan: '结合相关急救培训（如CPR），增强在复杂病理情况下的应急处理能力和照护敏锐度。'
+  },
+  {
+    id: 5,
+    courseName: '适老化环境设计',
+    semester: '2024年春季学期',
+    evaluationTime: '2024-06-15',
+    learningAttitude: 4.6,
+    knowledgeMastery: 4.4,
+    learningMethod: 4.5,
+    learningEffect: 4.5,
+    totalScore: 4.50,
+    evaluationContent: '通过课程学习，我深刻认识到了居家及机构环境适老化改造的重要性。从无障碍通道规划到防滑地材选择，再到暖色调照明设计，具备了独立给出改造方案的能力。',
+    improvementPlan: '多参与实际环境评估项目，结合老年人的经济情况提供更具成本效益的改造设计建议。'
   },
   {
     id: 6,
-    courseName: '数据结构与算法',
-    semester: '2023年秋季学期',
-    evaluationTime: '2023-10-15',
-    learningAttitude: 4.2,
-    knowledgeMastery: 3.9,
-    learningMethod: 3.8,
-    learningEffect: 3.7,
-    totalScore: 3.9,
-    evaluationContent: '上学期刚开始学习数据结构时，对抽象概念理解不够深入，通过大量练习和同学讨论，逐渐掌握了基本数据结构的实现和应用。在算法设计方面还需要更多练习。',
-    improvementPlan: '计划通过刷题网站加强算法练习，特别是排序、查找和递归算法，同时学习更多高级数据结构如红黑树、B树等。'
-  },
-  {
-    id: 7,
-    courseName: '计算机组成原理',
-    semester: '2023年春季学期',
-    evaluationTime: '2023-06-20',
-    learningAttitude: 4.1,
-    knowledgeMastery: 4.0,
-    learningMethod: 3.9,
-    learningEffect: 3.8,
-    totalScore: 3.95,
-    evaluationContent: '计算机组成原理课程让我了解了计算机硬件的基本工作原理，通过实验和仿真，对CPU、内存、I/O系统有了直观认识。在指令集和流水线技术方面还需要进一步学习。',
-    improvementPlan: '计划通过阅读计算机体系结构相关书籍，深入学习现代处理器的设计原理，同时关注并行计算和GPU编程。'
-  },
-  {
-    id: 8,
-    courseName: '人工智能基础',
-    semester: '2024年春季学期',
-    evaluationTime: '2024-04-18',
-    learningAttitude: 4.7,
-    knowledgeMastery: 4.2,
-    learningMethod: 4.5,
-    learningEffect: 4.3,
-    totalScore: 4.43,
-    evaluationContent: '人工智能课程内容非常有趣，我通过实践项目学习了机器学习的基本算法，对神经网络、深度学习有了初步了解。能够使用Python实现简单的机器学习模型。',
-    improvementPlan: '计划深入学习深度学习框架如TensorFlow和PyTorch，同时关注自然语言处理和计算机视觉等应用领域。'
-  },
-  {
-    id: 9,
-    courseName: '编译原理',
-    semester: '2023年秋季学期',
-    evaluationTime: '2023-12-05',
-    learningAttitude: 3.8,
-    knowledgeMastery: 3.6,
-    learningMethod: 3.7,
-    learningEffect: 3.5,
-    totalScore: 3.65,
-    evaluationContent: '编译原理课程理论性较强，对词法分析、语法分析、语义分析等概念理解不够深入。通过课程设计实现了一个简单的编译器，但功能还比较基础。',
-    improvementPlan: '计划重新学习编译原理的理论知识，通过实现更复杂的编译器功能来加深理解，同时学习现代编译器技术。'
-  },
-  {
-    id: 10,
-    courseName: 'Web开发技术',
+    courseName: '老年营养与膳食',
     semester: '2024年春季学期',
     evaluationTime: '2024-05-10',
-    learningAttitude: 4.6,
-    knowledgeMastery: 4.4,
-    learningMethod: 4.3,
-    learningEffect: 4.5,
-    totalScore: 4.45,
-    evaluationContent: 'Web开发课程让我掌握了前端和后端开发的基本技能，通过项目实践学会了HTML、CSS、JavaScript和Node.js等技术。能够独立开发简单的Web应用。',
-    improvementPlan: '计划学习更多前端框架如React和Vue.js，同时关注Web性能优化和安全性，准备学习微服务架构。'
-  },
-  {
-    id: 11,
-    courseName: '软件测试',
-    semester: '2023年春季学期',
-    evaluationTime: '2023-05-25',
-    learningAttitude: 4.0,
-    knowledgeMastery: 3.9,
-    learningMethod: 4.1,
-    learningEffect: 3.8,
-    totalScore: 3.95,
-    evaluationContent: '软件测试课程让我了解了软件质量保证的重要性，学习了各种测试方法和工具。通过实践项目，掌握了单元测试、集成测试和系统测试的基本流程。',
-    improvementPlan: '计划深入学习自动化测试工具和持续集成技术，同时关注性能测试和安全测试，提高软件质量保证能力。'
+    learningAttitude: 4.3,
+    knowledgeMastery: 4.1,
+    learningMethod: 4.2,
+    learningEffect: 4.0,
+    totalScore: 4.15,
+    evaluationContent: '课程中重点学习了如何为吞咽困难及患有慢病的老人制作易消化、营养均衡的流质或半流质饮食，营养学基础有一定的提高。',
+    improvementPlan: '希望能加强不同地域饮食文化相关的膳食搭配学习，为养老机构提供更人性化的菜单建议。'
   }
 ])
 

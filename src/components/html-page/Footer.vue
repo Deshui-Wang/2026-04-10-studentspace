@@ -1,34 +1,9 @@
 <template>
   <footer class="dashboard-footer">
     <div class="footer-content">
-      <div class="footer-section">
+      <div class="footer-section" style="grid-column: 1 / -1; text-align: center;">
         <h3>教师发展智能档案中心</h3>
         <p>一站式管理教师教学、学术与职业档案，为晋升评定提供权威数据支撑。</p>
-      </div>
-      <div class="footer-section">
-        <h4>快速链接</h4>
-        <ul>
-          <li><a href="#">帮助中心</a></li>
-          <li><a href="#">使用指南</a></li>
-          <li><a href="#">常见问题</a></li>
-          <li><a href="#">意见反馈</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>联系我们</h4>
-        <ul>
-          <li>邮箱：support@teacherfolio.edu.cn</li>
-          <li>电话：400-123-4567</li>
-          <li>工作时间：7*24小时</li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>关注我们</h4>
-        <div class="social-links">
-          <a href="#" class="social-link">微信</a>
-          <a href="#" class="social-link">微博</a>
-          <a href="#" class="social-link">QQ群</a>
-        </div>
       </div>
     </div>
     <div class="footer-bottom">
@@ -139,6 +114,7 @@
 .footer-info {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   color: #999;
   font-size: 12px;
