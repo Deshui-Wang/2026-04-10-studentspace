@@ -1,131 +1,111 @@
-<script>
+<script setup>
 import MainNavbar from './components/html-page/MainNavbar.vue'
 import Footer from './components/html-page/Footer.vue'
 import AIAssistant from './components/html-page/AIAssistant.vue'
-import { ref, provide, onMounted, onUnmounted } from 'vue'
+import { ref, provide, onMounted, computed } from 'vue'
 import { isLoggedIn, currentUser, checkAuth } from './router/index.js'
+import {useCommonStore} from "@/stores/index.js";
+import SideBar from "@/components/html-page/SideBar.vue";
 
-export default {
-  name: 'App',
-  components: {
-    MainNavbar,
-    Footer,
-    AIAssistant
-  },
-  setup() {
-    const isAIAssistantPanelVisible = ref(false)
+// AI助手面板可见性
+const isAIAssistantPanelVisible = ref(false)
+const commonStore = useCommonStore()
+// 头像选择弹框状态
+const showAvatarSelector = ref(false)
+const avatarSelectorData = ref({
+  currentAvatar: '/pic/body.png',
+  avatarOptions: []
+})
+const selectedAvatarId = ref('avatar1')
 
-    const handleAIAssistantPanelToggle = (isVisible) => {
-      isAIAssistantPanelVisible.value = isVisible
-    }
+// 提供全局状态给子组件
+provide('isLoggedIn', isLoggedIn)
+provide('currentUser', currentUser)
+provide('checkAuth', checkAuth)
 
-    // 头像选择弹框状态
-    const showAvatarSelector = ref(false)
-    const avatarSelectorData = ref({
-      currentAvatar: '/pic/body.png',
-      avatarOptions: []
-    })
-    const selectedAvatarId = ref('avatar1')
-
-    // 提供全局状态给子组件
-    provide('isLoggedIn', isLoggedIn)
-    provide('currentUser', currentUser)
-    provide('checkAuth', checkAuth)
-
-    // 创建事件总线
-    const eventBus = {
-      listeners: {},
-      emit(event, data) {
-        if (this.listeners[event]) {
-          this.listeners[event].forEach(callback => callback(data))
-        }
-      },
-      on(event, callback) {
-        if (!this.listeners[event]) {
-          this.listeners[event] = []
-        }
-        this.listeners[event].push(callback)
-      },
-      off(event, callback) {
-        if (this.listeners[event]) {
-          const index = this.listeners[event].indexOf(callback)
-          if (index > -1) {
-            this.listeners[event].splice(index, 1)
-          }
-        }
-      }
-    }
-
-    // 提供事件总线给子组件
-    provide('eventBus', eventBus)
-
-    // 监听头像选择弹框事件
-    eventBus.on('openAvatarSelector', (data) => {
-      avatarSelectorData.value = data
-      selectedAvatarId.value = 'avatar1'
-      showAvatarSelector.value = true
-    })
-
-    // 选择头像
-    const selectAvatar = (avatarId) => {
-      selectedAvatarId.value = avatarId
-    }
-
-    // 确认头像选择
-    const confirmAvatarSelection = () => {
-      const selected = avatarSelectorData.value.avatarOptions.find(
-        avatar => avatar.id === selectedAvatarId.value
-      )
-      if (selected) {
-        eventBus.emit('avatarSelected', selected)
-        showAvatarSelector.value = false
-      }
-    }
-
-    // 关闭弹框
-    const closeAvatarSelector = () => {
-      showAvatarSelector.value = false
-    }
-
-    // 页面加载时检查认证状态
-    onMounted(() => {
-      checkAuth()
-    })
-
-    return {
-      isAIAssistantPanelVisible,
-      handleAIAssistantPanelToggle,
-      showAvatarSelector,
-      avatarSelectorData,
-      selectedAvatarId,
-      selectAvatar,
-      confirmAvatarSelection,
-      closeAvatarSelector
+// 创建事件总线
+const eventBus = {
+  listeners: {},
+  emit(event, data) {
+    if (this.listeners[event]) {
+      this.listeners[event].forEach(callback => callback(data))
     }
   },
-  computed: {
-    shouldShowNavbar() {
-      // 在登录页面和智能体编辑页面隐藏导航栏
-      return this.$route.path !== "/login" && this.$route.path !== "/agent-editor"
-    },
-    shouldShowNavbarOld() {
-      // 在智能体编辑页面隐藏导航栏
-      return this.$route.path !== '/agent-editor'
+  on(event, callback) {
+    if (!this.listeners[event]) {
+      this.listeners[event] = []
+    }
+    this.listeners[event].push(callback)
+  },
+  off(event, callback) {
+    if (this.listeners[event]) {
+      const index = this.listeners[event].indexOf(callback)
+      if (index > -1) {
+        this.listeners[event].splice(index, 1)
+      }
     }
   }
 }
+
+// 提供事件总线给子组件
+provide('eventBus', eventBus)
+
+// 监听头像选择弹框事件
+eventBus.on('openAvatarSelector', (data) => {
+  avatarSelectorData.value = data
+  selectedAvatarId.value = 'avatar1'
+  showAvatarSelector.value = true
+})
+
+// 选择头像
+const selectAvatar = (avatarId) => {
+  selectedAvatarId.value = avatarId
+}
+
+// 确认头像选择
+const confirmAvatarSelection = () => {
+  const selected = avatarSelectorData.value.avatarOptions.find(
+    avatar => avatar.id === selectedAvatarId.value
+  )
+  if (selected) {
+    eventBus.emit('avatarSelected', selected)
+    showAvatarSelector.value = false
+  }
+}
+
+// 关闭弹框
+const closeAvatarSelector = () => {
+  showAvatarSelector.value = false
+}
+
+// 页面加载时检查认证状态
+onMounted(() => {
+  checkAuth()
+})
+
+// 更新AI助手面板可见性
+const handleAIAssistantPanelToggle = (isVisible) => {
+  isAIAssistantPanelVisible.value = isVisible
+}
+
+// 计算属性：决定是否显示导航栏
+const shouldShowNavbar = computed(() => {
+  // 在登录页面和智能体编辑页面隐藏导航栏
+  return window.location.pathname !== "/login" && window.location.pathname !== "/agent-editor"  && !commonStore.isInIframe;
+})
 </script>
 
 <template>
   <div id="app" :class="{ 'ai-panel-visible': isAIAssistantPanelVisible }">
     <div class="main-content">
-      <MainNavbar v-if="shouldShowNavbar" />
+      <MainNavbar v-if="shouldShowNavbar && !commonStore.isInIframe" />
+      <SideBar v-if="commonStore.isInIframe"/>
       <router-view />
       <Footer v-if="!$route.meta.hideFooter" />
     </div>
     <!-- 小智人AI智能悬浮球 - 全局显示 -->
     <AIAssistant @panel-toggled="handleAIAssistantPanelToggle" />
-    
+
     <!-- 头像选择弹层 - 放在最外层，不会被导航标签挡住 -->
     <div v-if="showAvatarSelector" class="avatar-selector-overlay" @click="closeAvatarSelector">
       <div class="avatar-selector-modal" @click.stop>
@@ -134,8 +114,8 @@ export default {
           <button class="close-btn" @click="closeAvatarSelector">×</button>
         </div>
         <div class="avatar-options">
-          <div 
-            v-for="avatar in avatarSelectorData.avatarOptions" 
+          <div
+            v-for="avatar in avatarSelectorData.avatarOptions"
             :key="avatar.id"
             class="avatar-option"
             :class="{ active: selectedAvatarId === avatar.id }"
