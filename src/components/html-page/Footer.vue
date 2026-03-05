@@ -2,13 +2,13 @@
   <footer class="dashboard-footer">
     <div class="footer-content">
       <div class="footer-section" style="grid-column: 1 / -1; text-align: center;">
-        <h3>教师发展智能档案中心</h3>
-        <p>一站式管理教师教学、学术与职业档案，为晋升评定提供权威数据支撑。</p>
+        <h3> 学生发展智能档案中心</h3>
+        <p>一站式管理学生学习、学术与职业档案，为学业评定提供权威数据支撑。</p>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-info">
-        <span>&copy; 2025 教师发展智能档案中心. 保留所有权利.</span>
+        <span>&copy; 学生发展智能档案中心. 保留所有权利.</span>
         <span>|</span>
         <a href="#">隐私政策</a>
         <span>|</span>
