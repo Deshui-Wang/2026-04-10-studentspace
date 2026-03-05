@@ -4,73 +4,72 @@
     <div class="page-header">
       <h1 class="page-title">智能学习·自由成长·明确目标·使命必达</h1>
     </div>
-
     <!-- 数据卡片网格 -->
     <div class="data-cards-grid">
-      <TeachingDataCard 
-        :active-tab="activeTab"
-        @tab-change="setActiveTab"
+      <TeachingDataCard
+          :active-tab="activeTab"
+          @tab-change="setActiveTab"
       />
-      <ResourcesDataCard 
-        :active-tab="activeTab"
-        @tab-change="setActiveTab"
+      <ResourcesDataCard
+          :active-tab="activeTab"
+          @tab-change="setActiveTab"
       />
-      <AchievementsDataCard 
-        :active-tab="activeTab"
-        @tab-change="setActiveTab"
+      <AchievementsDataCard
+          :active-tab="activeTab"
+          @tab-change="setActiveTab"
       />
-      <EvaluationDataCard 
-        :active-tab="activeTab"
-        @tab-change="setActiveTab"
+      <EvaluationDataCard
+          :active-tab="activeTab"
+          @tab-change="setActiveTab"
       />
-      <ReportsDataCard 
-        :active-tab="activeTab"
-        @tab-change="setActiveTab"
+      <ReportsDataCard
+          :active-tab="activeTab"
+          @tab-change="setActiveTab"
       />
     </div>
 
     <!-- 内容区域 -->
     <div class="content-section">
       <!-- 教学数据 -->
-      <TeachingContent 
-        v-if="activeTab === 'teaching'"
-        :active-sub-tab="activeSubTab"
-        @sub-tab-change="setActiveSubTab"
+      <TeachingContent
+          v-if="activeTab === 'teaching'"
+          :active-sub-tab="activeSubTab"
+          @sub-tab-change="setActiveSubTab"
       />
-      
+
       <!-- 资源数据 -->
-      <ResourcesContent 
-        v-if="activeTab === 'resources'"
-        :active-sub-tab="activeSubTab"
-        @sub-tab-change="setActiveSubTab"
+      <ResourcesContent
+          v-if="activeTab === 'resources'"
+          :active-sub-tab="activeSubTab"
+          @sub-tab-change="setActiveSubTab"
       />
-      
+
       <!-- 成果数据 -->
-      <AchievementsContent 
-        v-if="activeTab === 'achievements'"
-        :active-sub-tab="activeSubTab"
-        @sub-tab-change="setActiveSubTab"
+      <AchievementsContent
+          v-if="activeTab === 'achievements'"
+          :active-sub-tab="activeSubTab"
+          @sub-tab-change="setActiveSubTab"
       />
-      
+
       <!-- 评价数据 - 恢复使用EvaluationContent组件 -->
-      <EvaluationContent 
-        v-if="activeTab === 'evaluation'"
-        :active-sub-tab="activeSubTab"
-        @sub-tab-change="setActiveSubTab"
+      <EvaluationContent
+          v-if="activeTab === 'evaluation'"
+          :active-sub-tab="activeSubTab"
+          @sub-tab-change="setActiveSubTab"
       />
-      
+
       <!-- 报告数据 -->
-      <ReportsContent 
-        v-if="activeTab === 'reports'"
-        :active-sub-tab="activeSubTab"
-        @sub-tab-change="setActiveSubTab"
+      <ReportsContent
+          v-if="activeTab === 'reports'"
+          :active-sub-tab="activeSubTab"
+          @sub-tab-change="setActiveSubTab"
       />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import {nextTick, ref, watch} from 'vue'
 import TeachingDataCard from '@/components/data-center/data-types/TeachingDataCard.vue'
 import ResourcesDataCard from '@/components/data-center/data-types/ResourcesDataCard.vue'
 import AchievementsDataCard from '@/components/data-center/data-types/AchievementsDataCard.vue'
@@ -81,12 +80,13 @@ import ResourcesContent from '@/components/data-center/data-types/ResourcesConte
 import AchievementsContent from '@/components/data-center/data-types/AchievementsContent.vue'
 import EvaluationContent from '@/components/data-center/data-types/EvaluationContent.vue'
 import ReportsContent from '@/components/data-center/data-types/ReportsContent.vue'
+import {useCommonStore} from "@/stores/index.js";
 
+const commonStore = useCommonStore()
 // 当前激活的主菜单
 const activeTab = ref('teaching')
 // 当前激活的子菜单
 const activeSubTab = ref('workload')
-
 // 设置激活的主菜单
 const setActiveTab = (tab) => {
   activeTab.value = tab
@@ -108,6 +108,27 @@ const setActiveTab = (tab) => {
 const setActiveSubTab = (subTab) => {
   activeSubTab.value = subTab
 }
+
+
+watch(() => commonStore.sideBarMenuIndex, (newTab) => {
+  if (newTab === 2) {
+    setActiveTab('teaching')
+    activeSubTab.value = 'grades'
+  } else if (newTab === 3) {
+    setActiveTab('achievements')
+  }else if (newTab === 4) {
+    setActiveTab('achievements')
+    activeSubTab.value = 'ability-certification'
+  }else if (newTab === 5) {
+
+  }else if (newTab === 6) {
+    setActiveTab('evaluation')
+    activeSubTab.value = 'student'
+  }else if (newTab === 7) {
+    setActiveTab('evaluation')
+    activeSubTab.value = 'self-evaluation'
+  }
+})
 </script>
 
 <style scoped>
@@ -207,7 +228,7 @@ const setActiveSubTab = (subTab) => {
   .data-cards-grid {
     grid-template-columns: repeat(3, 1fr);
   }
-  
+
   .page-title {
     font-size: 20px;
   }
@@ -217,13 +238,13 @@ const setActiveSubTab = (subTab) => {
   .data-center {
     padding: 10px;
   }
-  
+
   .data-cards-grid {
     grid-template-columns: 1fr;
     gap: 15px;
     margin-bottom: 30px;
   }
-  
+
   .page-title {
     font-size: 18px;
     letter-spacing: 0.5px;

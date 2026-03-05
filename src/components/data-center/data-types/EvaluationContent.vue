@@ -1,40 +1,40 @@
 <template>
   <div class="content-section">
     <div class="content-tabs">
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'self-evaluation' }"
         @click="$emit('sub-tab-change', 'self-evaluation')"
       >
-        自我评价
+        学生反思
       </div>
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'digital-literacy' }"
         @click="$emit('sub-tab-change', 'digital-literacy')"
       >
         智能评价
       </div>
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'student' }"
         @click="$emit('sub-tab-change', 'student')"
       >
-        评价教师
+        教师评价
       </div>
     </div>
-    
+
     <!-- 内容展示区域 -->
     <div class="content-area">
       <!-- 自我评价页面 -->
       <SelfEvaluation v-if="activeSubTab === 'self-evaluation'" />
-      
+
       <!-- 数字素养页面 -->
       <DigitalLiteracy v-if="activeSubTab === 'digital-literacy'" />
-      
+
       <!-- 学生评教页面 -->
       <StudentEvaluation v-if="activeSubTab === 'student'" />
-      
+
     </div>
   </div>
 </template>
@@ -119,12 +119,12 @@ defineEmits(['sub-tab-change'])
   .content-tabs {
     flex-wrap: wrap;
   }
-  
+
   .tab-item {
     padding: 12px 16px;
     font-size: 14px;
   }
-  
+
   .content-area {
     padding: 0;
   }

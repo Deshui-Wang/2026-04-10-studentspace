@@ -1,7 +1,7 @@
 <template>
   <div class="ability-spectrum">
     <div class="spectrum-header">
-      <h2 class="spectrum-title">能力检测图谱</h2>
+      <h2 class="spectrum-title">能力素养画像</h2>
       <p class="spectrum-description">通过多维度测评，全面了解您的各项能力水平和发展潜力</p>
     </div>
 
@@ -13,8 +13,8 @@
           <p class="section-subtitle">基于您的专业背景，推荐以下相关岗位</p>
         </div>
         <div class="positions-container">
-          <div 
-            v-for="position in careerPositions" 
+          <div
+            v-for="position in careerPositions"
             :key="position.id"
             class="position-tag"
             :class="{ active: selectedPosition === position.id }"
@@ -33,8 +33,8 @@
           <p class="section-subtitle">您专业领域的核心课程体系</p>
         </div>
         <div class="courses-container">
-          <div 
-            v-for="course in professionalCourses" 
+          <div
+            v-for="course in professionalCourses"
             :key="course.id"
             class="course-tag"
             :class="{ active: selectedCourse === course.id }"
@@ -76,8 +76,8 @@
       <div class="ability-categories">
         <h3>能力分类</h3>
         <div class="categories-grid">
-          <div 
-            v-for="category in abilityCategories" 
+          <div
+            v-for="category in abilityCategories"
             :key="category.id"
             class="category-card"
             :class="{ active: selectedCategory === category.id }"
@@ -96,8 +96,8 @@
             </div>
             <div class="category-progress">
               <div class="progress-bar">
-                <div 
-                  class="progress-fill" 
+                <div
+                  class="progress-fill"
                   :style="{ width: category.score + '%' }"
                 ></div>
               </div>
@@ -572,7 +572,7 @@ const getRadarData = () => {
 
   // 根据选中的能力分类生成相关的能力指标
   const relatedAbilities = getRelatedAbilities(selectedCategoryInfo.id)
-  
+
   return {
     labels: relatedAbilities.map(ability => ability.name),
     datasets: [
@@ -662,7 +662,7 @@ const getRelatedAbilities = (categoryId) => {
       { name: '学习新技能', standard: 87, current: 90 } // 优势项
     ]
   }
-  
+
   return abilityMap[categoryId] || abilityMap['learning']
 }
 
@@ -702,7 +702,7 @@ const getPositionSkills = (positionId) => {
       { name: '风险控制', standard: 86, current: 58 }
     ]
   }
-  
+
   return skillMap[positionId] || skillMap['teacher']
 }
 
@@ -750,20 +750,20 @@ const getCourseKnowledge = (courseId) => {
       { name: '技术实践', standard: 83, current: 58 }
     ]
   }
-  
+
   return knowledgeMap[courseId] || knowledgeMap['pedagogy']
 }
 
 // 初始化雷达图
 const initRadarChart = () => {
   if (!radarChart.value) return
-  if (radarChartInstance) { 
-    try { radarChartInstance.dispose() } catch {} 
+  if (radarChartInstance) {
+    try { radarChartInstance.dispose() } catch {}
   }
-  
+
   radarChartInstance = echarts.init(radarChart.value)
   const radarData = getRadarData()
-  
+
   const seriesData = radarData.datasets.map((dataset, index) => ({
     value: dataset.data,
     name: dataset.label,
@@ -780,7 +780,7 @@ const initRadarChart = () => {
       color: dataset.borderColor
     }
   }))
-  
+
   const option = {
     tooltip: {
       trigger: 'item',
@@ -793,7 +793,7 @@ const initRadarChart = () => {
       borderWidth: 1,
       textStyle: { color: '#333' }
     },
-    legend: { 
+    legend: {
       show: true,
       bottom: 10,
       data: radarData.datasets.map(dataset => dataset.label),
@@ -803,13 +803,13 @@ const initRadarChart = () => {
       }
     },
     radar: {
-      indicator: radarData.labels.map(label => ({ 
-        name: label, 
-        max: 100, 
-        nameTextStyle: { 
+      indicator: radarData.labels.map(label => ({
+        name: label,
+        max: 100,
+        nameTextStyle: {
           color: '#333',
           fontSize: 12
-        } 
+        }
       })),
       radius: '80%',
       center: ['50%', '50%'],
@@ -819,17 +819,17 @@ const initRadarChart = () => {
           color: ['rgba(240,242,245,0.3)', 'rgba(240,242,245,0.1)']
         }
       },
-      axisLine: { 
-        lineStyle: { 
+      axisLine: {
+        lineStyle: {
           color: '#d1d5db',
           width: 1
-        } 
+        }
       },
-      splitLine: { 
-        lineStyle: { 
+      splitLine: {
+        lineStyle: {
           color: '#d1d5db',
           width: 1
-        } 
+        }
       },
     },
     series: [
@@ -842,20 +842,20 @@ const initRadarChart = () => {
       }
     ]
   }
-  
+
   radarChartInstance.setOption(option)
 }
 
 // 初始化岗位技能雷达图
 const initPositionChart = () => {
   if (!positionChart.value || !selectedPosition.value) return
-  if (positionChartInstance) { 
-    try { positionChartInstance.dispose() } catch {} 
+  if (positionChartInstance) {
+    try { positionChartInstance.dispose() } catch {}
   }
-  
+
   positionChartInstance = echarts.init(positionChart.value)
   const skills = getPositionSkills(selectedPosition.value)
-  
+
   const seriesData = [
     {
       value: skills.map(skill => skill.standard),
@@ -890,7 +890,7 @@ const initPositionChart = () => {
       }
     }
   ]
-  
+
   const option = {
     tooltip: {
       trigger: 'item',
@@ -903,7 +903,7 @@ const initPositionChart = () => {
       borderWidth: 1,
       textStyle: { color: '#333' }
     },
-    legend: { 
+    legend: {
       show: true,
       bottom: 10,
       data: ['岗位要求', '当前水平'],
@@ -913,13 +913,13 @@ const initPositionChart = () => {
       }
     },
     radar: {
-      indicator: skills.map(skill => ({ 
-        name: skill.name, 
-        max: 100, 
-        nameTextStyle: { 
+      indicator: skills.map(skill => ({
+        name: skill.name,
+        max: 100,
+        nameTextStyle: {
           color: '#333',
           fontSize: 12
-        } 
+        }
       })),
       radius: '80%',
       center: ['50%', '50%'],
@@ -929,17 +929,17 @@ const initPositionChart = () => {
           color: ['rgba(240,242,245,0.3)', 'rgba(240,242,245,0.1)']
         }
       },
-      axisLine: { 
-        lineStyle: { 
+      axisLine: {
+        lineStyle: {
           color: '#d1d5db',
           width: 1
-        } 
+        }
       },
-      splitLine: { 
-        lineStyle: { 
+      splitLine: {
+        lineStyle: {
           color: '#d1d5db',
           width: 1
-        } 
+        }
       },
     },
     series: [
@@ -952,20 +952,20 @@ const initPositionChart = () => {
       }
     ]
   }
-  
+
   positionChartInstance.setOption(option)
 }
 
 // 初始化课程知识雷达图
 const initCourseChart = () => {
   if (!courseChart.value || !selectedCourse.value) return
-  if (courseChartInstance) { 
-    try { courseChartInstance.dispose() } catch {} 
+  if (courseChartInstance) {
+    try { courseChartInstance.dispose() } catch {}
   }
-  
+
   courseChartInstance = echarts.init(courseChart.value)
   const knowledge = getCourseKnowledge(selectedCourse.value)
-  
+
   const seriesData = [
     {
       value: knowledge.map(k => k.standard),
@@ -1000,7 +1000,7 @@ const initCourseChart = () => {
       }
     }
   ]
-  
+
   const option = {
     tooltip: {
       trigger: 'item',
@@ -1013,7 +1013,7 @@ const initCourseChart = () => {
       borderWidth: 1,
       textStyle: { color: '#333' }
     },
-    legend: { 
+    legend: {
       show: true,
       bottom: 10,
       data: ['课程要求', '掌握程度'],
@@ -1023,13 +1023,13 @@ const initCourseChart = () => {
       }
     },
     radar: {
-      indicator: knowledge.map(k => ({ 
-        name: k.name, 
-        max: 100, 
-        nameTextStyle: { 
+      indicator: knowledge.map(k => ({
+        name: k.name,
+        max: 100,
+        nameTextStyle: {
           color: '#333',
           fontSize: 12
-        } 
+        }
       })),
       radius: '80%',
       center: ['50%', '50%'],
@@ -1039,17 +1039,17 @@ const initCourseChart = () => {
           color: ['rgba(240,242,245,0.3)', 'rgba(240,242,245,0.1)']
         }
       },
-      axisLine: { 
-        lineStyle: { 
+      axisLine: {
+        lineStyle: {
           color: '#d1d5db',
           width: 1
-        } 
+        }
       },
-      splitLine: { 
-        lineStyle: { 
+      splitLine: {
+        lineStyle: {
           color: '#d1d5db',
           width: 1
-        } 
+        }
       },
     },
     series: [
@@ -1062,7 +1062,7 @@ const initCourseChart = () => {
       }
     ]
   }
-  
+
   courseChartInstance.setOption(option)
 }
 
@@ -1646,36 +1646,36 @@ onBeforeUnmount(() => {
   .ability-spectrum {
     padding: 20px;
   }
-  
+
   .spectrum-title {
     font-size: 24px;
   }
-  
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
   }
-  
+
   .legend {
     gap: 16px;
   }
-  
+
   .categories-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .analysis-content {
     grid-template-columns: 1fr;
     gap: 20px;
   }
-  
+
   .radar-container {
     padding: 0;
     min-height: 400px;
   }
-  
+
   .map-wrapper {
     justify-content: flex-start;
   }

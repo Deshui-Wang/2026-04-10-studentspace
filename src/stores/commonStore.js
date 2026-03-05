@@ -13,7 +13,8 @@ export const useCommonStore = defineStore('common', {
       language: 'zh-CN',
       notifications: [],
       dialogVisible: false,
-      dialogOptions: {}
+      dialogOptions: {},
+      sideBarMenuIndex: 0
     }
   },
 
@@ -29,11 +30,12 @@ export const useCommonStore = defineStore('common', {
     getDialogOptions: (state) => state.dialogOptions,
     isInIframe: () => {
       try {
+        return true;
         return window.self !== window.top;
       } catch (e) {
         return false;
       }
-    }
+    },
   },
 
   actions: {

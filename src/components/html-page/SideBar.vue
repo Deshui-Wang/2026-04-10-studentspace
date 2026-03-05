@@ -1,10 +1,11 @@
 <script setup>
 import {computed, nextTick, ref, watch} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import {useCommonStore} from "@/stores/index.js";
 
+const commonStore = useCommonStore();
 const router = useRouter()
 const route = useRoute()
-
 // 控制侧边栏展开/收起
 const isCollapsed = ref(false)
 
@@ -13,28 +14,40 @@ const toggleSidebar = () => {
   isCollapsed.value = !isCollapsed.value
 }
 
-// 当前路由路径
-const currentPath = computed(() => route.path)
-
 // 导航函数
-const goNav = (path) => {
-  router.push(path)
+const goNav = (path, index) => {
+  router.push(path).then(() => {
+    nextTick(() => {
+      commonStore.sideBarMenuIndex = index;
+    })
+  })
 }
 
-// 侧边栏菜单项
+// 侧边栏菜单项 基本信息、课程成绩、项目成果、证书竞赛、素养画像、教师评价、学生反思
 const menuItems = [
-  { path: '/', label: '主页', icon: '🏠' },
-  { path: '/data-center', label: '学习中心', icon: '📚' },
-  { path: '/ability-test', label: '能力检测', icon: '📊' },
-  { path: '/career-guidance', label: '就业指导', icon: '💼' },
-  { path: '/EvaluationCenter', label: '成长中心', icon: '🌱' },
-  { path: '/profile', label: '档案中心', icon: '📁' },
-  { path: '/AIAssistant', label: 'AI助手', icon: '🤖' }
+  {path: '/', label: '主页', icon: '🏠'},
+  {path: '/profile', label: '基本信息', icon: '📁'},
+  {path: '/data-center', label: '课程成绩', icon: '📚'},
+  {path: '/data-center', label: '项目成果', icon: '📊'},
+  {path: '/data-center', label: '证书竞赛', icon: '💼'},
+  {path: '/ability-test', label: '素养画像', icon: '🌱'},
+  {path: '/data-center', label: '教师评价', icon: '🤖'},
+  {path: '/data-center', label: '学生反思', icon: '🤔'}
 ]
-watch(()=>route.query.activeRoute,() => {
-  nextTick(()=>{
-    if (route.query.activeRoute){
-      console.log('侧边栏已加载',route.query)
+
+// const menuItems = [
+//   { path: '/', label: '主页', icon: '🏠' },
+//   { path: '/data-center', label: '学习中心', icon: '📚' },
+//   { path: '/ability-test', label: '能力检测', icon: '📊' },
+//   { path: '/career-guidance', label: '就业指导', icon: '💼' },
+//   { path: '/EvaluationCenter', label: '成长中心', icon: '🌱' },
+//   { path: '/profile', label: '档案中心', icon: '📁' },
+//   { path: '/AIAssistant', label: 'AI助手', icon: '🤖' }
+// ]
+watch(() => route.query.activeRoute, () => {
+  nextTick(() => {
+    if (route.query.activeRoute) {
+      console.log('侧边栏已加载', route.query)
       goNav(route.query.activeRoute)
     }
   })
@@ -50,14 +63,14 @@ watch(()=>route.query.activeRoute,() => {
     <!-- 菜单项 -->
     <ul class="sidebar-menu">
       <li
-        v-for="item in menuItems"
-        :key="item.path"
-        class="sidebar-menu-item"
-        :class="{
-          active: currentPath === item.path || currentPath.startsWith(item.path + '/'),
+          v-for="(item,index) in menuItems"
+          :key="item.path"
+          class="sidebar-menu-item"
+          :class="{
+          active: commonStore.sideBarMenuIndex === index,
           collapsed: isCollapsed
         }"
-        @click="goNav(item.path)"
+          @click="goNav(item.path,index)"
       >
         <span class="menu-icon">{{ item.icon }}</span>
         <span class="menu-label" v-if="!isCollapsed">{{ item.label }}</span>
@@ -74,7 +87,7 @@ watch(()=>route.query.activeRoute,() => {
   background: #fff;
   display: flex;
   flex-direction: column;
-  box-shadow: 2px 0 12px rgba(0,0,0,0.06);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.06);
   position: fixed;
   left: 0;
   top: 0;

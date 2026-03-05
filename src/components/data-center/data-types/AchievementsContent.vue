@@ -1,43 +1,43 @@
 <template>
   <div class="content-section">
     <div class="content-tabs">
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'papers' }"
         @click="$emit('sub-tab-change', 'papers')"
       >
-        科研成果
+        项目成果
       </div>
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'certificates' }"
         @click="$emit('sub-tab-change', 'certificates')"
       >
         奖学金
       </div>
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'ability-certification' }"
         @click="$emit('sub-tab-change', 'ability-certification')"
       >
         竞赛获奖
       </div>
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'international-ability' }"
         @click="$emit('sub-tab-change', 'international-ability')"
       >
         技能证书
       </div>
-      <div 
-        class="tab-item" 
+      <div
+        class="tab-item"
         :class="{ active: activeSubTab === 'teaching-achievements' }"
         @click="$emit('sub-tab-change', 'teaching-achievements')"
       >
         成长荣誉
       </div>
     </div>
-    
+
     <!-- 内容展示区域 -->
     <div class="content-area">
       <!-- 科研成果页面 - 包含论文和专利筛选 -->
@@ -46,38 +46,38 @@
         <div class="filter-section">
           <div class="filter-row">
             <div class="filter-tabs">
-              <label 
-                class="filter-tab" 
+              <label
+                class="filter-tab"
                 :class="{ active: researchFilter === 'papers' }"
               >
-                <input 
-                  type="radio" 
-                  name="research-filter" 
-                  value="papers" 
+                <input
+                  type="radio"
+                  name="research-filter"
+                  value="papers"
                   v-model="researchFilter"
                   class="filter-checkbox"
                 >
                 <span class="filter-label">论文</span>
               </label>
-              <label 
-                class="filter-tab" 
+              <label
+                class="filter-tab"
                 :class="{ active: researchFilter === 'patents' }"
               >
-                <input 
-                  type="radio" 
-                  name="research-filter" 
-                  value="patents" 
+                <input
+                  type="radio"
+                  name="research-filter"
+                  value="patents"
                   v-model="researchFilter"
                   class="filter-checkbox"
                 >
                 <span class="filter-label">专利</span>
               </label>
             </div>
-            
+
             <div class="search-box">
-              <input 
-                type="text" 
-                v-model="searchKeyword" 
+              <input
+                type="text"
+                v-model="searchKeyword"
                 :placeholder="researchFilter === 'papers' ? '搜索论文名称、作者或关键词...' : '搜索专利名称、专利号或申请人...'"
                 class="search-input"
               >
@@ -95,16 +95,16 @@
           <Patents :search-keyword="searchKeyword" />
         </div>
       </div>
-      
+
       <!-- 成果数据-证书页面 -->
       <Certificates v-if="activeSubTab === 'certificates'" />
-      
+
       <!-- 成果数据-能力认证页面 -->
       <AbilityCertifications v-if="activeSubTab === 'ability-certification'" />
-      
+
       <!-- 成果数据-国际能力页面 -->
       <InternationalAbility v-if="activeSubTab === 'international-ability'" />
-      
+
       <!-- 成果数据-教学成果页面 -->
       <TeachingAchievements v-if="activeSubTab === 'teaching-achievements'" />
     </div>
@@ -327,7 +327,7 @@ watch(researchFilter, (newFilter) => {
   .content-tabs {
     flex-wrap: wrap;
   }
-  
+
   .tab-item {
     padding: 12px 16px;
     font-size: 14px;
@@ -338,7 +338,7 @@ watch(researchFilter, (newFilter) => {
     gap: 16px;
     align-items: stretch;
   }
-  
+
   .filter-tabs {
     flex-wrap: wrap;
     gap: 16px;

@@ -23,9 +23,9 @@
         </div>
         <div class="filter-item search-item">
           <label>搜索：</label>
-          <input 
-            type="text" 
-            v-model="filters.search" 
+          <input
+            type="text"
+            v-model="filters.search"
             placeholder="搜索课程名称或班级名称"
             @input="handleSearchInput"
           />
@@ -40,9 +40,9 @@
     <div class="word-cloud-section">
       <h3>高频评价词汇</h3>
       <div class="word-cloud">
-        <span 
-          v-for="word in wordCloudData" 
-          :key="word.text" 
+        <span
+          v-for="word in wordCloudData"
+          :key="word.text"
           class="word-tag"
           :style="{ fontSize: word.size + 'px', color: word.color }"
         >
@@ -53,14 +53,14 @@
 
     <!-- 数据列表 -->
     <div class="data-table-section">
-      
+
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
               <th>课程名称</th>
               <th>班级名称</th>
-              <th>学生总数</th>
+              <th>教师姓名</th>
               <th>好评率</th>
               <th>操作</th>
             </tr>
@@ -69,7 +69,7 @@
             <tr v-for="item in filteredData" :key="item.id">
               <td>{{ item.courseName }}</td>
               <td>{{ item.className }}</td>
-              <td>{{ item.totalStudents }}</td>
+              <td>{{ item.teacherName }}</td>
               <td>
                 <div class="rating-display">
                   <span class="rating-value">{{ item.goodRating }}%</span>
@@ -105,11 +105,11 @@
               <span class="value">{{ selectedItem?.goodRating }}%</span>
             </div>
           </div>
-          
+
           <div class="evaluation-list">
-            <div 
-              v-for="(evaluation, index) in evaluationDetails" 
-              :key="index" 
+            <div
+              v-for="(evaluation, index) in evaluationDetails"
+              :key="index"
               class="evaluation-item"
             >
               <div class="evaluation-header">
@@ -193,12 +193,16 @@ const wordCloudData = ref([
   { text: '启发思考', size: 10, color: '#f97316' }
 ])
 
+// 教师姓名列表
+const teacherNames = ['张明华', '李秀英', '王建国', '陈雅琴', '刘志强', '赵丽娜', '孙伟民', '周婷婷', '吴建华', '郑晓燕']
+
 // 原始数据
 const rawData = ref([
   {
     id: 1,
     courseName: '老年心理学',
     className: '智慧健康养老服务与管理2401班',
+    teacherName: teacherNames[Math.floor(Math.random() * teacherNames.length)],
     totalStudents: 42,
     goodRating: 92
   },
@@ -206,6 +210,7 @@ const rawData = ref([
     id: 2,
     courseName: '康复护理实务',
     className: '智慧健康养老服务与管理2402班',
+    teacherName: teacherNames[Math.floor(Math.random() * teacherNames.length)],
     totalStudents: 38,
     goodRating: 89
   },
@@ -213,6 +218,7 @@ const rawData = ref([
     id: 3,
     courseName: '智能健康监测系统',
     className: '老年保健与管理2301班',
+    teacherName: teacherNames[Math.floor(Math.random() * teacherNames.length)],
     totalStudents: 45,
     goodRating: 95
   },
@@ -220,6 +226,7 @@ const rawData = ref([
     id: 4,
     courseName: '适老化环境设计',
     className: '护理(老年护理方向)2302班',
+    teacherName: teacherNames[Math.floor(Math.random() * teacherNames.length)],
     totalStudents: 40,
     goodRating: 87
   },
@@ -227,6 +234,7 @@ const rawData = ref([
     id: 5,
     courseName: '老年社会学',
     className: '康复工程技术2401班',
+    teacherName: teacherNames[Math.floor(Math.random() * teacherNames.length)],
     totalStudents: 43,
     goodRating: 91
   }
@@ -251,7 +259,7 @@ const filteredData = computed(() => {
 
   if (filters.value.search) {
     const searchLower = filters.value.search.toLowerCase()
-    result = result.filter(item => 
+    result = result.filter(item =>
       item.courseName.toLowerCase().includes(searchLower) ||
       item.className.toLowerCase().includes(searchLower)
     )
@@ -264,7 +272,7 @@ const filteredData = computed(() => {
 const generateEvaluationDetails = (item) => {
   const details = []
   const studentCount = item.totalStudents
-  
+
   const advantages = [
     '老师讲课非常认真，知识点讲解得很清楚，容易理解',
     '课堂互动很好，经常提问，让我们保持注意力',
@@ -275,7 +283,7 @@ const generateEvaluationDetails = (item) => {
     '重点难点讲解得很透彻，帮助我们更好地理解',
     '作业布置合理，有助于巩固所学知识'
   ]
-  
+
   const suggestions = [
     '希望老师能多举一些实际应用的例子',
     '建议增加一些课堂练习的时间',
@@ -297,7 +305,7 @@ const generateEvaluationDetails = (item) => {
       suggestions: suggestions[Math.floor(Math.random() * suggestions.length)]
     })
   }
-  
+
   return details
 }
 
@@ -709,36 +717,36 @@ onMounted(() => {
   .student-evaluation {
     padding: 16px;
   }
-  
+
   .filter-row {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .filter-item {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .search-item {
     min-width: auto;
   }
-  
+
   .evaluate-teacher-btn {
     width: 100%;
     margin-top: 8px;
   }
-  
+
   .evaluation-scores {
     flex-direction: column;
     gap: 8px;
   }
-  
+
   .modal-content {
     width: 95%;
     margin: 20px;
   }
-  
+
   .detail-summary {
     flex-direction: column;
     gap: 12px;
