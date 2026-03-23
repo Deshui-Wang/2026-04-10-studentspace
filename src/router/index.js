@@ -30,8 +30,12 @@ import HomeworkManagement from '../components/data-center/teaching-data/Homework
 import {useCommonStore} from "@/stores/index.js";
 
 // 全局状态管理
-const isLoggedIn = ref(false)
-const currentUser = ref(null)
+const isLoggedIn = ref(true)
+const currentUser = ref({
+    username: '李启明',
+    role: 'student',
+    avatar: '/pic/body.png'
+})
 
 // 认证检查函数
 const checkAuth = () => {
@@ -40,19 +44,14 @@ const checkAuth = () => {
       isLoggedIn.value = true
       return true
   }
-  // 检查多种认证状态
-  const token = localStorage.getItem('token')
-  const isLoggedInFlag = localStorage.getItem('isLoggedIn')
+  
+  // 保持登录状态，不再检查 token
+  isLoggedIn.value = true
+  
+  // 尝试从本地加载，如果没有则使用默认值
   const user = localStorage.getItem('user')
-
-  if (token && isLoggedInFlag === 'true' && user) {
-    isLoggedIn.value = true
+  if (user) {
     currentUser.value = JSON.parse(user)
-    console.log('用户已登录:', currentUser.value)
-  } else {
-    isLoggedIn.value = false
-    currentUser.value = null
-    console.log('用户未登录')
   }
 }
 
@@ -66,12 +65,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    redirect: '/'
   },
   {
     path: '/login-demo',
     name: 'LoginDemo',
-    component: LoginDemo
+    redirect: '/'
   },
   {
     path: '/learning-square',
@@ -167,20 +166,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   // checkAuth()
 
-  console.log('路由守卫检查:', {
-    to: to.name,
-    isLoggedIn: isLoggedIn.value,
-    currentUser: currentUser.value
-  })
-
-  // 如果用户未登录且访问的不是登录页面，重定向到登录页
-  if (!isLoggedIn.value && to.name !== 'Login' && to.name !== 'LoginDemo') {
-    console.log('重定向到登录页')
-    next({ name: 'Login' })
-  } else {
-    console.log('允许访问页面:', to.name)
-    next()
-  }
+  console.log('访问页面:', to.name)
+  next()
 })
 
 export default router

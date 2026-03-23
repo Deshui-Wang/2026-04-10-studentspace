@@ -29,10 +29,6 @@
           <i class="el-icon-user"></i>
           <span>个人中心</span>
         </div>
-        <div class="dropdown-item" @click="logout">
-          <i class="el-icon-switch-button"></i>
-          <span>退出登录</span>
-        </div>
       </div>
     </div>
   </div>
@@ -84,21 +80,8 @@ const goToProfile = () => {
   router.push('/profile')
 }
 
-// 退出登录
-const logout = () => {
-  showUserMenu.value = false
-  // 清除本地存储的用户信息
-  localStorage.removeItem('username')
-  localStorage.removeItem('token')
-  localStorage.removeItem('isLoggedIn')
-  localStorage.removeItem('user')
-  // 重置用户状态
-  currentUser.value = ''
-  // 跳转到登录页面
-  router.push('/login').catch(err => {
-    console.error('跳转到登录页面失败:', err)
-  })
-}
+// 退出登录 - 已按需移除
+// const logout = () => { ... }
 
 // 点击外部关闭菜单
 const handleClickOutside = (event) => {

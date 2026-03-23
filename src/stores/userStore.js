@@ -5,8 +5,12 @@ export const useUserStore = defineStore('user', {
   state: () => {
     return {
       // 所有这些属性都将自动推断其类型
-      userInfo: null,
-      isLoggedIn: false,
+      userInfo: {
+          username: '李启明',
+          role: 'student',
+          avatar: '/pic/body.png'
+      },
+      isLoggedIn: true,
       profile: {}
     }
   },

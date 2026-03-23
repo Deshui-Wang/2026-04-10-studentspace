@@ -3,6 +3,7 @@
     <!-- 标题和上传按钮行 -->
     <div class="title-section">
       <h3 class="module-title">本周无课时间：4.7小时/天（大把的时光，你打算用来干嘛呢？）</h3>
+      <el-button type="primary" :icon="Calendar" @click="showFullCalendar = true" class="calendar-btn-main">日历</el-button>
     </div>
         <!-- 筛选行 -->
         <div class="filter-section">
@@ -185,11 +186,79 @@
       </div>
     </div>
 
+    <!-- 月度工作日历对话框 -->
+    <el-dialog
+      v-model="showFullCalendar"
+      title="月度工作日历"
+      width="1200px"
+      top="2vh"
+      class="full-calendar-dialog"
+      :destroy-on-close="true"
+    >
+      <div class="calendar-modal-content">
+        <div class="modal-calendar-header">
+           <div class="month-label">{{ currentYear }} {{ currentMonthName }}</div>
+           <div class="nav-controls">
+             <el-button-group>
+               <el-button @click="previousMonth">Previous Month</el-button>
+               <el-button @click="goToToday">Today</el-button>
+               <el-button @click="nextMonth">Next Month</el-button>
+             </el-button-group>
+           </div>
+        </div>
+        
+        <div class="modal-calendar-grid">
+          <div class="grid-header">
+            <div v-for="day in ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']" :key="day" class="header-day">{{ day }}</div>
+          </div>
+          <div class="grid-body">
+            <div 
+              v-for="day in monthDays" 
+              :key="day.date" 
+              class="grid-cell"
+              :class="{ 'other-month': !day.isCurrentMonth, 'today': day.isToday, 'selected': day.date === selectedDate }"
+              @click="selectDate(day.date)"
+            >
+              <div class="cell-number">{{ String(day.day).padStart(2, '0') }}</div>
+              <div class="cell-events">
+                <div v-for="(event, idx) in day.events.slice(0, 3)" :key="idx" class="event-pill" :class="event.type">
+                  <span v-if="event.time" class="event-time">{{ event.time }}</span>
+                  <span class="event-name">{{ event.name }}</span>
+                </div>
+                <div v-if="day.events.length > 3" class="more-events">+{{ day.events.length - 3 }} 更多</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 底部详情栏 -->
+        <div class="daily-details-panel">
+          <div class="details-header">
+            <div class="details-date">{{ selectedDateFormatted }} 工作安排</div>
+            <div class="details-count-badge">共 {{ dailyCourses.length }} 项安排</div>
+          </div>
+          <div class="details-list">
+             <div v-if="dailyCourses.length === 0" class="no-details">当日暂无具体课表安排</div>
+             <div v-for="item in dailyCourses" :key="item.id" class="detail-item">
+                <div class="item-left">
+                  <div class="item-dot"></div>
+                  <div class="item-time">{{ item.timeSlot.split('-')[0] }}</div>
+                  <div class="item-name">{{ item.name }}</div>
+                </div>
+                <div class="item-tag">{{ item.type === '实践课' ? '实训' : '上课' }}</div>
+             </div>
+          </div>
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, computed, nextTick, watch } from 'vue'
+import { Calendar } from '@element-plus/icons-vue'
+
+const showFullCalendar = ref(false)
 
 // Local date helpers to avoid UTC shift when using ISO strings
 const formatDate = (date) => {
@@ -211,6 +280,10 @@ const parseLocalDate = (dateStr) => {
 const currentDate = ref(new Date())
 const selectedDate = ref(formatDate(new Date()))
 const showYearPicker = ref(false)
+
+// 月份名称
+const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+const currentMonthName = computed(() => monthNames[currentDate.value.getMonth()])
 
 // 星期数组
 const weekdays = ['日', '一', '二', '三', '四', '五', '六']
@@ -376,6 +449,38 @@ const generateCoursesForDate = (dateStr) => {
   return courses.sort((a, b) => a.period - b.period)
 }
 
+// 获取全屏日历的事件
+const getEventsForFullCalendar = (dateStr) => {
+  const courses = generateCoursesForDate(dateStr)
+  const events = courses.map(c => ({
+    time: c.timeSlot.split('-')[0],
+    name: c.name,
+    type: 'class'
+  }))
+  
+  // 随机添加一些非课程事件
+  const [year, month, day] = dateStr.split('-').map(Number)
+  const date = new Date(year, month - 1, day)
+  const seed = date.getTime()
+  
+  const random = (seedValue) => {
+    const x = Math.sin(seedValue) * 10000
+    return x - Math.floor(x)
+  }
+  
+  if (random(seed) > 0.7) {
+    const extraNames = ['周末进阶师资培训', '学术讲座', '教学管理系统培训', '教研室常规会议']
+    const extraTypes = ['training', 'lecture', 'meeting', 'meeting']
+    const idx = Math.floor(random(seed + 1) * extraNames.length)
+    events.push({
+      name: extraNames[idx],
+      type: extraTypes[idx]
+    })
+  }
+  
+  return events
+}
+
 // 计算当前年份
 const currentYear = computed(() => currentDate.value.getFullYear())
 
@@ -426,7 +531,8 @@ const monthDays = computed(() => {
       date: dateStr,
       isCurrentMonth: false,
       isToday,
-      courseCount: getCourseCountForDate(dateStr)
+      courseCount: getCourseCountForDate(dateStr),
+      events: getEventsForFullCalendar(dateStr)
     })
   }
   
@@ -442,7 +548,8 @@ const monthDays = computed(() => {
       date: dateStr,
       isCurrentMonth: true,
       isToday,
-      courseCount: getCourseCountForDate(dateStr)
+      courseCount: getCourseCountForDate(dateStr),
+      events: getEventsForFullCalendar(dateStr)
     })
   }
   
@@ -459,7 +566,8 @@ const monthDays = computed(() => {
       date: dateStr,
       isCurrentMonth: false,
       isToday,
-      courseCount: getCourseCountForDate(dateStr)
+      courseCount: getCourseCountForDate(dateStr),
+      events: getEventsForFullCalendar(dateStr)
     })
   }
   
@@ -1371,5 +1479,250 @@ watch([selectedCourse, selectedType, selectedSemester], () => {
   .filter-group {
     justify-content: space-between;
   }
+}
+
+/* 月度工作日历弹窗样式 */
+.calendar-btn-main {
+  margin-left: 15px;
+  background-color: #5856d6 !important;
+  border-color: #5856d6 !important;
+}
+
+.calendar-modal-content {
+  padding: 10px 20px 20px 20px;
+  background: #fdfdfe;
+}
+
+.modal-calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.month-label {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.modal-calendar-grid {
+  border: 1px solid #ebedf0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #fafafa;
+  border-bottom: 1px solid #ebedf0;
+}
+
+.header-day {
+  padding: 12px;
+  text-align: center;
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+.grid-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-auto-rows: minmax(110px, auto);
+}
+
+.grid-cell {
+  border-right: 1px solid #ebedf0;
+  border-bottom: 1px solid #ebedf0;
+  padding: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.grid-cell:nth-child(7n) {
+  border-right: none;
+}
+
+.grid-cell:hover {
+  background: #f0f7ff;
+}
+
+.grid-cell.other-month {
+  background: #fafafa;
+  color: #bfbfbf;
+}
+
+.grid-cell.selected {
+  background: #e6f7ff;
+}
+
+.grid-cell.today {
+  background: #fffbe6;
+}
+
+.grid-cell.today .cell-number {
+  color: #1677ff;
+  font-weight: 800;
+}
+
+.cell-number {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #333;
+}
+
+.cell-events {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.event-pill {
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border-left: 3px solid transparent;
+}
+
+.event-pill.class {
+  background: #e6f4ff;
+  color: #096dd9;
+  border-left-color: #096dd9;
+}
+
+.event-pill.training {
+  background: #fff7e6;
+  color: #d46b08;
+  border-left-color: #d46b08;
+}
+
+.event-pill.lecture {
+  background: #fff0f6;
+  color: #c41d7f;
+  border-left-color: #c41d7f;
+}
+
+.event-pill.meeting {
+  background: #f6ffed;
+  color: #389e0d;
+  border-left-color: #389e0d;
+}
+
+.event-time {
+  margin-right: 4px;
+  font-weight: 600;
+}
+
+.more-events {
+  font-size: 10px;
+  color: #999;
+  text-align: center;
+  margin-top: 2px;
+}
+
+/* 详情面板样式 */
+.daily-details-panel {
+  margin-top: 30px;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.details-date {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.details-count-badge {
+  background: #e6f7ff;
+  color: #1677ff;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: #f8faff;
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+
+.detail-item:hover {
+  transform: translateX(5px);
+  background: #f0f5ff;
+}
+
+.item-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.item-dot {
+  width: 8px;
+  height: 8px;
+  background: #1677ff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 4px rgba(22, 119, 255, 0.1);
+}
+
+.item-time {
+  font-weight: 600;
+  color: #666;
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.item-name {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+.item-tag {
+  background: #f0f0f0;
+  color: #666;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.no-details {
+  padding: 40px;
+  text-align: center;
+  color: #999;
+  background: #fafafa;
+  border-radius: 8px;
+  border: 1px dashed #d9d9d9;
 }
 </style>
