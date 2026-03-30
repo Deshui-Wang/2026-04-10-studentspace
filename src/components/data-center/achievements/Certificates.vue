@@ -373,17 +373,17 @@ const certificates = ref([
     name: '国家奖学金',
     type: 'national-gov',
     amount: '8000元',
-    awardDate: '2024-01-15',
+    awardDate: '2025-11-15',
     organization: '教育部',
     image: '/pic/data.png',
-    applicationDate: '2023-10-15',
-    reviewDate: '2023-12-20',
+    applicationDate: '2025-10-10',
+    reviewDate: '2025-11-05',
     applicationReason: '学习成绩优异，综合素质突出，积极参与社会实践和志愿服务活动，在学术研究方面有突出表现。',
     reviewComment: '该生学习成绩优秀，综合素质良好，符合国家奖学金评选条件，同意推荐。',
     documents: [
-      { name: '国家奖学金申请表.pdf', size: '1.2MB', uploadTime: '2023-10-10' },
-      { name: '成绩单.pdf', size: '856KB', uploadTime: '2023-10-12' },
-      { name: '获奖证书.pdf', size: '2.1MB', uploadTime: '2023-10-15' }
+      { name: '国家奖学金申请表.pdf', size: '1.2MB', uploadTime: '2025-10-10' },
+      { name: '成绩单.pdf', size: '856KB', uploadTime: '2025-10-12' },
+      { name: '获奖证书.pdf', size: '2.1MB', uploadTime: '2025-11-15' }
     ]
   },
   {
@@ -391,16 +391,16 @@ const certificates = ref([
     name: '校长奖学金',
     type: 'school',
     amount: '5000元',
-    awardDate: '2023-12-20',
+    awardDate: '2025-12-20',
     organization: '学校',
     image: '/pic/data.png',
-    applicationDate: '2023-11-01',
-    reviewDate: '2023-12-15',
+    applicationDate: '2025-11-05',
+    reviewDate: '2025-12-10',
     applicationReason: '在学术研究、社会实践、文体活动等方面表现突出，为学校争得荣誉。',
     reviewComment: '该生各方面表现优秀，符合校长奖学金评选标准。',
     documents: [
-      { name: '校长奖学金申请表.pdf', size: '1.5MB', uploadTime: '2023-11-01' },
-      { name: '个人事迹材料.pdf', size: '2.3MB', uploadTime: '2023-11-05' }
+      { name: '校长奖学金申请表.pdf', size: '1.5MB', uploadTime: '2025-11-05' },
+      { name: '个人事迹材料.pdf', size: '2.3MB', uploadTime: '2025-11-10' }
     ]
   },
   {
@@ -408,16 +408,16 @@ const certificates = ref([
     name: '华为奖学金',
     type: 'enterprise-social',
     amount: '3000元',
-    awardDate: '2023-09-10',
+    awardDate: '2025-09-10',
     organization: '华为技术有限公司',
     image: '/pic/data.png',
-    applicationDate: '2023-08-15',
-    reviewDate: '2023-09-05',
+    applicationDate: '2025-08-10',
+    reviewDate: '2025-09-01',
     applicationReason: '在计算机科学与技术专业学习优秀，对华为企业文化有深入了解，立志投身科技事业。',
     reviewComment: '该生专业基础扎实，学习态度端正，符合华为奖学金评选要求。',
     documents: [
-      { name: '华为奖学金申请表.pdf', size: '1.8MB', uploadTime: '2023-08-15' },
-      { name: '专业成绩单.pdf', size: '1.1MB', uploadTime: '2023-08-20' }
+      { name: '华为奖学金申请表.pdf', size: '1.8MB', uploadTime: '2025-08-10' },
+      { name: '专业成绩单.pdf', size: '1.1MB', uploadTime: '2025-08-12' }
     ]
   },
   {
@@ -425,17 +425,17 @@ const certificates = ref([
     name: '励志奖学金',
     type: 'national-gov',
     amount: '5000元',
-    awardDate: '2023-11-30',
+    awardDate: '2025-11-30',
     organization: '教育部',
     image: '/pic/data.png',
-    applicationDate: '2023-10-01',
-    reviewDate: '2023-11-20',
+    applicationDate: '2025-10-05',
+    reviewDate: '2025-11-20',
     applicationReason: '家庭经济困难但学习刻苦，成绩优秀，积极参与勤工助学活动。',
     reviewComment: '该生家庭经济困难，但学习努力，成绩优秀，符合励志奖学金条件。',
     documents: [
-      { name: '励志奖学金申请表.pdf', size: '2.0MB', uploadTime: '2023-10-01' },
-      { name: '家庭经济困难证明.pdf', size: '1.5MB', uploadTime: '2023-10-05' },
-      { name: '勤工助学证明.pdf', size: '800KB', uploadTime: '2023-10-10' }
+      { name: '励志奖学金申请表.pdf', size: '2.0MB', uploadTime: '2025-10-05' },
+      { name: '家庭经济困难证明.pdf', size: '1.5MB', uploadTime: '2025-10-08' },
+      { name: '勤工助学证明.pdf', size: '800KB', uploadTime: '2025-10-10' }
     ]
   }
 ])

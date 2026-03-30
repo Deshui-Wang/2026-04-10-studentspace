@@ -350,79 +350,79 @@ const abilities = ref([
   {
     id: 1,
     name: '健康管理师（三级）',
-    number: 'HC2024001',
+    number: 'HC2026001',
     organization: '国家卫生健康委员会',
-    certificationDate: '2024-03-15',
+    certificationDate: '2026-03-15',
     type: 'professional',
     image: '/pic/data.png',
     documents: [
-      { name: '健康管理师证书.pdf', size: '2.3MB', uploadTime: '2024-03-20' },
-      { name: '理论与实操成绩单.pdf', size: '856KB', uploadTime: '2024-03-22' }
+      { name: '健康管理师证书.pdf', size: '2.3MB', uploadTime: '2026-03-20' },
+      { name: '理论与实操成绩单.pdf', size: '856KB', uploadTime: '2026-03-22' }
     ]
   },
   {
     id: 2,
     name: '养老护理员（高级）',
-    number: 'EC2024002',
+    number: 'EC2026002',
     organization: '人力资源和社会保障部',
-    certificationDate: '2024-01-20',
+    certificationDate: '2026-01-20',
     type: 'skill',
     image: '/pic/data.png',
     documents: [
-      { name: '高级养老护理员证书.pdf', size: '1.2MB', uploadTime: '2024-01-25' },
-      { name: '职业能力鉴定表.pdf', size: '945KB', uploadTime: '2024-01-26' }
+      { name: '高级养老护理员证书.pdf', size: '1.2MB', uploadTime: '2026-01-25' },
+      { name: '职业能力鉴定表.pdf', size: '945KB', uploadTime: '2026-01-26' }
     ]
   },
   {
     id: 3,
     name: '康复辅助器具适配师（高级）',
-    number: 'AT2024003',
+    number: 'AT2026003',
     organization: '中国康复辅助器具协会',
-    certificationDate: '2024-02-10',
+    certificationDate: '2026-02-10',
     type: 'professional',
     image: '/pic/data.png',
     documents: [
-      { name: '辅具适配师证书.pdf', size: '1.5MB', uploadTime: '2024-02-15' },
-      { name: '培训结业证明.pdf', size: '856KB', uploadTime: '2024-02-08' }
+      { name: '辅具适配师证书.pdf', size: '1.5MB', uploadTime: '2026-02-15' },
+      { name: '培训结业证明.pdf', size: '856KB', uploadTime: '2026-02-08' }
     ]
   },
   {
     id: 4,
     name: '红十字救护员（CPR+AED）',
-    number: 'RC2024004',
+    number: 'RC2026004',
     organization: '中国红十字会',
-    certificationDate: '2024-04-05',
+    certificationDate: '2026-03-25',
     type: 'skill',
     image: '/pic/data.png',
     documents: [
-      { name: '红十字救护员证.pdf', size: '2.1MB', uploadTime: '2024-04-10' },
-      { name: '急救理论考核单.pdf', size: '1.8MB', uploadTime: '2024-04-12' }
+      { name: '红十字救护员证.pdf', size: '2.1MB', uploadTime: '2026-03-28' },
+      { name: '急救理论考核单.pdf', size: '1.8MB', uploadTime: '2026-03-29' }
     ]
   },
   {
     id: 5,
     name: '失智老人照护（1+X）初级证书',
-    number: 'DC2024005',
+    number: 'DC2026005',
     organization: '教育部职业教育与成人教育司',
-    certificationDate: '2024-01-15',
+    certificationDate: '2026-01-05',
     type: 'skill',
     image: '/pic/data.png',
     documents: [
-      { name: '1+x职业技能等级证书.pdf', size: '1.3MB', uploadTime: '2024-01-20' },
-      { name: '实操模块考核成绩.pdf', size: '892KB', uploadTime: '2024-01-22' }
+      { name: '1+x职业技能等级证书.pdf', size: '1.3MB', uploadTime: '2026-01-10' },
+      { name: '实操模块考核成绩.pdf', size: '892KB', uploadTime: '2026-01-12' }
     ]
   },
   {
     id: 6,
     name: '心理咨询师基础培训合格证书',
-    number: 'PC2024006',
+    number: 'PC2026006',
     organization: '中国科学院心理研究所',
-    certificationDate: '2024-02-28',
+    certificationDate: '2026-02-28',
     type: 'professional',
     image: '/pic/data.png',
     documents: [
-      { name: '心理咨询基础证书.pdf', size: '1.7MB', uploadTime: '2024-03-05' },
-      { name: '综合考试成绩单.pdf', size: '1.1MB', uploadTime: '2024-03-06' }
+      { name: '心理咨询基础证书.pdf', size: '1.7MB', uploadTime: '2026-03-05' },
+      { name: '综合考试成绩单.pdf', size: '1.1MB', uploadTime: '2026-03-06' }
     ]
   }
 ])

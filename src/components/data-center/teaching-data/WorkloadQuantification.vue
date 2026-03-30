@@ -612,7 +612,7 @@ const otherSchedules = ref([
     title: '智慧养老发展趋势在线公开课',
     type: '公开课',
     timeSlot: '14:00-15:30',
-    dateInfo: '2024-01-15',
+    dateInfo: '2026-03-25',
     location: '线上',
     organizer: '健康服务与管理学院',
     priority: '高'
@@ -622,7 +622,7 @@ const otherSchedules = ref([
     title: '适老化适装设计前沿系列讲座',
     type: '讲座',
     timeSlot: '09:00-11:00',
-    dateInfo: '2024-01-16',
+    dateInfo: '2026-03-28',
     location: '阶梯教室',
     organizer: '健康服务与管理学院',
     priority: '中'
@@ -632,7 +632,7 @@ const otherSchedules = ref([
     title: '智慧养老终端设计大赛赛前研讨会',
     type: '研讨会',
     timeSlot: '16:00-17:00',
-    dateInfo: '2024-01-17',
+    dateInfo: '2026-04-01',
     location: '活动室',
     organizer: '学生处',
     priority: '低'
@@ -642,9 +642,9 @@ const otherSchedules = ref([
     title: '银发经济发展研讨交流会',
     type: '研讨会',
     timeSlot: '19:00-20:30',
-    dateInfo: '2024-01-18',
-    location: '图书馆',
-    organizer: '校团委',
+    dateInfo: '2026-04-02',
+    location: '小智人',
+    organizer: '小智人',
     priority: '中'
   },
   {
@@ -652,7 +652,7 @@ const otherSchedules = ref([
     title: '老龄化社会与应对策略专家论坛',
     type: '专家论坛',
     timeSlot: '10:00-11:00',
-    dateInfo: '2024-01-19',
+    dateInfo: '2026-04-05',
     location: '学术报告厅',
     organizer: '健康服务与管理学院',
     priority: '高'
@@ -709,11 +709,13 @@ const typeOptions = ref([
 ])
 
 const semesterOptions = ref([
+  { value: '2026-1', label: '2026春季' },
+  { value: '2025-2', label: '2025秋季' },
+  { value: '2025-1', label: '2025春季' },
+  { value: '2024-2', label: '2024秋季' },
   { value: '2024-1', label: '2024春季' },
   { value: '2023-2', label: '2023秋季' },
-  { value: '2023-1', label: '2023春季' },
-  { value: '2022-2', label: '2022秋季' },
-  { value: '2022-1', label: '2022春季' }
+  { value: '2023-1', label: '2023春季' }
 ])
 
 

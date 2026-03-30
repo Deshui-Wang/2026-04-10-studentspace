@@ -265,7 +265,7 @@ const files = ref([
     type: 'pdf',
     typeText: 'PDF文档',
     size: 2048576,
-    uploadTime: '2025-05-15 10:30:00',
+    uploadTime: '2026-03-25 10:30:00',
     downloadCount: 15,
     path: '/personal/care_manual.pdf'
   },
@@ -276,7 +276,7 @@ const files = ref([
     type: 'pptx',
     typeText: 'PPT演示',
     size: 15360000,
-    uploadTime: '2025-04-12 14:25:00',
+    uploadTime: '2026-03-20 14:25:00',
     downloadCount: 22,
     path: '/personal/projects/aging_design.pptx'
   },
@@ -287,7 +287,7 @@ const files = ref([
     type: 'docx',
     typeText: 'Word文档',
     size: 5120000,
-    uploadTime: '2025-03-10 09:15:00',
+    uploadTime: '2026-03-15 09:15:00',
     downloadCount: 45,
     path: '/personal/notes/elder_psychology.docx'
   },
@@ -298,7 +298,7 @@ const files = ref([
     type: 'zip',
     typeText: '压缩包',
     size: 25600000,
-    uploadTime: '2025-02-08 16:40:00',
+    uploadTime: '2026-03-05 16:40:00',
     downloadCount: 12,
     path: '/personal/graduation/smart_monitor.zip'
   },
@@ -309,7 +309,7 @@ const files = ref([
     type: 'pdf',
     typeText: 'PDF文档',
     size: 8192000,
-    uploadTime: '2025-01-05 11:20:00',
+    uploadTime: '2026-02-28 11:20:00',
     downloadCount: 30,
     path: '/personal/internship/nursing_home.pdf'
   },
@@ -320,7 +320,7 @@ const files = ref([
     type: 'jpg',
     typeText: '图片文件',
     size: 2048000,
-    uploadTime: '2024-12-03 15:30:00',
+    uploadTime: '2026-02-20 15:30:00',
     downloadCount: 4,
     path: '/personal/certificates/senior_care.jpg'
   },
@@ -331,7 +331,7 @@ const files = ref([
     type: 'xlsx',
     typeText: 'Excel表格',
     size: 1024000,
-    uploadTime: '2024-12-01 13:45:00',
+    uploadTime: '2026-02-10 13:45:00',
     downloadCount: 18,
     path: '/personal/homework/elder_diet.xlsx'
   },
@@ -342,18 +342,18 @@ const files = ref([
     type: 'mp4',
     typeText: '视频文件',
     size: 128000000,
-    uploadTime: '2024-11-28 20:15:00',
+    uploadTime: '2026-01-30 20:15:00',
     downloadCount: 88,
     path: '/personal/videos/cpr_training.mp4'
   },
   {
     id: 9,
     name: '失智老人安宁疗护指南.pdf',
-    description: '阿尔茨海默症长者照护重点与临终关怀实务操作策略',
+    description: '阿尔茨海耳症长者照护重点与临终关怀实务操作策略',
     type: 'pdf',
     typeText: 'PDF文档',
     size: 12288000,
-    uploadTime: '2024-11-25 08:30:00',
+    uploadTime: '2026-01-25 08:30:00',
     downloadCount: 29,
     path: '/personal/learning/dementia_care.pdf'
   },
@@ -364,7 +364,7 @@ const files = ref([
     type: 'csv',
     typeText: 'CSV数据',
     size: 512000,
-    uploadTime: '2024-11-22 17:20:00',
+    uploadTime: '2026-01-15 17:20:00',
     downloadCount: 61,
     path: '/personal/data/risk_assessment.csv'
   },
@@ -375,7 +375,7 @@ const files = ref([
     type: 'psd',
     typeText: 'PSD文件',
     size: 51200000,
-    uploadTime: '2024-11-20 14:10:00',
+    uploadTime: '2026-01-10 14:10:00',
     downloadCount: 7,
     path: '/personal/designs/smart_cane.psd'
   },
@@ -386,7 +386,7 @@ const files = ref([
     type: 'docx',
     typeText: 'Word文档',
     size: 8192000,
-    uploadTime: '2024-11-18 10:45:00',
+    uploadTime: '2026-01-05 10:45:00',
     downloadCount: 13,
     path: '/personal/papers/smart_community.docx'
   }

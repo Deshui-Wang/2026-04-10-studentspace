@@ -154,7 +154,7 @@ let scoreChart = null
 let trendChartInstance = null
 
 // 模拟数据
-const semesterList = ['2025下学期', '2025初学期', '2024下学期', '2024初学期', '2023下学期', '2023初学期']
+const semesterList = ['2026初学期', '2025下学期', '2025初学期', '2024下学期', '2024初学期', '2023下学期', '2023初学期']
 const subjectList = ['健康管理', '护理研究', '政策法规', '英语']
 const courseList = ['老年学概论', '老年社会工作实务', '老年心理护理实训', '智慧养老终端实操', '老年政策与法规', '健康管理学', '智能康复辅助器具应用', '养老机构评估与管理', '大学英语']
 
@@ -177,7 +177,7 @@ const generateGradeData = () => {
           const score = Math.max(0, Math.min(100, Math.round(baseScore + variation)))
           
           // 生成考试时间
-          const year = semester.includes('2025') ? 2025 : semester.includes('2024') ? 2024 : 2023
+          const year = semester.includes('2026') ? 2026 : semester.includes('2025') ? 2025 : semester.includes('2024') ? 2024 : 2023
           const month = semester.includes('初学期') ? Math.floor(Math.random() * 3) + 3 : Math.floor(Math.random() * 3) + 9
           const day = Math.floor(Math.random() * 28) + 1
           const examTime = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`

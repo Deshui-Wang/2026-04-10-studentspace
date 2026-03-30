@@ -372,7 +372,7 @@ const achievements = ref([
   {
     id: 1,
     name: '学生会主席',
-    awardDate: '2024-01-15',
+    awardDate: '2026-01-15',
     organization: '校学生会',
     type: 'student-cadre',
     description: '担任校学生会主席，负责组织各类校园活动，协调各部门工作，为同学们提供更好的服务。',
@@ -381,7 +381,7 @@ const achievements = ref([
   {
     id: 2,
     name: '社团联合会会长',
-    awardDate: '2023-11-20',
+    awardDate: '2026-02-20',
     organization: '社团联合会',
     type: 'student-cadre',
     description: '担任社团联合会会长，管理全校50多个学生社团，组织社团文化节等大型活动。',
@@ -390,7 +390,7 @@ const achievements = ref([
   {
     id: 3,
     name: '班长',
-    awardDate: '2023-09-01',
+    awardDate: '2026-03-01',
     organization: '软件工程2021级1班',
     type: 'student-cadre',
     description: '担任班级班长，负责班级日常管理，组织班级活动，协助老师处理班级事务。',
@@ -399,7 +399,7 @@ const achievements = ref([
   {
     id: 4,
     name: '暑期社会实践先进个人',
-    awardDate: '2023-08-30',
+    awardDate: '2026-02-15',
     organization: '共青团委员会',
     type: 'social-practice',
     description: '参与暑期"三下乡"社会实践活动，深入农村调研，为当地发展建言献策，获得先进个人称号。',
@@ -408,7 +408,7 @@ const achievements = ref([
   {
     id: 5,
     name: '社区志愿服务优秀志愿者',
-    awardDate: '2024-03-15',
+    awardDate: '2026-03-15',
     organization: '社区服务中心',
     type: 'volunteer-service',
     description: '长期参与社区志愿服务活动，累计服务时长超过200小时，获得优秀志愿者称号。',
@@ -417,7 +417,7 @@ const achievements = ref([
   {
     id: 6,
     name: '大型活动志愿者',
-    awardDate: '2024-01-20',
+    awardDate: '2026-01-20',
     organization: '校团委',
     type: 'volunteer-service',
     description: '参与学校大型活动志愿服务，包括迎新晚会、毕业典礼等，表现突出。',
@@ -426,7 +426,7 @@ const achievements = ref([
   {
     id: 7,
     name: '三好学生',
-    awardDate: '2024-01-10',
+    awardDate: '2026-01-10',
     organization: '学生处',
     type: 'awards-recognition',
     description: '在德智体美劳各方面表现优秀，学习成绩优异，获得三好学生荣誉称号。',
@@ -435,7 +435,7 @@ const achievements = ref([
   {
     id: 8,
     name: '优秀学生干部',
-    awardDate: '2024-01-10',
+    awardDate: '2026-01-12',
     organization: '学生处',
     type: 'awards-recognition',
     description: '在学生工作中表现突出，组织能力强，获得优秀学生干部荣誉称号。',
@@ -444,7 +444,7 @@ const achievements = ref([
   {
     id: 9,
     name: '十佳大学生',
-    awardDate: '2024-01-05',
+    awardDate: '2026-01-05',
     organization: '学生处',
     type: 'awards-recognition',
     description: '在学术、实践、志愿服务等方面表现卓越，获得十佳大学生荣誉称号。',
@@ -453,7 +453,7 @@ const achievements = ref([
   {
     id: 10,
     name: '校园歌手大赛冠军',
-    awardDate: '2023-12-20',
+    awardDate: '2026-03-20',
     organization: '校团委',
     type: 'cultural-sports',
     description: '参加校园歌手大赛，凭借出色的演唱技巧和舞台表现力获得冠军。',
@@ -462,7 +462,7 @@ const achievements = ref([
   {
     id: 11,
     name: '篮球联赛MVP',
-    awardDate: '2023-11-15',
+    awardDate: '2026-02-15',
     organization: '体育部',
     type: 'cultural-sports',
     description: '在校园篮球联赛中表现突出，带领球队获得冠军，个人获得MVP称号。',
@@ -471,7 +471,7 @@ const achievements = ref([
   {
     id: 12,
     name: '创新创业大赛一等奖',
-    awardDate: '2024-02-28',
+    awardDate: '2026-02-28',
     organization: '创新创业学院',
     type: 'cultural-sports',
     description: '参加大学生创新创业大赛，项目获得一等奖，展现了优秀的创新能力和团队协作精神。',

@@ -253,10 +253,13 @@ const filters = ref({
 
 // 学期列表
 const semesterList = ref([
+  '2026初学期',
   '2025下学期',
   '2025初学期',
   '2024下学期',
-  '2024初学期'
+  '2024初学期',
+  '2023下学期',
+  '2023初学期'
 ])
 
 // 学科列表
@@ -313,7 +316,8 @@ const generateInteractionData = () => {
   
   for (let i = 0; i < 50; i++) {
     const emotion = emotions[Math.floor(Math.random() * emotions.length)]
-    const semester = semesterList.value[Math.floor(Math.random() * semesterList.value.length)]
+    // 前 15 条数据强制使用 2026 初学期，确保第一页（pageSize=10）全部是 2026 年数据
+    const semester = (i < 15) ? '2026初学期' : semesterList.value[Math.floor(Math.random() * semesterList.value.length)]
     const subject = subjectList.value[Math.floor(Math.random() * subjectList.value.length)]
     
     // 学科与课程的对应关系
@@ -330,7 +334,8 @@ const generateInteractionData = () => {
     
     // 生成上课时间（根据学期限定年份和大致月份）
     let baseYear = 2024
-    if (semester.includes('2025')) baseYear = 2025
+    if (semester.includes('2026')) baseYear = 2026
+    else if (semester.includes('2025')) baseYear = 2025
     else if (semester.includes('2023')) baseYear = 2023
     let baseMonth = semester.includes('初学期') ? '03' : '09'
     
@@ -349,7 +354,8 @@ const generateInteractionData = () => {
     })
   }
   
-  return data
+  // 按时间降序排列，确保最近的 2026 年数据排在最前面
+  return data.sort((a, b) => new Date(b.classTime.split(' ')[0]) - new Date(a.classTime.split(' ')[0]))
 }
 
 // 生成课堂行为数据（当前学生）

@@ -259,10 +259,10 @@ const filters = ref({
 
 // 选项数据
 const semesterOptions = ref([
+  { value: '2026-1', label: '2026年春季学期' },
+  { value: '2025-2', label: '2025年秋季学期' },
   { value: '2025-1', label: '2025年春季学期' },
-  { value: '2024-2', label: '2024年秋季学期' },
-  { value: '2024-1', label: '2024年春季学期' },
-  { value: '2023-2', label: '2023年秋季学期' }
+  { value: '2024-2', label: '2024年秋季学期' }
 ])
 
 const courseOptions = ref([
@@ -283,8 +283,8 @@ const rawData = ref([
   {
     id: 1,
     courseName: '老年心理学',
-    semester: '2025年春季学期',
-    evaluationTime: '2025-05-15',
+    semester: '2026年春季学期',
+    evaluationTime: '2026-03-15',
     learningAttitude: 4.8,
     knowledgeMastery: 4.5,
     learningMethod: 4.2,
@@ -296,8 +296,8 @@ const rawData = ref([
   {
     id: 2,
     courseName: '智能健康监测系统',
-    semester: '2025年春季学期',
-    evaluationTime: '2025-04-20',
+    semester: '2026年春季学期',
+    evaluationTime: '2026-03-10',
     learningAttitude: 4.5,
     knowledgeMastery: 4.2,
     learningMethod: 4.6,
@@ -309,8 +309,8 @@ const rawData = ref([
   {
     id: 3,
     courseName: '康复护理实务',
-    semester: '2024年秋季学期',
-    evaluationTime: '2024-12-10',
+    semester: '2026年春季学期',
+    evaluationTime: '2026-02-28',
     learningAttitude: 4.9,
     knowledgeMastery: 4.6,
     learningMethod: 4.5,
@@ -322,8 +322,8 @@ const rawData = ref([
   {
     id: 4,
     courseName: '常见老年病预防与照护',
-    semester: '2024年秋季学期',
-    evaluationTime: '2024-11-25',
+    semester: '2026年春季学期',
+    evaluationTime: '2026-02-15',
     learningAttitude: 4.4,
     knowledgeMastery: 4.3,
     learningMethod: 4.2,
@@ -335,8 +335,8 @@ const rawData = ref([
   {
     id: 5,
     courseName: '适老化环境设计',
-    semester: '2024年春季学期',
-    evaluationTime: '2024-06-15',
+    semester: '2026年春季学期',
+    evaluationTime: '2026-01-20',
     learningAttitude: 4.6,
     knowledgeMastery: 4.4,
     learningMethod: 4.5,
@@ -348,8 +348,8 @@ const rawData = ref([
   {
     id: 6,
     courseName: '老年营养与膳食',
-    semester: '2024年春季学期',
-    evaluationTime: '2024-05-10',
+    semester: '2026年春季学期',
+    evaluationTime: '2026-01-10',
     learningAttitude: 4.3,
     knowledgeMastery: 4.1,
     learningMethod: 4.2,

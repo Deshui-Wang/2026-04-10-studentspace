@@ -487,13 +487,13 @@ const certifications = ref([
     name: '全国职业院校技能大赛（养老服务/健康照护赛项）',
     type: 'academic',
     scale: 'national',
-    competitionDate: '2024-09-15',
+    competitionDate: '2026-03-15',
     award: '一等奖',
     organization: '教育部等',
     image: '/pic/data.png',
     documents: [
-      { name: '获奖证书.pdf', size: '1.2MB', uploadTime: '2024-09-20' },
-      { name: '竞赛作品.pdf', size: '2.1MB', uploadTime: '2024-09-18' }
+      { name: '获奖证书.pdf', size: '1.2MB', uploadTime: '2026-03-20' },
+      { name: '竞赛作品.pdf', size: '2.1MB', uploadTime: '2026-03-18' }
     ]
   },
   {
@@ -501,13 +501,13 @@ const certifications = ref([
     name: '北京市职业院校技能大赛（康复治疗/健康照护）',
     type: 'vocational',
     scale: 'national',
-    competitionDate: '2025-06-10',
+    competitionDate: '2026-02-20',
     award: '二等奖',
     organization: '北京市教育主管部门',
     image: '/pic/data.png',
     documents: [
-      { name: '技能大赛证书.pdf', size: '1.5MB', uploadTime: '2025-06-12' },
-      { name: '技能展示视频.mp4', size: '15.2MB', uploadTime: '2025-06-15' }
+      { name: '技能大赛证书.pdf', size: '1.5MB', uploadTime: '2026-02-22' },
+      { name: '技能展示视频.mp4', size: '15.2MB', uploadTime: '2026-02-25' }
     ]
   },
   {
@@ -515,14 +515,13 @@ const certifications = ref([
     name: '全国大学生健康养老创新创业大赛',
     type: 'innovation',
     scale: 'national',
-    competitionDate: '2025-10-20',
+    competitionDate: '2026-03-10',
     award: '金奖',
     organization: '教育主管部门/行业协会',
     image: '/pic/data.png',
     documents: [
-      { name: '金奖证书.pdf', size: '1.8MB', uploadTime: '2025-10-25' },
-      { name: '商业计划书.pdf', size: '3.2MB', uploadTime: '2025-10-18' },
-      { name: '路演PPT.pdf', size: '2.5MB', uploadTime: '2025-10-22' }
+      { name: '金奖证书.pdf', size: '1.8MB', uploadTime: '2026-03-15' },
+      { name: '商业计划书.pdf', size: '3.2MB', uploadTime: '2026-03-05' }
     ]
   },
   {
@@ -530,14 +529,13 @@ const certifications = ref([
     name: '校园健康科普与志愿服务评比活动',
     type: 'arts',
     scale: 'national',
-    competitionDate: '2023-12-08',
+    competitionDate: '2026-01-12',
     award: '特等奖',
     organization: '学校/团委/社区',
     image: '/pic/national-data.png',
     documents: [
-      { name: '特等奖证书.pdf', size: '2.3MB', uploadTime: '2023-12-10' },
-      { name: '作品集.pdf', size: '4.1MB', uploadTime: '2023-12-12' },
-      { name: '演出视频.mp4', size: '28.5MB', uploadTime: '2023-12-15' }
+      { name: '特等奖证书.pdf', size: '2.3MB', uploadTime: '2026-01-15' },
+      { name: '作品集.pdf', size: '4.1MB', uploadTime: '2026-01-14' }
     ]
   },
   {
@@ -545,13 +543,13 @@ const certifications = ref([
     name: '全国大学生健康管理技能大赛',
     type: 'academic',
     scale: 'international',
-    competitionDate: '2025-11-15',
+    competitionDate: '2026-02-05',
     award: '铜奖',
     organization: '行业协会/高校联盟',
     image: '/pic/data.png',
     documents: [
-      { name: 'ACM证书.pdf', size: '945KB', uploadTime: '2025-11-18' },
-      { name: '解题报告.pdf', size: '1.8MB', uploadTime: '2025-11-20' }
+      { name: 'ACM证书.pdf', size: '945KB', uploadTime: '2026-02-08' },
+      { name: '解题报告.pdf', size: '1.8MB', uploadTime: '2026-02-10' }
     ]
   },
   {
@@ -559,13 +557,13 @@ const certifications = ref([
     name: '全国急救技能大赛（心肺复苏/创伤救护）',
     type: 'vocational',
     scale: 'world',
-    competitionDate: '2024-08-25',
+    competitionDate: '2026-01-28',
     award: '优胜奖',
     organization: '红十字会/行业组织',
     image: '/pic/data.png',
     documents: [
-      { name: '世赛证书.pdf', size: '1.6MB', uploadTime: '2024-08-28' },
-      { name: '技能展示.pdf', size: '2.8MB', uploadTime: '2024-08-30' }
+      { name: '世赛证书.pdf', size: '1.6MB', uploadTime: '2026-01-30' },
+      { name: '技能展示.pdf', size: '2.8MB', uploadTime: '2026-02-01' }
     ]
   }
 ])

@@ -138,7 +138,7 @@ const showDetailDialog = ref(false)
 const currentDetailList = ref([])
 
 // 模拟数据
-const semesterList = ['2025下学期', '2025初学期', '2024下学期', '2024初学期']
+const semesterList = ['2026初学期', '2025下学期', '2025初学期', '2024下学期', '2024初学期', '2023下学期', '2023初学期']
 const subjectList = ['健康管理', '护理研究', '政策法规', '英语']
 const courseList = ['老年学概论', '老年社会工作实务', '老年心理护理实训', '智慧养老终端实操', '老年政策与法规', '健康管理学', '智能康复辅助器具应用', '养老机构评估与管理', '大学英语']
 
@@ -162,7 +162,8 @@ const generateAttendanceData = () => {
     semesterList.forEach(semester => {
       // 根据学期决定基础年份和月份
       let baseYear = 2024
-      if (semester.includes('2025')) baseYear = 2025
+      if (semester.includes('2026')) baseYear = 2026
+      else if (semester.includes('2025')) baseYear = 2025
       else if (semester.includes('2023')) baseYear = 2023
       
       let baseMonth = semester.includes('初学期') ? '03' : '09'

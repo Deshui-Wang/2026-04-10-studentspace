@@ -6,7 +6,7 @@
         <h1 class="report-title">AI智能分析报告</h1>
         <p class="report-subtitle">李启明同学 - 综合能力评估</p>
         <div class="report-meta">
-          <span class="report-date">报告日期：2025年9月25日</span>
+          <span class="report-date">报告日期：2026年03月30日</span>
           <span class="report-type">AI智能分析报告</span>
         </div>
         <button class="suggestions-btn" @click="scrollToSuggestions">
@@ -253,7 +253,7 @@ const studentInfo = ref({
   major: '计算机科学与技术',
   grade: '2022级',
   studentId: '2022010101',
-  term: '2024-2025学年第一学期'
+  term: '2025-2026学年第二学期'
 })
 
 // 加载状态
@@ -367,34 +367,19 @@ const suggestionResources = ref([
 // 历史报告数据
 const reportHistory = ref([
   {
-    date: '2025-09-25',
-    title: '综合能力评估报告',
+    date: '2026-02-28',
+    title: '学期能力评估报告',
     type: 'AI智能分析'
   },
   {
-    date: '2025-06-15',
-    title: '学期表现评估报告',
-    type: '定期评估'
-  },
-  {
-    date: '2025-03-20',
-    title: '专业能力发展分析',
+    date: '2026-02-05',
+    title: '专业表现评估报告',
     type: '专项评估'
   },
   {
-    date: '2024-12-10',
-    title: '课程学习成效评估',
-    type: '项目评估'
-  },
-  {
-    date: '2024-09-01',
-    title: '年度综合发展报告',
-    type: '年度报告'
-  },
-  {
-    date: '2024-06-15',
-    title: '学习体验评估报告',
-    type: '调研分析'
+    date: '2026-01-20',
+    title: '月度发展分析报告',
+    type: '定期评估'
   }
 ])
 
