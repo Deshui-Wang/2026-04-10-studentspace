@@ -1,33 +1,115 @@
 <template>
-  <div class="main-navbar">
-    <div class="nav-left">
-      <img src="/pic/logo.ico" class="logo" alt="logo" />
-      <div class="title-container">
-        <span class="brand-title">Student SpaceX</span>
-        <span class="system-title">高校大学生·自由成长·学习空间</span>
+  <div class="main-navbar global-sidebar">
+    <!-- 顶部 Logo 区域 -->
+    <div class="sidebar-top">
+      <div class="nav-left">
+        <img src="/pic/logo.ico" class="logo" alt="logo" />
+        <div class="title-container">
+          <span class="brand-title">Student SpaceX</span>
+          <span class="system-title">高校大学生·学习空间</span>
+        </div>
       </div>
     </div>
-    <ul class="nav-menu">
-      <li class="nav-item" :class="{active: currentPath === '/'}" @click="goNav('/')">首页</li>      
-      <li class="nav-item" :class="{active: currentPath.startsWith('/data-center')}" @click="goNav('/data-center')">学习中心</li>
-      <li class="nav-item" :class="{active: currentPath.startsWith('/ability-test')}" @click="goNav('/ability-test')">能力检测</li>
-      <li class="nav-item" :class="{active: currentPath.startsWith('/career-guidance')}" @click="goNav('/career-guidance')">就业指导</li>
-      <li class="nav-item evaluation-center-item" :class="{active: currentPath.startsWith('/EvaluationCenter')}" @click="goNav('/EvaluationCenter')">
-        成长中心
-        <div class="notification-dot" v-if="hasNewNotifications"></div>
-      </li>
-      <li class="nav-item" :class="{active: currentPath.startsWith('/profile')}" @click="goNav('/profile')">个人中心</li>
-    </ul>
-    <div class="nav-user" @click="toggleUserMenu">
-      <img src="/pic/student01.png" class="user-avatar" alt="用户头像" />
-      <span class="user-name">{{ displayName }}</span>
-      <i class="el-icon-arrow-down" :class="{ 'is-reverse': showUserMenu }"></i>
-      
-      <!-- 用户下拉菜单 -->
-      <div class="user-dropdown" v-show="showUserMenu">
-        <div class="dropdown-item" @click="goToProfile">
-          <i class="el-icon-user"></i>
-          <span>个人中心</span>
+
+      <!-- 菜单区域 -->
+    <div class="sidebar-content">
+      <!-- 导航菜单列表 -->
+      <ul class="nav-menu">
+        <!-- 2. 首页 -->
+        <li class="nav-item" :class="{active: currentPath === '/'}" @click="goNav('/')">
+          <i class="el-icon-s-home"></i>
+          <span class="nav-text">首页</span>
+        </li>      
+        
+        <!-- 3. 学习空间区域 -->
+        <li class="menu-divider"></li>
+        <li class="menu-section-header">学习空间</li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && ($route.query.tab === 'teaching' || !$route.query.tab)}" @click="goNav('/data-center?tab=teaching')">
+          <i class="el-icon-monitor"></i>
+          <span class="nav-text">学习中心</span>
+        </li>
+
+        <!-- 8.1 学习资料 (对应资源数据) -->
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'resources'}" @click="goNav('/data-center?tab=resources')">
+          <i class="el-icon-folder"></i>
+          <span class="nav-text">学习资料</span>
+        </li>
+
+        <!-- 8.2 数字化成果 (对应学习成果) -->
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'achievements'}" @click="goNav('/data-center?tab=achievements')">
+          <i class="el-icon-document-checked"></i>
+          <span class="nav-text">数字化成果</span>
+        </li>
+
+        <!-- 8.4 个人口袋 (对应智能口袋) -->
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'reports'}" @click="goNav('/data-center?tab=reports')">
+          <i class="el-icon-wallet"></i>
+          <span class="nav-text">个人口袋</span>
+        </li>
+
+        <!-- 4. 智能检测中心 (原能力检测与成长中心合并) -->
+        <li class="menu-divider"></li>
+        <li class="menu-section-header">智能检测中心</li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/ability-test' && !$route.query.tab}" @click="goNav('/ability-test')">
+          <i class="el-icon-cpu"></i>
+          <span class="nav-text">检测图谱</span>
+        </li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/ability-test' && $route.query.tab === 'report'}" @click="goNav('/ability-test?tab=report')">
+          <i class="el-icon-document"></i>
+          <span class="nav-text">检测报告</span>
+        </li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/EvaluationCenter' && $route.query.tab === 'goals'}" @click="goNav('/EvaluationCenter?tab=goals')">
+          <i class="el-icon-guide"></i>
+          <span class="nav-text">目标路径</span>
+        </li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/EvaluationCenter' && !$route.query.tab}" @click="goNav('/EvaluationCenter')">
+          <i class="el-icon-medal"></i>
+          <span class="nav-text">成长跟踪</span>
+          <div class="notification-dot" v-if="hasNewNotifications"></div>
+        </li>
+
+        <!-- 5. 就业指导区域 -->
+        <li class="menu-divider"></li>
+        <li class="menu-section-header">就业指导</li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/profile/resume'}" @click="goNav('/profile/resume')">
+          <i class="el-icon-document-copy"></i>
+          <span class="nav-text">个人简历</span>
+        </li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'recruitment'}" @click="goNav('/data-center?tab=recruitment')">
+          <i class="el-icon-message-solid"></i>
+          <span class="nav-text">招聘信息</span>
+        </li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'interview'}" @click="goNav('/data-center?tab=interview')">
+          <i class="el-icon-mic"></i>
+          <span class="nav-text">面试辅导</span>
+        </li>
+
+        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'ai-interview'}" @click="goNav('/data-center?tab=ai-interview')">
+          <i class="el-icon-video-camera"></i>
+          <span class="nav-text">AI虚拟面试</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 底部辅助与个人中心区域 -->
+    <div class="sidebar-footer">
+      <!-- 用户信息区域 - 移动到底部作为个人中心 -->
+      <div class="nav-user-section bottom-profile" :class="{ active: currentPath.startsWith('/profile') && currentPath !== '/profile/resume' }" @click="goToProfile">
+        <div class="user-info-card">
+          <img src="/pic/student01.png" class="user-avatar" alt="用户头像" />
+          <div class="user-details">
+            <span class="user-name">{{ displayName }}</span>
+            <span class="user-role">个人中心</span>
+          </div>
+          <i class="el-icon-setting"></i>
         </div>
       </div>
     </div>
@@ -80,12 +162,9 @@ const goToProfile = () => {
   router.push('/profile')
 }
 
-// 退出登录 - 已按需移除
-// const logout = () => { ... }
-
 // 点击外部关闭菜单
 const handleClickOutside = (event) => {
-  const userElement = event.target.closest('.nav-user')
+  const userElement = event.target.closest('.nav-user-section')
   if (!userElement) {
     showUserMenu.value = false
   }
@@ -101,11 +180,9 @@ onMounted(() => {
       currentUser.value = user
     }
   }
-  // 添加全局点击事件监听
   document.addEventListener('click', handleClickOutside)
 })
 
-// 组件卸载时移除事件监听
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
@@ -113,26 +190,31 @@ onUnmounted(() => {
 
 <style scoped>
 .main-navbar {
-  width: 100%;
-  height: 78px;
-  background: #fff;
+  width: 260px;
+  height: 100vh;
+  background: white;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  padding: 0 20px;
+  flex-direction: column;
+  border-right: 1px solid #e2e8f0;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.03);
+  position: relative;
+  z-index: 100;
+}
+
+.sidebar-top {
+  padding: 24px 20px;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
 
 .logo {
-  width: 58px;
-  height: 58px;
-  margin-right: 6px;
+  width: 42px;
+  height: 42px;
 }
 
 .title-container {
@@ -142,179 +224,182 @@ onUnmounted(() => {
 }
 
 .brand-title {
-  font-size: 24px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
   color: #6841ea;
   line-height: 1.2;
-  margin-bottom: 5px;
 }
 
 .system-title {
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 500;
-  color: #f3a209;
+  color: #94a3b8;
   line-height: 1.2;
+  margin-top: 2px;
 }
 
-.nav-menu {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  gap: 16px;
+.sidebar-content {
+  flex-grow: 1;
+  padding: 20px 12px;
+  overflow-y: auto;
 }
 
-.nav-item {
-  font-size: 15px;
-  color: #333;
+/* 用户信息区域样式 - 底部模式 */
+.nav-user-section {
+  padding: 12px;
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
-  padding: 8px 18px;
-  border-radius: 6px;
-  transition: background 0.2s, color 0.2s;
-  position: relative;
+  border: 1px solid transparent;
 }
 
-.nav-item.active, .nav-item:hover {
-  background: #f0f5ff;
-  color: #8b5cf6;
-  font-weight: 600;
+.bottom-profile {
+  margin-bottom: 12px;
+  background: #f8fafc;
 }
 
-/* Tch AI+ 特殊样式 */
-.tch-ai-item {
-  position: relative;
-  overflow: hidden;
-  background: transparent;
-  border: 2px solid transparent;
-  box-shadow: none;
+.nav-user-section:hover {
+  background: #eff6ff;
+  border-color: #3b82f633;
 }
 
-.tch-ai-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transition: left 0.5s;
+.nav-user-section.active {
+  background: #8b5cf6;
+  border-color: #8b5cf6;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
 }
 
-.tch-ai-item:hover::before {
-  left: 100%;
-}
-
-.tch-ai-text {
-  position: relative;
-  z-index: 2;
-  color: #8b5cf6;
-  font-weight: 600;
-}
-
-.tch-ai-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.3) 0%, transparent 70%);
-  border-radius: 50%;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 1;
-}
-
-.tch-ai-item:hover .tch-ai-glow {
-  opacity: 1;
-}
-
-/* 用户信息区域 */
-.nav-user {
+.user-info-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  position: relative;
-  transition: background 0.2s;
-}
-
-.nav-user:hover {
-  background: #f8f9fa;
 }
 
 .user-avatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 8px;
-  object-fit: cover;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.user-details {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  overflow: hidden;
 }
 
 .user-name {
-  font-size: 18px;
-  font-weight: 400;
-  color: #374151;
-}
-
-.el-icon-arrow-down {
-  font-size: 12px;
-  color: #9ca3af;
-  transition: transform 0.2s;
-}
-
-.el-icon-arrow-down.is-reverse {
-  transform: rotate(180deg);
-}
-
-/* 用户下拉菜单 */
-.user-dropdown {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  min-width: 160px;
-  z-index: 1000;
-  margin-top: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.nav-user-section.active .user-name,
+.nav-user-section.active .user-role,
+.nav-user-section.active i {
+  color: white;
+}
+
+.user-role {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: left;
+  width: 100%;
+}
+
+.nav-user-section i {
+  color: #cbd5e1;
+  font-size: 16px;
 }
 
 .dropdown-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
+  gap: 10px;
+  padding: 10px 12px;
   font-size: 14px;
-  color: #374151;
-  cursor: pointer;
-  transition: background 0.2s;
+  color: #475569;
+  border-radius: 8px;
+  transition: all 0.2s;
 }
 
 .dropdown-item:hover {
-  background: #f3f4f6;
+  background: #eff6ff;
+  color: #3b82f6;
 }
 
-.dropdown-item i {
-  font-size: 16px;
-  color: #6b7280;
+/* 导航菜单样式 */
+.nav-menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.dropdown-item:last-child {
-  border-top: 1px solid #f3f4f6;
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #64748b;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s;
+  position: relative;
 }
 
-.dropdown-item:last-child:hover {
-  background: #fef2f2;
-  color: #dc2626;
+.nav-item i {
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
 }
 
-.dropdown-item:last-child i {
-  color: #dc2626;
+.nav-item:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.nav-item.active {
+  background: #8b5cf6;
+  color: white;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
+
+.nav-item.active i {
+  color: white;
+}
+
+/* 菜单分组样式 */
+.menu-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 16px 8px 8px 8px;
+}
+
+.menu-section-header {
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-align: left;
+}
+
+.data-item {
+  font-size: 14px;
 }
 
 /* 成长中心提醒点 */
@@ -324,51 +409,43 @@ onUnmounted(() => {
 
 .notification-dot {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 14px;
+  right: 14px;
   width: 8px;
   height: 8px;
   background: #ef4444;
   border-radius: 50%;
-  animation: pulse 2s infinite;
+  border: 2px solid white;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
+.sidebar-footer {
+  padding: 20px;
+  border-top: 1px solid #f1f5f9;
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .nav-menu {
-    gap: 20px;
-  }
-  
-  .nav-item {
-    padding: 6px 12px;
-    font-size: 14px;
-  }
-  
-  .system-title {
-    font-size: 16px;
-  }
-  
-  .user-name {
-    display: none;
-  }
-  
-  .user-dropdown {
-    right: -10px;
+.help-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.help-item:hover {
+  color: #64748b;
+  background: #f8fafc;
+}
+
+/* 响应式设计 - 大屏幕侧边栏，小屏幕隐藏或抽屉 */
+@media (max-width: 1024px) {
+  .main-navbar {
+    position: fixed;
+    left: -260px;
+    transition: left 0.3s;
   }
 }
 </style>

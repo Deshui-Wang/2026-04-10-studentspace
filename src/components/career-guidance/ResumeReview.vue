@@ -5,61 +5,29 @@
     </div>
 
     <div class="review-content">
-      <!-- 简历上传区域 -->
-      <div class="upload-section">
-        <div class="section-header">
-          <i class="el-icon-upload"></i>
-          <h3>上传简历</h3>
-        </div>
-        <div class="upload-area">
-          <el-upload
-            class="upload-dragger"
-            drag
-            :auto-upload="false"
-            :before-upload="beforeUpload"
-            :on-change="onFileChange"
-            :on-error="handleUploadError"
-            :limit="1"
-            :multiple="false"
-            accept=".pdf,.doc,.docx"
-            :show-file-list="false"
-          >
-            <i class="el-icon-upload"></i>
-            <div class="el-upload__text">
-              将简历文件拖到此处，或<em>点击上传</em>
-            </div>
-            <div class="el-upload__tip" slot="tip">
-              支持 PDF、Word 格式，文件大小不超过 10MB
-            </div>
-          </el-upload>
-        </div>
-        
-        <!-- 已上传文件信息 -->
-        <div v-if="uploadedFile" class="uploaded-file-info">
-          <div class="file-info">
-            <i class="el-icon-document"></i>
-            <span class="file-name">{{ uploadedFile.name }}</span>
-            <span class="file-size">{{ formatFileSize(uploadedFile.size) }}</span>
-          </div>
-          <el-button type="primary" @click="startAnalysis" :loading="analyzing" :disabled="!uploadedFile">
-            <i class="el-icon-search"></i>
-            {{ analyzing ? '分析中...' : '开始分析' }}
-          </el-button>
-        </div>
-      </div>
-
       <!-- 分析结果 -->
-      <div class="analysis-result">
+      <div class="analysis-result direct-analysis">
         <div class="section-header">
           <i class="el-icon-data-analysis"></i>
-          <h3>AI智能分析</h3>
+          <h3>AI智能分析报告</h3>
         </div>
         <!-- 分析中动效 -->
         <div v-if="analyzing" class="analyzing-state">
-          <img src="/pic/mianshi/jianlifenxi.gif" alt="分析中" class="analyzing-gif" />
+          <div class="analyzing-gif-wrapper" style="display: flex; flex-direction: column; align-items: center;">
+            <img src="/pic/mianshi/jianlifenxi.gif" alt="分析中" class="analyzing-gif" />
+            <p class="analyzing-text" style="color: #667eea; font-weight: 500; margin-top: 16px;">AI 正在深度扫描当前在线简历，请稍候...</p>
+          </div>
         </div>
-        <div v-else-if="!analysisResult" class="empty-state">
-          <p>此处将展示 AI 智能分析结果，请先在左侧上传简历并点击「开始分析」。</p>
+        <div v-else-if="!analysisResult" class="empty-state" style="text-align: center; padding: 60px 0;">
+          <div class="empty-icon" style="font-size: 64px; color: #2b58ff; margin-bottom: 24px;">
+            <i class="el-icon-magic-stick"></i>
+          </div>
+          <h3 style="font-size: 22px; font-weight: 600; color: #1e293b; margin: 0 0 16px 0;">当前简历暂未进行诊断</h3>
+          <p style="color: #64748b; font-size: 15px; margin: 0 0 36px 0;">点击下方按钮，AI将立即对您的当前简历内容进行全方位深度分析并出具专业评估报告。</p>
+          <el-button type="primary" size="large" @click="startAnalysis" class="start-btn" style="border-radius: 8px; padding: 12px 36px; font-size: 16px;">
+            <i class="el-icon-search"></i>
+            开始智能分析
+          </el-button>
         </div>
         <template v-else>
         <!-- 总体评分 -->
@@ -382,8 +350,6 @@
 import { ref, reactive, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 
-// 上传相关（本地模拟，不走服务端）
-const uploadedFile = ref(null)
 const analyzing = ref(false)
 
 // 分析结果
@@ -398,35 +364,6 @@ const showCareerMatch = ref(false)
 const showProfessionalism = ref(false)
 const showVisualPresentation = ref(false)
 const showSuggestions = ref(false)
-
-// 历史模块已移除
-
-// 上传前检查
-const beforeUpload = (file) => {
-  const isValidType = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(file.type)
-  const isValidSize = file.size / 1024 / 1024 < 10
-
-  if (!isValidType) {
-    ElMessage.error('只支持 PDF、Word 格式文件!')
-    return false
-  }
-  if (!isValidSize) {
-    ElMessage.error('文件大小不能超过 10MB!')
-    return false
-  }
-  return true
-}
-
-// 选择文件（本地）
-const onFileChange = (uploadFile) => {
-  // Element Plus on-change 参数是 UploadFile，原始文件在 raw 字段
-  uploadedFile.value = uploadFile.raw
-}
-
-// 上传失败
-const handleUploadError = (error) => {
-  console.error('文件上传失败:', error)
-}
 
 // 生成问题清单（随机）
 const generateResumeIssues = () => {
@@ -922,14 +859,9 @@ const reAnalyze = () => {
 }
 
 .review-content {
-  display: grid;
-  grid-template-columns: 360px 1fr; /* 左侧上传，右侧分析 */
-  align-items: start;
-  column-gap: 24px; /* 保持左右间距 */
-  row-gap: 8px; /* 收紧上传与历史的上下间距 */
+  display: block;
 }
 
-.upload-section,
 .analysis-result {
   background: #f8f9fa;
   border-radius: 12px;
@@ -972,46 +904,6 @@ const reAnalyze = () => {
   margin: 0;
 }
 
-.upload-area {
-  margin-bottom: 20px;
-}
-
-.upload-dragger {
-  width: 100%;
-}
-
-.uploaded-file-info {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px;
-  background: white;
-  border-radius: 8px;
-  border: 2px solid #e5e7eb;
-  gap: 20px;
-}
-
-.file-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.file-info i {
-  font-size: 20px;
-  color: #667eea;
-}
-
-.file-name {
-  font-weight: 500;
-  color: #1f2937;
-}
-
-.file-size {
-  color: #6b7280;
-  font-size: 14px;
-}
 
 .overall-score {
   display: flex;
@@ -1101,7 +993,7 @@ const reAnalyze = () => {
 
 .issues-list {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12px;
 }
 
@@ -1145,6 +1037,7 @@ const reAnalyze = () => {
 
 .issue-content {
   flex: 1;
+  text-align: left;
 }
 
 .issue-text {
@@ -1156,8 +1049,7 @@ const reAnalyze = () => {
 .issue-priority {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 14px;
+  padding: 6px 10px;
   border-radius: 16px;
   font-size: 13px;
   font-weight: 600;

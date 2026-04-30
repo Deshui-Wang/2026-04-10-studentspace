@@ -1,352 +1,388 @@
 <template>
-  <div class="content-section">
-    <div class="content-tabs">
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'papers' }"
-        @click="$emit('sub-tab-change', 'papers')"
-      >
-        项目成果
+  <div class="ai-portfolio-container">
+    <!-- 0. 数字化成果专业头部 -->
+    <div class="portfolio-header">
+      <div class="header-content">
+        <div class="title-area">
+          <div class="header-icon">
+            <i class="el-icon-trophy"></i>
+          </div>
+          <div class="header-text">
+            <h2 class="main-title">数字化成果展区</h2>
+            <p class="sub-title">沉淀个人 AIGC 创作实战成果，构建数字化竞争优势</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <el-button type="primary" size="medium" round icon="el-icon-share">分享成果</el-button>
+          <el-button type="info" size="medium" round plain icon="el-icon-download">导出报告</el-button>
+        </div>
       </div>
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'certificates' }"
-        @click="$emit('sub-tab-change', 'certificates')"
-      >
-        奖学金
+      <!-- 装饰背景 -->
+      <div class="header-bg-decoration"></div>
+    </div>
+
+    <!-- 顶部概览统计 -->
+    <div class="portfolio-stats">
+      <div class="stat-card orange">
+        <div class="stat-icon"><i class="el-icon-user"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">已生成数字人</span>
+          <span class="stat-number">2</span>
+        </div>
       </div>
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'ability-certification' }"
-        @click="$emit('sub-tab-change', 'ability-certification')"
-      >
-        竞赛获奖
+      <div class="stat-card blue">
+        <div class="stat-icon"><i class="el-icon-connection"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">已设计工作流</span>
+          <span class="stat-number">12</span>
+        </div>
       </div>
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'international-ability' }"
-        @click="$emit('sub-tab-change', 'international-ability')"
-      >
-        技能证书
-      </div>
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'teaching-achievements' }"
-        @click="$emit('sub-tab-change', 'teaching-achievements')"
-      >
-        成长荣誉
+      <div class="stat-card purple">
+        <div class="stat-icon"><i class="el-icon-cpu"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">已训练智能体</span>
+          <span class="stat-number">8</span>
+        </div>
       </div>
     </div>
 
-    <!-- 内容展示区域 -->
-    <div class="content-area">
-      <!-- 科研成果页面 - 包含论文和专利筛选 -->
-      <div v-if="activeSubTab === 'papers'" class="research-achievements-container">
-        <!-- 统一的筛选区域 -->
-        <div class="filter-section">
-          <div class="filter-row">
-            <div class="filter-tabs">
-              <label
-                class="filter-tab"
-                :class="{ active: researchFilter === 'papers' }"
-              >
-                <input
-                  type="radio"
-                  name="research-filter"
-                  value="papers"
-                  v-model="researchFilter"
-                  class="filter-checkbox"
-                >
-                <span class="filter-label">论文</span>
-              </label>
-              <label
-                class="filter-tab"
-                :class="{ active: researchFilter === 'patents' }"
-              >
-                <input
-                  type="radio"
-                  name="research-filter"
-                  value="patents"
-                  v-model="researchFilter"
-                  class="filter-checkbox"
-                >
-                <span class="filter-label">专利</span>
-              </label>
-            </div>
-
-            <div class="search-box">
-              <input
-                type="text"
-                v-model="searchKeyword"
-                :placeholder="researchFilter === 'papers' ? '搜索论文名称、作者或关键词...' : '搜索专利名称、专利号或申请人...'"
-                class="search-input"
-              >
-              <i class="search-icon">🔍</i>
+    <!-- 1. 数字人成果展区 (双人大幅竖版) -->
+    <div class="portfolio-section">
+      <div class="section-title-wrapper">
+        <h3 class="section-title">我的数字人 (Digital Humans)</h3>
+        <span class="item-count">2 个成果</span>
+      </div>
+      <div class="portfolio-grid dh-focus-grid">
+        <div v-for="i in 2" :key="'dh'+i" class="portfolio-card dh-focus-card">
+          <div class="card-preview dh-focus-bg">
+            <img :src="`/pic/tea/shuziren0${i}.png`" class="dh-img-focus" />
+          </div>
+          <div class="card-info">
+            <h4>{{ dhTitles[i-1] }}</h4>
+            <p>{{ dhDescs[i-1] }}</p>
+            <div class="card-footer">
+              <span class="tag">虚拟形象</span>
+              <span class="date">2026.04.2{{i}}</span>
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-
-        <!-- 根据筛选显示对应内容，并传递搜索关键词 -->
-        <div v-if="researchFilter === 'papers'" class="embedded-component">
-          <Papers :search-keyword="searchKeyword" />
-        </div>
-        <div v-if="researchFilter === 'patents'" class="embedded-component">
-          <Patents :search-keyword="searchKeyword" />
+    <!-- 2. 工作流成果展区 -->
+    <div class="portfolio-section">
+      <div class="section-title-wrapper">
+        <h3 class="section-title">我的工作流 (Workflows)</h3>
+        <span class="item-count">12 个成果</span>
+      </div>
+      <div class="portfolio-grid">
+        <div v-for="i in 3" :key="'wf'+i" class="portfolio-card workflow">
+          <div class="card-preview workflow-bg">
+            <div class="node-map">
+              <div class="node mini"></div>
+              <div class="line mini"></div>
+              <div class="node mini"></div>
+            </div>
+          </div>
+          <div class="card-info">
+            <h4>{{ workflowTitles[i-1] }}</h4>
+            <p>{{ workflowDescs[i-1] }}</p>
+            <div class="card-footer">
+              <span class="tag">AI 逻辑</span>
+              <span class="date">2026.04.1{{i}}</span>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- 成果数据-证书页面 -->
-      <Certificates v-if="activeSubTab === 'certificates'" />
+    <!-- 3. 智能体成果展区 -->
+    <div class="portfolio-section">
+      <div class="section-title-wrapper">
+        <h3 class="section-title">我的智能体 (Agents)</h3>
+        <span class="item-count">8 个成果</span>
+      </div>
+      <div class="portfolio-grid">
+        <div v-for="i in 3" :key="'ag'+i" class="portfolio-card agent">
+          <div class="card-preview agent-bg">
+            <div class="agent-avatar-mini">
+              <i class="el-icon-chat-dot-round"></i>
+            </div>
+          </div>
+          <div class="card-info">
+            <h4>{{ agentTitles[i-1] }}</h4>
+            <p>{{ agentDescs[i-1] }}</p>
+            <div class="card-footer">
+              <span class="tag">对话助手</span>
+              <span class="date">2026.04.0{{i}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      <!-- 成果数据-能力认证页面 -->
-      <AbilityCertifications v-if="activeSubTab === 'ability-certification'" />
-
-      <!-- 成果数据-国际能力页面 -->
-      <InternationalAbility v-if="activeSubTab === 'international-ability'" />
-
-      <!-- 成果数据-教学成果页面 -->
-      <TeachingAchievements v-if="activeSubTab === 'teaching-achievements'" />
+    <!-- 4. 智能评价展区 (新迁入) -->
+    <div class="portfolio-section">
+      <div class="section-title-wrapper">
+        <h3 class="section-title">智能评价 (Digital Literacy Evaluation)</h3>
+        <span class="item-count">AI 综合评估</span>
+      </div>
+      <div class="evaluation-container-box">
+        <DigitalLiteracy />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import Papers from '@/components/data-center/achievements/Papers.vue'
-import Certificates from '@/components/data-center/achievements/Certificates.vue'
-import AbilityCertifications from '@/components/data-center/achievements/AbilityCertifications.vue'
-import InternationalAbility from '@/components/data-center/achievements/InternationalAbility.vue'
-import TeachingAchievements from '@/components/data-center/achievements/TeachingAchievements.vue'
-import Patents from '@/components/data-center/achievements/Patents.vue'
+import DigitalLiteracy from '@/components/data-center/evaluation/DigitalLiteracy.vue'
+const workflowTitles = ['自动论文校对流', '每日财经新闻精炼', 'Python代码漏洞检测']
+const workflowDescs = ['利用 LLM 自动识别论文中的逻辑错误与语法缺陷', '聚合 5 个财经 API 并自动生成中文简报', '针对 Django 项目的安全性进行自动化静态审计']
 
-const props = defineProps({
-  activeSubTab: {
-    type: String,
-    default: 'papers'
-  }
-})
+const agentTitles = ['数学奥赛教练', '雅思口语陪练', '创意写作灵感包']
+const agentDescs = ['精通初高中数学竞赛题库，提供解题思路而非答案', '模拟 15 种雅思真实考场场景，实时纠音并评分', '提供 100+ 种写作风格切换，辅助克服写作障碍']
 
-defineEmits(['sub-tab-change'])
-
-// 科研成果筛选状态
-const researchFilter = ref('papers')
-// 搜索关键词
-const searchKeyword = ref('')
-
-// 监听 activeSubTab 变化，当切换到科研成果时重置筛选状态
-watch(() => props.activeSubTab, (newTab) => {
-  if (newTab === 'papers') {
-    researchFilter.value = 'papers'
-    searchKeyword.value = ''
-  }
-}, { immediate: true })
-
-// 监听筛选状态变化
-watch(researchFilter, (newFilter) => {
-  console.log('筛选状态变化:', newFilter)
-  // 清空搜索关键词
-  searchKeyword.value = ''
-})
+const dhTitles = ['Vicky - 虚拟讲师', 'Leo - 技术导师']
+const dhDescs = ['写实风格分身，用于录制英语教学视频', '多模态数字人，支持实时代码逻辑演示']
 </script>
 
 <style scoped>
-/* 内容区域 */
-.content-section {
-  max-width: 1400px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-
-.content-tabs {
-  display: flex;
+.ai-portfolio-container {
+  padding: 32px;
   background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
 }
 
-.tab-item {
-  padding: 16px 24px;
-  cursor: pointer;
-  font-weight: 500;
-  color: #6b7280;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  border-bottom: 3px solid transparent;
+/* 新增：专业头部样式 */
+.portfolio-header {
+  background: linear-gradient(135deg, #1e2b45 0%, #2d3748 100%);
+  border-radius: 24px;
+  padding: 32px 40px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  margin-bottom: 8px;
 }
 
-.tab-item:hover {
-  color: #3b82f6;
-  background: #f1f5f9;
-}
-
-.tab-item.active {
-  color: #3b82f6;
-  background: white;
-  border-bottom-color: #3b82f6;
-}
-
-.content-area {
-  min-height: 600px;
-  padding: 0;
-}
-
-/* 科研成果容器样式 */
-.research-achievements-container {
-  padding: 0;
-}
-
-/* 嵌入组件的容器样式 - 彻底隐藏子组件的顶部结构 */
-.embedded-component {
-  /* 重置嵌入组件的容器样式，避免与父容器冲突 */
-}
-
-/* 隐藏嵌入组件的顶部标签栏和筛选区域 */
-.embedded-component :deep(.content-section) {
-  padding: 0;
-  background: transparent;
-  min-height: auto;
-  border-radius: 0;
-  box-shadow: none;
-  margin: 0;
-}
-
-.embedded-component :deep(.content-tabs) {
-  display: none !important; /* 强制隐藏顶部标签栏 */
-}
-
-.embedded-component :deep(.content-area) {
-  padding: 0;
-  min-height: auto;
-}
-
-.embedded-component :deep(.filter-section) {
-  display: none !important; /* 强制隐藏筛选区域 */
-}
-
-.embedded-component :deep(.patents-container),
-.embedded-component :deep(.papers-container) {
-  padding: 0;
-  background: transparent;
-  min-height: auto;
-  border-radius: 0;
-  box-shadow: none;
-  margin: 0;
-}
-
-/* 筛选区域样式 */
-.filter-section {
-  background: white;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 20px 24px;
-}
-
-.filter-row {
+.header-content {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 20px;
 }
 
-.filter-tabs {
-  display: flex;
-  gap: 20px;
-  flex: 1;
-  flex-wrap: wrap;
-}
-
-.filter-tab {
+.title-area {
   display: flex;
   align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-size: 14px;
-  font-weight: 500;
-  white-space: nowrap;
-  user-select: none;
-  padding: 4px 0;
+  gap: 24px;
 }
 
-.filter-tab:hover {
-  color: #3b82f6;
+.header-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: #fbbf24;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
 }
 
-.filter-tab.active {
-  color: #3b82f6;
-}
-
-.filter-checkbox {
-  width: 16px;
-  height: 16px;
+.main-title {
   margin: 0;
-  cursor: pointer;
-  accent-color: #3b82f6;
+  font-size: 26px;
+  font-weight: 800;
+  color: white;
+  letter-spacing: 1px;
 }
 
-.filter-label {
+.sub-title {
+  margin: 6px 0 0 0;
   font-size: 14px;
+  color: #94a3b8;
   font-weight: 500;
-  cursor: pointer;
 }
 
-.search-box {
-  position: relative;
-  min-width: 300px;
-  max-width: 400px;
+.header-actions {
+  display: flex;
+  gap: 12px;
 }
 
-.search-input {
-  width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.2s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.search-icon {
+.header-bg-decoration {
   position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
+  top: -20%;
+  right: -5%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
 }
 
-/* 响应式设计 */
+/* 统计卡片微调 */
+.portfolio-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.stat-card {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.blue .stat-icon { background: #eff6ff; color: #3b82f6; }
+.purple .stat-icon { background: #f5f3ff; color: #8b5cf6; }
+.orange .stat-icon { background: #fff7ed; color: #f97316; }
+
+.stat-number {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+/* 展区部分 */
+.portfolio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.section-title-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 4px solid #3b82f6;
+  padding-left: 16px;
+}
+
+.section-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.evaluation-container-box {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  overflow: hidden;
+  border: 1px solid #eef2f6;
+  padding: 0;
+}
+
+/* 数字人焦点布局 - 窄而高 */
+.dh-focus-grid {
+  display: flex !important;
+  gap: 32px !important;
+  justify-content: flex-start;
+}
+
+.dh-focus-card {
+  width: 260px !important; /* 保持宽度较窄 */
+  border-radius: 20px !important;
+}
+
+.dh-focus-bg {
+  height: 320px !important; /* 显著增加高度 */
+  background: #f1f5f9 !important;
+}
+
+.dh-img-focus {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: top; /* 确保能看到头部 */
+}
+
+/* 通用网格与卡片 */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.portfolio-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #eef2f6;
+  transition: all 0.3s ease;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.card-preview {
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workflow-bg { background: linear-gradient(135deg, #60a5fa11 0%, #3b82f611 100%); }
+.agent-bg { background: linear-gradient(135deg, #a78bfa11 0%, #8b5cf611 100%); }
+
+.node-map { display: flex; align-items: center; gap: 8px; }
+.node.mini { width: 20px; height: 20px; background: #3b82f6; border-radius: 4px; }
+.line.mini { width: 15px; height: 1.5px; background: #cbd5e1; }
+
+.agent-avatar-mini {
+  width: 50px;
+  height: 50px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #8b5cf6;
+}
+
+.card-info { padding: 16px; }
+.card-info h4 { margin: 0 0 8px 0; font-size: 15px; font-weight: 700; color: #1e293b; }
+.card-info p {
+  margin: 0 0 16px 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.4;
+  height: 34px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.card-footer { display: flex; align-items: center; justify-content: space-between; }
+.tag { font-size: 10px; padding: 2px 6px; background: #f1f5f9; color: #475569; border-radius: 4px; }
+.date { font-size: 11px; color: #94a3b8; }
+
 @media (max-width: 768px) {
-  .content-tabs {
-    flex-wrap: wrap;
-  }
-
-  .tab-item {
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-
-  .filter-row {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-  }
-
-  .filter-tabs {
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-
-  .search-box {
-    min-width: auto;
-    max-width: none;
-  }
+  .dh-focus-grid { flex-direction: column; align-items: center; }
+  .portfolio-grid { grid-template-columns: 1fr; }
 }
 </style>

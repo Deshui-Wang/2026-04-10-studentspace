@@ -97,17 +97,29 @@ const shouldShowNavbar = computed(() => {
 
 <template>
   <div id="app" :class="{ 'ai-panel-visible': isAIAssistantPanelVisible }">
-    <div class="main-content">
-      <MainNavbar v-if="shouldShowNavbar && !commonStore.isInIframe" />
-      <SideBar v-if="commonStore.isInIframe"/>
-      <router-view />
-      <Footer v-if="!$route.meta.hideFooter" />
+    <div class="app-layout">
+      <!-- 全局侧边栏导航 -->
+      <MainNavbar 
+        v-if="shouldShowNavbar && !commonStore.isInIframe" 
+        class="global-sidebar" 
+      />
+      <SideBar v-if="commonStore.isInIframe" class="global-sidebar" />
+
+      <!-- 右侧主视图区域 -->
+      <div class="main-view-container">
+        <div class="main-view-content">
+          <router-view />
+          <Footer v-if="!$route.meta.hideFooter" />
+        </div>
+      </div>
     </div>
+    
     <!-- 小智人AI智能悬浮球 - 全局显示 -->
     <AIAssistant @panel-toggled="handleAIAssistantPanelToggle" />
 
-    <!-- 头像选择弹层 - 放在最外层，不会被导航标签挡住 -->
+    <!-- 头像选择弹层 -->
     <div v-if="showAvatarSelector" class="avatar-selector-overlay" @click="closeAvatarSelector">
+      <!-- ... (保持原样) -->
       <div class="avatar-selector-modal" @click.stop>
         <div class="modal-header">
           <h3>选择数字分身形象</h3>
@@ -146,26 +158,48 @@ const shouldShowNavbar = computed(() => {
   display: flex;
   flex-direction: column;
   transition: margin-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
 }
 
-.main-content {
+.app-layout {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.global-sidebar {
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.main-view-container {
+  flex-grow: 1;
+  height: 100vh;
+  overflow-y: auto;
+  background: #f8fafc;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  position: relative;
   transition: margin-right 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-#app.ai-panel-visible .main-content {
+.main-view-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+#app.ai-panel-visible .main-view-container {
   margin-right: 450px;
 }
 
-#app > * {
-  flex-shrink: 0;
+/* 兼容原有类名以减少冲突 */
+.main-content {
+  display: contents;
 }
 
-#app > router-view {
-  flex: 1;
-}
 
 /* 头像选择弹层样式 */
 .avatar-selector-overlay {

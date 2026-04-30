@@ -1,1186 +1,353 @@
 <template>
-  <div class="papers-container">
-    <!-- 隐藏原来的筛选区域，因为现在由父组件统一管理 -->
-    <!-- <div class="filter-section">
-      <div class="filter-row">
-        <div class="search-box">
-          <input 
-            type="text" 
+  <div class="projects-container">
+    <!-- 头部工具栏 -->
+    <div class="top-bar">
+      <div class="bar-left">
+        <h2 class="page-title">项目经历与实践</h2>
+        <p class="page-desc">展示在校期间参与的各类实训项目、社会实践及专业科研成果</p>
+      </div>
+      <div class="bar-right">
+        <div class="filter-group">
+          <el-input 
             v-model="searchKeyword" 
-            placeholder="搜索论文名称、作者或关键词..."
-            class="search-input"
-          >
-          <i class="search-icon">🔍</i>
+            placeholder="搜索项目名称、岗位或亮点..." 
+            prefix-icon="el-icon-search"
+            size="medium"
+          />
         </div>
-      </div>
-    </div> -->
-
-    <!-- 内容区域 -->
-    <div class="content-section">
-      <div class="section-header">
-        <h2>论文：{{ filteredPapers.length }}</h2>
-        <div class="view-toggle">
-          <el-button-group>
-            <el-button 
-              :type="viewMode === 'list' ? 'primary' : ''" 
-              @click="viewMode = 'list'"
-              size="small"
-            >
-              列表视图
-            </el-button>
-            <el-button 
-              :type="viewMode === 'card' ? 'primary' : ''" 
-              @click="viewMode = 'card'"
-              size="small"
-            >
-              卡片视图
-            </el-button>
-          </el-button-group>
-        </div>
-      </div>
-
-      <!-- 数据列表/卡片 -->
-      <div class="content-area">
-        <!-- 列表视图 -->
-        <div v-if="viewMode === 'list'" class="list-view">
-          <div class="table-header">
-            <div class="col-name">论文名称</div>
-            <div class="col-authors">作者</div>
-            <div class="col-year">发表年份</div>
-            <div class="col-publication">来源出版物</div>
-            <div class="col-article-id">文章编号</div>
-            <div class="col-docs">资料附件</div>
-            <div class="col-upload">上传</div>
-            <div class="col-action">操作</div>
-          </div>
-          
-          <div class="table-body">
-            <div 
-              v-for="paper in filteredPapers" 
-              :key="paper.id" 
-              class="table-row"
-            >
-              <div class="col-name">{{ paper.title }}</div>
-              <div class="col-authors">{{ paper.authors.join(', ') }}</div>
-              <div class="col-year">{{ paper.publishYear }}</div>
-              <div class="col-publication">{{ paper.publication }}</div>
-              <div class="col-article-id">{{ paper.articleId }}</div>
-              <div class="col-docs">
-                <div class="docs-list">
-                  <span 
-                    v-for="(doc, index) in paper.documents" 
-                    :key="index"
-                    class="doc-item"
-                    @click="viewDocument(doc)"
-                  >
-                    📄 {{ doc.name }}
-                  </span>
-                </div>
-              </div>
-              <div class="col-upload">
-                <button 
-                  class="upload-btn-small" 
-                  @click="uploadDocument(paper)"
-                >
-                  上传
-                </button>
-              </div>
-              <div class="col-action">
-                <button 
-                  class="view-btn-small" 
-                  @click="viewPaper(paper)"
-                >
-                  查看
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 卡片视图 -->
-        <div v-if="viewMode === 'card'" class="card-view">
-          <div 
-            v-for="paper in filteredPapers" 
-            :key="paper.id" 
-            class="paper-card"
-          >
-            <div class="card-header">
-              <h3 class="paper-title">{{ paper.title }}</h3>
-              <span class="publish-year">{{ paper.publishYear }}</span>
-            </div>
-            
-            <div class="card-content">
-              <div class="info-row">
-                <span class="label">作者：</span>
-                <span class="value">{{ paper.authors.join(', ') }}</span>
-              </div>
-              <div class="info-row">
-                <span class="label">来源出版物：</span>
-                <span class="value">{{ paper.publication }}</span>
-              </div>
-              <div class="info-row">
-                <span class="label">文章编号：</span>
-                <span class="value">{{ paper.articleId }}</span>
-              </div>
-              <div class="info-row">
-                <span class="label">资料附件：</span>
-                <div class="docs-list">
-                  <span 
-                    v-for="(doc, index) in paper.documents" 
-                    :key="index"
-                    class="doc-item"
-                    @click="viewDocument(doc)"
-                  >
-                    📄 {{ doc.name }}
-                  </span>
-                </div>
-              </div>
-            </div>
-            
-            <div class="card-footer">
-              <button 
-                class="upload-btn-primary" 
-                @click="uploadDocument(paper)"
-              >
-                上传资料
-              </button>
-              <button 
-                class="view-btn-primary" 
-                @click="viewPaper(paper)"
-              >
-                查看详情
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- 空状态 -->
-        <div v-if="filteredPapers.length === 0" class="empty-state">
-          <div class="empty-icon">📚</div>
-          <h3>暂无论文记录</h3>
-          <p>您还没有添加任何论文信息</p>
-        </div>
+        <el-button type="primary" icon="el-icon-plus" @click="showAddModal = true">添加新项目</el-button>
       </div>
     </div>
 
-    <!-- 论文详情弹窗 -->
-    <div v-if="showPaperModal" class="modal-overlay" @click="closePaperModal">
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <h3>{{ selectedPaper?.title }}</h3>
-          <button class="close-btn" @click="closePaperModal">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="paper-image">
-            <img 
-              :src="selectedPaper?.image" 
-              :alt="selectedPaper?.title"
-              @error="handleImageError"
-            >
+    <!-- 项目卡片网格 -->
+    <div class="projects-grid">
+      <div v-for="project in filteredProjects" :key="project.id" class="project-card-modern">
+        <!-- 侧边颜色标识 -->
+        <div class="card-side-accent"></div>
+        
+        <div class="card-main">
+          <!-- 头部：项目名称与评分 -->
+          <div class="project-header">
+            <div class="title-section">
+              <div class="p-icon">🚀</div>
+              <h3 class="p-title">{{ project.name }}</h3>
+            </div>
+            <div class="score-badge">
+              <span class="s-label">项目评分</span>
+              <span class="s-val">{{ project.score }}</span>
+            </div>
           </div>
-          <div class="paper-info">
-            <div class="info-item">
-              <span class="label">作者：</span>
-              <span class="value">{{ selectedPaper?.authors.join(', ') }}</span>
+
+          <!-- 内容区 -->
+          <div class="project-body">
+            <div class="info-row role-row">
+              <span class="row-label">担任岗位：</span>
+              <span class="role-tag">{{ project.role }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">发表年份：</span>
-              <span class="value">{{ selectedPaper?.publishYear }}</span>
+            
+            <div class="info-row content-row">
+              <span class="row-label">工作内容：</span>
+              <p class="content-text">{{ project.content }}</p>
             </div>
-            <div class="info-item">
-              <span class="label">来源出版物：</span>
-              <span class="value">{{ selectedPaper?.publication }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">卷号：</span>
-              <span class="value">{{ selectedPaper?.volume }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">期号：</span>
-              <span class="value">{{ selectedPaper?.issue }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">页码：</span>
-              <span class="value">{{ selectedPaper?.pages }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">文章编号：</span>
-              <span class="value">{{ selectedPaper?.articleId }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">DOI：</span>
-              <span class="value">{{ selectedPaper?.doi }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">ISBN/ISSN：</span>
-              <span class="value">{{ selectedPaper?.isbnIssn }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">摘要：</span>
-              <span class="value">{{ selectedPaper?.abstract }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">关键词：</span>
-              <span class="value">{{ selectedPaper?.keywords.join(', ') }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">资料附件：</span>
-              <div class="docs-list">
-                <span 
-                  v-for="(doc, index) in selectedPaper?.documents" 
-                  :key="index"
-                  class="doc-item"
-                  @click="viewDocument(doc)"
-                >
-                  📄 {{ doc.name }}
+            
+            <div class="info-row highlights-row">
+              <span class="row-label">能力亮点：</span>
+              <div class="highlights-list">
+                <span v-for="(highlight, index) in project.highlights" :key="index" class="h-tag">
+                  {{ highlight }}
                 </span>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
-    <!-- 文档查看弹窗 -->
-    <div v-if="showDocumentModal" class="modal-overlay" @click="closeDocumentModal">
-      <div class="modal-content document-modal" @click.stop>
-        <div class="modal-header">
-          <h3>{{ selectedDocument?.name }}</h3>
-          <button class="close-btn" @click="closeDocumentModal">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="document-viewer">
-            <div class="document-info">
-              <p><strong>文件名：</strong>{{ selectedDocument?.name }}</p>
-              <p><strong>文件大小：</strong>{{ selectedDocument?.size }}</p>
-              <p><strong>上传时间：</strong>{{ selectedDocument?.uploadTime }}</p>
-            </div>
-            <div class="document-preview">
-              <div class="preview-placeholder">
-                <div class="preview-icon">📄</div>
-                <p>{{ selectedDocument?.name }}</p>
-                <button class="download-btn" @click="downloadDocument(selectedDocument)">
-                  下载文档
-                </button>
-              </div>
+          <!-- 底部：操作按钮 -->
+          <div class="project-footer">
+            <span class="date-text">参与时间：{{ project.date }}</span>
+            <div class="actions">
+              <el-button size="small" type="primary" plain @click="editProject(project)">编辑</el-button>
+              <el-button size="small" type="danger" plain @click="deleteProject(project)">删除</el-button>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 文件上传弹窗 -->
-    <div v-if="showUploadModal" class="modal-overlay" @click="closeUploadModal">
-      <div class="modal-content upload-modal" @click.stop>
-        <div class="modal-header">
-          <h3>上传论文资料</h3>
-          <button class="close-btn" @click="closeUploadModal">×</button>
-        </div>
-        <div class="modal-body">
-          <div class="upload-area">
-            <div class="upload-zone" @click="triggerFileInput">
-              <div class="upload-icon">📁</div>
-              <p>点击选择文件或拖拽文件到此处</p>
-              <p class="upload-hint">支持 PDF、DOC、DOCX、JPG、PNG 格式</p>
-            </div>
-            <input 
-              ref="fileInput" 
-              type="file" 
-              multiple 
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-              @change="handleFileSelect"
-              style="display: none"
-            >
-          </div>
-          <div class="uploaded-files" v-if="selectedFiles.length > 0">
-            <h4>已选择文件：</h4>
-            <div class="file-list">
-              <div 
-                v-for="(file, index) in selectedFiles" 
-                :key="index"
-                class="file-item"
-              >
-                <span class="file-name">{{ file.name }}</span>
-                <span class="file-size">{{ formatFileSize(file.size) }}</span>
-                <button class="remove-file-btn" @click="removeFile(index)">×</button>
-              </div>
-            </div>
-          </div>
-          <div class="upload-actions">
-            <button class="cancel-btn" @click="closeUploadModal">取消</button>
-            <button class="confirm-btn" @click="confirmUpload" :disabled="selectedFiles.length === 0">
-              确认上传
-            </button>
-          </div>
-        </div>
+      <!-- 空状态 -->
+      <div v-if="filteredProjects.length === 0" class="empty-state">
+        <div class="empty-icon">📂</div>
+        <h3>暂无项目记录</h3>
+        <p>您还没有添加任何项目实践成果</p>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 
-// 响应式数据
 const searchKeyword = ref('')
-const viewMode = ref('list')
-const showPaperModal = ref(false)
-const showDocumentModal = ref(false)
-const showUploadModal = ref(false)
-const selectedPaper = ref(null)
-const selectedDocument = ref(null)
-const selectedFiles = ref([])
-const fileInput = ref(null)
+const showAddModal = ref(false)
 
-// 模拟论文数据
-const papers = ref([
+// 模拟项目数据
+const projects = ref([
   {
     id: 1,
-    title: '基于多模态融合的智能家居养老监测系统研究与实现',
-    authors: ['张海', '李明华', '王建强'],
-    publishYear: '2026',
-    publication: '智能健康与康复工程',
-    volume: '17',
-    issue: '1',
-    pages: '12-20',
-    articleId: 'CE202601001',
-    doi: '10.3969/j.issn.1672-5913.2026.01.001',
-    isbnIssn: 'ISSN 1672-5913',
-    abstract: '本文提出了一种基于多模态多维传感的居家养老监测系统，通过分析老人的日常起居行为数据，提供早期跌倒预警和照护建议。',
-    keywords: ['智慧养老', '多模态融合', '跌倒监测', '智能家居'],
-    image: '/pic/data.png',
-    documents: [
-      { name: '养老健康监测系统综述.pdf', size: '2.1MB', uploadTime: '2026-03-10' }
-    ]
+    name: '智慧社区适老化环境改造调研与设计',
+    role: '适老化设计调研员',
+    date: '2025.09 - 2025.12',
+    score: 95,
+    content: '负责北京市朝阳区3个试点社区的老年人居家环境调研，实地走访并收集了200份有效需求问卷。基于调研数据，参与了社区无障碍通道和居家防跌倒设施的初步方案设计，方案获得社区居委会的高度评价。',
+    highlights: ['用户调研能力', '同理心', '空间规划基础', '报告撰写']
   },
   {
     id: 2,
-    title: '适老化康复辅助器具的生物力学设计与临床评价机制',
-    authors: ['赵莉', '孙红梅', '周强'],
-    publishYear: '2025',
-    publication: '康复医学技术',
-    volume: '10',
-    issue: '4',
-    pages: '88-95',
-    articleId: 'HEER202504001',
-    doi: '10.3969/j.issn.1001-4233.2025.04.001',
-    isbnIssn: 'ISSN 1001-4233',
-    abstract: '本研究探讨了老年康复辅具的人机料配合度问题，通过构建数字虚拟受力模型，显著改善了辅具在实际应用中的适老化支撑力。',
-    keywords: ['适老化改造', '康复辅具', '生物力学', '临床评价'],
-    image: '/pic/data.png',
-    documents: [
-      { name: '辅具受力测试对比.pdf', size: '1.8MB', uploadTime: '2025-11-15' }
-    ]
+    name: '康养机构数字孪生平台测试与验收',
+    role: '测试工程师实习生',
+    date: '2026.01 - 2026.03',
+    score: 92,
+    content: '参与平台生命体征监测模块的集成测试，编写了50+测试用例。在测试过程中发现了3个关键的传感数据同步延迟Bug，并协助开发团队进行了排查与复测，确保了平台的顺利上线。',
+    highlights: ['软件测试', '物联网硬件认知', '问题排查', '团队协作']
   },
   {
     id: 3,
-    title: '工伤康复期患者心理干预量表的数字化构建及其应用',
-    authors: ['王明哲', '张华健', '刘志刚'],
-    publishYear: '2025',
-    publication: '心理护理与健康大数据',
-    volume: '42',
-    issue: '2',
-    pages: '45-52',
-    articleId: 'CAS202502001',
-    doi: '10.3969/j.issn.1000-386X.2025.02.001',
-    isbnIssn: 'ISSN 1000-386X',
-    abstract: '本文探讨了在针对工伤后应激障碍与康复困难群体的心理评测系统，有效提升了心理量表信效度与患者康复积极性。',
-    keywords: ['工伤康复', '心理测量', '应激障碍', '数字疗法'],
-    image: '/pic/data.png',
-    documents: [
-      { name: '心理测量量表分析.pdf', size: '2.0MB', uploadTime: '2025-05-05' }
-    ]
+    name: '“乐龄伴侣”老年人陪诊小程序开发',
+    role: '产品交互助理 (UI/UX)',
+    date: '2025.03 - 2025.06',
+    score: 98,
+    content: '独立完成了小程序的老年人专属大字体、高对比度UI界面设计。深度优化了适老化的语音交互流程，简化了挂号与求助步骤，使产品的易用性评分达到4.8/5，并荣获校级创新创业大赛二等奖。',
+    highlights: ['UI/UX设计', '适老化交互', '需求分析', '创新思维']
   }
 ])
 
-// 计算属性 - 过滤后的论文列表
-const filteredPapers = computed(() => {
-  let filtered = papers.value
+const filteredProjects = computed(() => {
+  if (!searchKeyword.value) return projects.value
+  
+  const keyword = searchKeyword.value.toLowerCase()
+  return projects.value.filter(p => 
+    p.name.toLowerCase().includes(keyword) ||
+    p.role.toLowerCase().includes(keyword) ||
+    p.highlights.some(h => h.toLowerCase().includes(keyword)) ||
+    p.content.toLowerCase().includes(keyword)
+  )
+})
 
-  // 按关键词搜索
-  if (searchKeyword.value) {
-    const keyword = searchKeyword.value.toLowerCase()
-    filtered = filtered.filter(paper => 
-      paper.title.toLowerCase().includes(keyword) ||
-      paper.authors.some(author => author.toLowerCase().includes(keyword)) ||
-      paper.publication.toLowerCase().includes(keyword) ||
-      paper.keywords.some(kw => kw.toLowerCase().includes(keyword)) ||
-      paper.abstract.toLowerCase().includes(keyword)
-    )
+const editProject = (project) => {
+  console.log('Edit project:', project)
+}
+
+const deleteProject = (project) => {
+  if (confirm('确定要删除该项目记录吗？')) {
+    const index = projects.value.findIndex(p => p.id === project.id)
+    if (index > -1) projects.value.splice(index, 1)
   }
-
-  return filtered
-})
-
-// 方法
-const viewPaper = (paper) => {
-  selectedPaper.value = paper
-  showPaperModal.value = true
 }
-
-const closePaperModal = () => {
-  showPaperModal.value = false
-  selectedPaper.value = null
-}
-
-const viewDocument = (doc) => {
-  selectedDocument.value = doc
-  showDocumentModal.value = true
-}
-
-const closeDocumentModal = () => {
-  showDocumentModal.value = false
-  selectedDocument.value = null
-}
-
-const uploadDocument = (paper) => {
-  selectedPaper.value = paper
-  showUploadModal.value = true
-}
-
-const closeUploadModal = () => {
-  showUploadModal.value = false
-  selectedFiles.value = []
-  selectedPaper.value = null
-}
-
-const triggerFileInput = () => {
-  fileInput.value?.click()
-}
-
-const handleFileSelect = (event) => {
-  const files = Array.from(event.target.files)
-  selectedFiles.value = [...selectedFiles.value, ...files]
-}
-
-const removeFile = (index) => {
-  selectedFiles.value.splice(index, 1)
-}
-
-const formatFileSize = (bytes) => {
-  if (bytes === 0) return '0 Bytes'
-  const k = 1024
-  const sizes = ['Bytes', 'KB', 'MB', 'GB']
-  const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-}
-
-const confirmUpload = () => {
-  // 这里可以添加上传逻辑
-  console.log('上传文件:', selectedFiles.value)
-  alert('文件上传成功！')
-  closeUploadModal()
-}
-
-const downloadDocument = (doc) => {
-  // 这里可以添加下载逻辑
-  console.log('下载文档:', doc.name)
-  alert(`正在下载 ${doc.name}`)
-}
-
-const handleImageError = (event) => {
-  event.target.src = '/pic/data.png'
-}
-
-onMounted(() => {
-  // 组件挂载后的初始化逻辑
-})
 </script>
 
 <style scoped>
-.papers-container {
-  padding: 24px;
-  background: #f8fafc;
-  min-height: 100vh;
+.projects-container {
+  padding: 0;
+  background: transparent;
 }
 
-/* 筛选区域 */
-.filter-section {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-}
-
-.filter-row {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-}
-
-.search-box {
-  position: relative;
-  min-width: 400px;
-  max-width: 600px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
-  transition: border-color 0.2s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.search-icon {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
-}
-
-/* 内容区域 */
-.content-section {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
-}
-
-.section-header {
+/* 顶部工具栏 */
+.top-bar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e0e6f1;
-  background: #f8f9ff;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  background: white;
+  padding: 24px 32px;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.02);
 }
 
-.section-header h2 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-  color: #333;
-}
+.page-title { font-size: 20px; font-weight: 800; color: #1e293b; margin: 0 0 4px 0; }
+.page-desc { font-size: 13px; color: #64748b; margin: 0; }
+.bar-right { display: flex; gap: 16px; align-items: center; }
 
-.view-toggle {
-  display: flex;
-  gap: 4px;
-}
-
-/* 列表视图 */
-.list-view {
-  width: 100%;
-  overflow-x: auto;
-}
-
-.table-header {
-  display: grid;
-  grid-template-columns: 3fr 2fr 0.8fr 1.8fr 1.2fr 2fr 0.8fr 0.8fr;
-  gap: 16px;
-  padding: 16px 24px;
-  background: #f8fafc;
-  border-bottom: 1px solid #e2e8f0;
-  font-weight: 600;
-  color: #374151;
-  font-size: 14px;
-  min-width: 1200px;
-}
-
-.table-body {
-  min-height: 200px;
-}
-
-.table-row {
-  display: grid;
-  grid-template-columns: 3fr 2fr 0.8fr 1.8fr 1.2fr 2fr 0.8fr 0.8fr;
-  gap: 16px;
-  padding: 16px 24px;
-  border-bottom: 1px solid #f1f5f9;
-  align-items: center;
-  transition: background-color 0.2s ease;
-  min-width: 1200px;
-}
-
-.table-row:hover {
-  background: #f8fafc;
-}
-
-.col-name {
-  font-weight: 500;
-  color: #1f2937;
-  font-size: 14px;
-}
-
-.col-authors {
-  color: #4b5563;
-  font-size: 13px;
-}
-
-.col-year {
-  color: #6b7280;
-  font-size: 13px;
-  text-align: center;
-}
-
-.col-publication {
-  color: #4b5563;
-  font-size: 13px;
-}
-
-.col-article-id {
-  color: #4b5563;
-  font-size: 12px;
-  font-family: monospace;
-}
-
-/* 文档列表样式 */
-.docs-list {
+/* 项目卡片网格 */
+.projects-grid {
   display: flex;
   flex-direction: column;
-  gap: 4px;
-}
-
-.doc-item {
-  display: inline-block;
-  padding: 2px 6px;
-  background: #e0f2fe;
-  color: #0277bd;
-  border-radius: 4px;
-  font-size: 11px;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-  margin-right: 4px;
-  margin-bottom: 2px;
-}
-
-.doc-item:hover {
-  background: #b3e5fc;
-}
-
-/* 按钮样式 */
-.upload-btn-small {
-  padding: 4px 8px;
-  background: #10b981;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.2s ease;
-}
-
-.upload-btn-small:hover {
-  background: #059669;
-}
-
-.upload-btn-primary {
-  padding: 8px 16px;
-  background: #10b981;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-  margin-right: 8px;
-}
-
-.upload-btn-primary:hover {
-  background: #059669;
-}
-
-.view-btn-small {
-  padding: 6px 12px;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 12px;
-  transition: background-color 0.2s ease;
-}
-
-.view-btn-small:hover {
-  background: #2563eb;
-}
-
-.view-btn-primary {
-  padding: 8px 16px;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.view-btn-primary:hover {
-  background: #2563eb;
-}
-
-/* 卡片视图 */
-.card-view {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 20px;
-  padding: 24px;
 }
 
-.paper-card {
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 20px;
+.project-card-modern {
+  display: flex;
   background: white;
-  transition: all 0.2s ease;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
-.paper-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
+.project-card-modern:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.06);
+  border-color: #2b58ff;
 }
 
-.card-header {
+.card-side-accent {
+  width: 6px;
+  background: linear-gradient(to bottom, #10b981, #3b82f6);
+  opacity: 0.8;
+}
+
+.card-main {
+  flex: 1;
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 卡片头部 */
+.project-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
+  align-items: center;
+  border-bottom: 1px dashed #e2e8f0;
+  padding-bottom: 16px;
 }
 
-.paper-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+.title-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.p-icon {
+  width: 40px;
+  height: 40px;
+  background: #f0fdf4;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.p-title {
   margin: 0;
-  flex: 1;
-  margin-right: 12px;
-  line-height: 1.4;
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
 }
 
-.publish-year {
-  background: #e0f2fe;
-  color: #0277bd;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 500;
+.score-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #eff6ff;
+  padding: 6px 16px;
+  border-radius: 12px;
+  border: 1px solid #bfdbfe;
 }
 
-.card-content {
-  margin-bottom: 20px;
+.score-badge .s-label { font-size: 11px; color: #3b82f6; font-weight: 700; }
+.score-badge .s-val { font-size: 20px; color: #1d4ed8; font-weight: 800; line-height: 1.2; }
+
+/* 卡片内容区 */
+.project-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .info-row {
   display: flex;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.row-label {
+  min-width: 70px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.role-tag {
+  background: #fef2f2;
+  color: #ef4444;
+  padding: 4px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.content-text {
+  margin: 0;
   font-size: 14px;
+  color: #334155;
+  line-height: 1.6;
+  flex: 1;
+  text-align: left;
 }
 
-.label {
-  color: #6b7280;
-  min-width: 100px;
-  margin-right: 8px;
-}
-
-.value {
-  color: #374151;
+.highlights-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   flex: 1;
 }
 
-.card-footer {
+.h-tag {
+  background: #f8fafc;
+  color: #475569;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+}
+
+/* 卡片底部 */
+.project-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 8px;
+}
+
+.date-text {
+  font-size: 13px;
+  color: #94a3b8;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.date-text::before {
+  content: '📅';
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  gap: 8px;
 }
 
 /* 空状态 */
 .empty-state {
   text-align: center;
-  padding: 60px 20px;
-  color: #6b7280;
-}
-
-.empty-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-}
-
-.empty-state h3 {
-  font-size: 18px;
-  margin-bottom: 8px;
-  color: #374151;
-}
-
-.empty-state p {
-  font-size: 14px;
-}
-
-/* 弹窗样式 */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.modal-content {
+  padding: 60px;
   background: white;
-  border-radius: 12px;
-  max-width: 900px;
-  max-height: 90vh;
-  overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
 }
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
 
-.document-modal {
-  max-width: 600px;
-}
-
-.upload-modal {
-  max-width: 500px;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 18px;
-  color: #1f2937;
-}
-
-.close-btn {
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #6b7280;
-  padding: 0;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
-  transition: background-color 0.2s ease;
-}
-
-.close-btn:hover {
-  background: #f3f4f6;
-}
-
-.modal-body {
-  padding: 24px;
-  max-height: 60vh;
-  overflow-y: auto;
-}
-
-.paper-image {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.paper-image img {
-  max-width: 100%;
-  max-height: 400px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.paper-info {
-  display: grid;
-  gap: 12px;
-}
-
-.info-item {
-  display: flex;
-  padding: 12px;
-  background: #f8fafc;
-  border-radius: 8px;
-}
-
-.info-item .label {
-  font-weight: 500;
-  color: #374151;
-  min-width: 120px;
-}
-
-.info-item .value {
-  color: #1f2937;
-}
-
-/* 文档查看器样式 */
-.document-viewer {
-  text-align: center;
-}
-
-.document-info {
-  text-align: left;
-  margin-bottom: 20px;
-  padding: 16px;
-  background: #f8fafc;
-  border-radius: 8px;
-}
-
-.document-info p {
-  margin: 8px 0;
-  color: #374151;
-}
-
-.document-preview {
-  border: 2px dashed #d1d5db;
-  border-radius: 8px;
-  padding: 40px;
-  background: #f9fafb;
-}
-
-.preview-placeholder {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.preview-icon {
-  font-size: 48px;
-}
-
-.download-btn {
-  padding: 8px 16px;
-  background: #3b82f6;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.download-btn:hover {
-  background: #2563eb;
-}
-
-/* 文件上传区域样式 */
-.upload-area {
-  margin-bottom: 20px;
-}
-
-.upload-zone {
-  border: 2px dashed #d1d5db;
-  border-radius: 8px;
-  padding: 40px;
-  text-align: center;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-  background: #f9fafb;
-}
-
-.upload-zone:hover {
-  border-color: #3b82f6;
-  background: #f0f9ff;
-}
-
-.upload-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-}
-
-.upload-hint {
-  color: #6b7280;
-  font-size: 12px;
-  margin-top: 8px;
-}
-
-.uploaded-files {
-  margin-bottom: 20px;
-}
-
-.uploaded-files h4 {
-  margin: 0 0 12px 0;
-  color: #374151;
-  font-size: 14px;
-}
-
-.file-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.file-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
-  background: #f8fafc;
-  border-radius: 6px;
-  border: 1px solid #e2e8f0;
-}
-
-.file-name {
-  flex: 1;
-  color: #374151;
-  font-size: 14px;
-}
-
-.file-size {
-  color: #6b7280;
-  font-size: 12px;
-  margin-right: 8px;
-}
-
-.remove-file-btn {
-  background: #ef4444;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.remove-file-btn:hover {
-  background: #dc2626;
-}
-
-.upload-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.cancel-btn {
-  padding: 8px 16px;
-  background: #f3f4f6;
-  color: #374151;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.cancel-btn:hover {
-  background: #e5e7eb;
-}
-
-.confirm-btn {
-  padding: 8px 16px;
-  background: #10b981;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.2s ease;
-}
-
-.confirm-btn:hover:not(:disabled) {
-  background: #059669;
-}
-
-.confirm-btn:disabled {
-  background: #d1d5db;
-  cursor: not-allowed;
-}
-
-/* 响应式设计 */
 @media (max-width: 768px) {
-  .papers-container {
-    padding: 16px;
-  }
-  
-  .filter-row {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-  }
-  
-  .search-box {
-    min-width: auto;
-    max-width: none;
-  }
-  
-  .section-header {
-    flex-direction: column;
-    gap: 16px;
-    align-items: stretch;
-  }
-  
-  .view-toggle {
-    justify-content: center;
-  }
-  
-  .table-header,
-  .table-row {
-    grid-template-columns: 1fr;
-    gap: 8px;
-    min-width: auto;
-  }
-  
-  .table-header {
-    display: none;
-  }
-  
-  .table-row {
-    display: block;
-    padding: 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    margin-bottom: 8px;
-  }
-  
-  .col-name {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  
-  .col-authors,
-  .col-year,
-  .col-publication,
-  .col-article-id {
-    margin-bottom: 4px;
-    font-size: 14px;
-  }
-  
-  .col-docs {
-    margin-bottom: 8px;
-  }
-  
-  .col-upload,
-  .col-action {
-    margin-bottom: 12px;
-  }
-  
-  .card-view {
-    grid-template-columns: 1fr;
-    padding: 16px;
-  }
-  
-  .card-footer {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .modal-content {
-    margin: 20px;
-    max-width: calc(100vw - 40px);
-  }
+  .top-bar { flex-direction: column; align-items: stretch; gap: 20px; }
+  .project-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .score-badge { align-self: flex-start; }
+  .info-row { flex-direction: column; gap: 4px; }
+  .row-label { margin-bottom: 4px; }
+  .project-footer { flex-direction: column; gap: 16px; align-items: flex-start; }
 }
 </style>

@@ -19,9 +19,19 @@ import CareerGuidance from '../components/career-guidance/CareerGuidance.vue'
 import Profile from '../components/profile/Profile.vue'
 import BasicInfo from '../components/profile/BasicInfo.vue'
 import Resume from '../components/profile/Resume.vue'
+import SelfEvaluation from '../components/data-center/evaluation/SelfEvaluation.vue'
+import StudentEvaluation from '../components/data-center/evaluation/StudentEvaluation.vue'
+import Scholarships from '../components/profile/Scholarships.vue'
 
 // 成长中心
 import GoalPath from '../components/growth-center/GoalPath.vue'
+
+// 成果数据组件
+import Papers from '../components/data-center/achievements/Papers.vue'
+import Certificates from '../components/data-center/achievements/Certificates.vue'
+import AbilityCertifications from '../components/data-center/achievements/AbilityCertifications.vue'
+import InternationalAbility from '../components/data-center/achievements/InternationalAbility.vue'
+import TeachingAchievements from '../components/data-center/achievements/TeachingAchievements.vue'
 
 // 教学管理页面 - 修复导入路径
 import WorkloadQuantification from '../components/data-center/teaching-data/WorkloadQuantification.vue'
@@ -117,6 +127,26 @@ const routes = [
         path: 'resume',
         name: 'Resume',
         component: Resume
+      },
+      {
+        path: 'reflection',
+        name: 'PersonalReflection',
+        component: SelfEvaluation
+      },
+      {
+        path: 'evaluation',
+        name: 'TeacherEvaluation',
+        component: StudentEvaluation
+      },
+      {
+        path: 'projects',
+        name: 'ProjectAchievements',
+        component: Papers
+      },
+      {
+        path: 'scholarships',
+        name: 'Scholarships',
+        component: Scholarships
       }
     ]
   },

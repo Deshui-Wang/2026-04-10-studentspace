@@ -1,44 +1,64 @@
 <template>
   <div class="resume-container">
-    <!-- 顶部操作按钮 -->
-    <div class="resume-actions">
-      <button class="action-btn add-module-btn" @click="showModuleDialog = true">
-        <i class="icon-add"></i>
-        添加模块
-      </button>
-      <button class="action-btn edit-btn" @click="handleEdit">
-        <i class="icon-edit"></i>
-        编辑
-      </button>
-      <button class="action-btn regenerate-btn" @click="handleRegenerate">
-        <i class="icon-refresh"></i>
-        重新生成
-      </button>
-      <button class="action-btn download-btn" @click="handleDownload">
-        <i class="icon-download"></i>
-        下载
-      </button>
-    </div>
-
-    <div class="resume-header">
-      <img class="avatar" src="/pic/student01.png" alt="头像" />
-      <div class="info">
-        <div class="name">李启明</div>
-        <div class="meta">大三在读｜智慧健康养老服务与管理专业｜北京劳动保障职业学院（2023 级，预计 2026 年毕业）</div>
-        <div class="contacts">
-          <span>电话：138****1234</span>
-          <span>邮箱：liqiming@example.com</span>
-          <span>GitHub：github.com/liqiming</span>
+      <!-- 顶部操作栏 -->
+      <div class="resume-actions-row">
+        <div class="actions-left">
+          <el-select v-model="currentResumeVersion" placeholder="选择简历版本" class="version-select" @change="handleVersionChange">
+            <template #prefix>
+              <i class="el-icon-document" style="margin-right: 4px;"></i>
+            </template>
+            <el-option
+              v-for="item in resumeVersions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+              <span style="float: left">{{ item.label }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px; margin-left: 12px">{{ item.date }}</span>
+            </el-option>
+          </el-select>
+        </div>
+        <div class="resume-actions">
+          <button class="action-btn smart-btn" @click="openResumeBuilder">
+            <i class="el-icon-magic-stick"></i>
+            智能新建
+          </button>
+          <button class="action-btn review-btn" @click="openResumeReview">
+            <i class="el-icon-data-analysis"></i>
+            简历诊断
+          </button>
+          
+          <button class="action-btn add-module-btn" @click="showModuleDialog = true">
+            添加模块
+          </button>
+          <button class="action-btn edit-btn" @click="handleEdit">
+            编辑
+          </button>
+          <button class="action-btn download-btn" @click="handleDownload">
+            下载
+          </button>
         </div>
       </div>
-    </div>
+
+      <div class="resume-header">
+        <img class="avatar" src="/pic/student01.png" alt="头像" />
+        <div class="info">
+          <div class="name">李启明</div>
+          <div class="meta">本科大三在读｜人工智能与计算机科学系｜北京重点科技高校（2023 级，预计 2027 年毕业）</div>
+          <div class="contacts">
+            <span>电话：138****1234</span>
+            <span>邮箱：liqiming@example.com</span>
+            <span>GitHub：github.com/liqiming-ai</span>
+          </div>
+        </div>
+      </div>
 
     <div class="section">
       <div class="section-title">求职意向</div>
       <div class="chips">
-        <span class="chip">养老机构管理</span>
-        <span class="chip">健康管理师</span>
-        <span class="chip">社区养老服务</span>
+        <span class="chip">算法工程师</span>
+        <span class="chip">大模型开发</span>
+        <span class="chip">数据科学家</span>
       </div>
     </div>
 
@@ -47,10 +67,10 @@
       <ul class="items">
         <li>
           <div class="row">
-            <span>北京劳动保障职业学院 · 智慧健康养老服务与管理专业</span>
-            <span>2023.09 - 2026.06（专科）</span>
+            <span>北京重点科技高校 · 人工智能与计算机科学系</span>
+            <span>2023.09 - 2027.06（本科）</span>
           </div>
-          <div class="row minor">专科（三年制）大三在读 · GPA：3.7/4.0 · 专业前10% · 校级一等奖学金</div>
+          <div class="row minor">本科大三在读 · GPA：3.8/4.0 · 专业前5% · 国家励志奖学金</div>
         </li>
       </ul>
     </div>
@@ -60,16 +80,16 @@
       <ul class="items">
         <li>
           <div class="row">
-            <span>智慧养老社区服务平台（课程项目）</span>
-            <span>2026.01 - 2026.02</span>
+            <span>基于大语言模型的医疗问答系统研发（核心开发者）</span>
+            <span>2025.10 - 2026.02</span>
           </div>
           <div class="bullets">
-            <div>在指导老师带领下参与社区养老服务需求调研与方案设计，协助完成 200+ 户老年人健康档案的整理与录入。</div>
-            <div>配合团队完成智慧健康监测功能的方案设计与流程梳理，熟悉常用智能设备在养老场景中的应用。</div>
-            <div>参与策划并协助执行健康知识讲座、文娱活动等社区服务活动，提升老年人参与度与满意度。</div>
+            <div>独立负责基于 Llama 3 模型的医疗领域微调，构建了包含 50 万条医患对话的高质量指令微调数据集。</div>
+            <div>采用 LoRA 和 DPO 技术进行模型对齐，使模型在医疗专业知识问答的准确率提升了 23%。</div>
+            <div>配合后端团队完成模型推理服务的 API 封装，实现并发请求下 500ms 内的极速响应。</div>
           </div>
           <div class="tags">
-            <span>健康管理</span><span>社区服务</span><span>活动策划</span><span>档案管理</span><span>智慧养老</span>
+            <span>大模型微调</span><span>LoRA</span><span>NLP</span><span>模型部署</span><span>PyTorch</span>
           </div>
         </li>
       </ul>
@@ -80,13 +100,13 @@
       <ul class="items">
         <li>
           <div class="row">
-            <span>北京市朝阳区某养老机构 · 养老服务实践（校外实习）</span>
-            <span>2026.01 - 2026.02</span>
+            <span>知名头部互联网公司 · AI 算法实习生</span>
+            <span>2026.01 - 至今</span>
           </div>
           <div class="bullets">
-            <div>在带教老师指导下协助开展日常照护服务，参与 30+ 位老人的生活照料、基础健康监测和简单康复训练。</div>
-            <div>协助整理老年人健康档案，参与了解个性化照护计划制定流程，初步熟悉老年人综合评估要点。</div>
-            <div>协助组织文娱活动、生日会、健康小讲堂等，提高老人日常陪伴感和活动参与度。</div>
+            <div>参与公司核心推荐业务线的算法优化，协助处理百亿级用户特征数据的清洗与特征工程挖掘。</div>
+            <div>基于 DeepFM 模型进行 CTR 预估任务的离线训练与线上 A/B 测试，实验组点击率相对提升 1.2%。</div>
+            <div>撰写技术文档并参与每周的 Paper Reading 分享，熟悉前沿推荐系统架构与分布式训练框架。</div>
           </div>
         </li>
       </ul>
@@ -95,17 +115,17 @@
     <div class="section">
       <div class="section-title">荣誉奖项</div>
       <div class="chips">
-        <span class="chip">全国职业院校技能大赛养老服务赛项三等奖</span>
-        <span class="chip">北京市养老服务技能竞赛二等奖</span>
-        <span class="chip">校级一等奖学金</span>
-        <span class="chip">优秀学生干部</span>
+        <span class="chip">全国大学生数学建模竞赛一等奖</span>
+        <span class="chip">“蓝桥杯”全国软件人才大赛金奖</span>
+        <span class="chip">国家励志奖学金</span>
+        <span class="chip">AWS 认证机器学习专家</span>
       </div>
     </div>
 
     <div class="section">
       <div class="section-title">技能特长</div>
       <div class="tags">
-        <span>老年人健康评估</span><span>护理技能</span><span>活动策划与组织</span><span>沟通协调能力</span><span>档案管理</span><span>智慧养老设备操作</span>
+        <span>Python / C++</span><span>PyTorch / TensorFlow</span><span>深度学习</span><span>数据结构与算法</span><span>大模型微调</span><span>SQL / Hadoop</span>
       </div>
     </div>
 
@@ -348,22 +368,80 @@
         <el-button type="primary" @click="saveModuleEdit">保存</el-button>
       </template>
     </el-dialog>
+
+    <!-- 简历工具弹窗 -->
+    <el-dialog
+      :title="getOptimizeDialogTitle()"
+      v-model="optimizeDialogVisible"
+      width="90%"
+      :before-close="closeOptimizeDialog"
+      class="resume-dialog"
+    >
+      <div class="dialog-content">
+        <div v-if="optimizeComponent === 'ResumeBuilder'">
+          <ResumeBuilder />
+        </div>
+        <div v-if="optimizeComponent === 'ResumeReview'">
+          <ResumeReview />
+        </div>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, h } from 'vue'
-import { ElDialog, ElButton, ElMessage } from 'element-plus'
+import { ElDialog, ElButton, ElMessage, ElSelect, ElOption } from 'element-plus'
+
+import ResumeBuilder from '../career-guidance/ResumeBuilder.vue'
+import ResumeReview from '../career-guidance/ResumeReview.vue'
+
+// 简历版本控制
+const currentResumeVersion = ref('v1')
+const resumeVersions = ref([
+  { value: 'v1', label: '通用人工智能岗（推荐）', date: '2026-04-20' },
+  { value: 'v2', label: '大模型微调专岗', date: '2026-04-18' },
+  { value: 'v3', label: '数据分析/挖掘岗', date: '2026-04-15' }
+])
+
+const handleVersionChange = (val) => {
+  const version = resumeVersions.value.find(v => v.value === val)
+  if (version) {
+    ElMessage.success(`已切换至: ${version.label}`)
+  }
+}
+
+// 简历优化弹窗控制
+const optimizeDialogVisible = ref(false)
+const optimizeComponent = ref('')
+
+const openResumeBuilder = () => {
+  optimizeComponent.value = 'ResumeBuilder'
+  optimizeDialogVisible.value = true
+}
+
+const openResumeReview = () => {
+  optimizeComponent.value = 'ResumeReview'
+  optimizeDialogVisible.value = true
+}
+
+const closeOptimizeDialog = () => {
+  optimizeDialogVisible.value = false
+  optimizeComponent.value = ''
+}
+
+const getOptimizeDialogTitle = () => {
+  const titleMap = {
+    'ResumeBuilder': '简历制作',
+    'ResumeReview': '简历诊断'
+  }
+  return titleMap[optimizeComponent.value] || ''
+}
 
 // 按钮点击事件处理
 const handleEdit = () => {
   console.log('编辑简历')
   // TODO: 实现编辑功能
-}
-
-const handleRegenerate = () => {
-  console.log('重新生成简历')
-  // TODO: 实现重新生成功能
 }
 
 const handleDownload = () => {
@@ -582,23 +660,45 @@ const currentEditingModule = computed(() => {
 
 <style scoped>
 .resume-container { 
-  max-width: 900px; 
-  margin: 0 auto; 
+  width: 100%; 
   background: #fff; 
-  border-radius: 12px; 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
-  padding: 32px; 
+  border-radius: 20px; 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+  border: 1px solid #f1f5f9;
+  padding: 40px; 
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
 }
 
-/* 顶部操作按钮样式 */
+/* 顶部操作按钮及版本栏样式 */
+.resume-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.actions-left {
+  display: flex;
+  align-items: center;
+}
+
+.version-select {
+  width: 280px;
+}
+
+.version-select :deep(.el-input__inner) {
+  font-weight: 600;
+  color: #1e293b;
+  border-radius: 8px;
+  border-color: #e2e8f0;
+}
+
 .resume-actions {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
-  margin-bottom: 24px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #f0f0f0;
 }
 
 .action-btn {
@@ -615,6 +715,17 @@ const currentEditingModule = computed(() => {
   outline: none;
 }
 
+.add-module-btn {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+}
+
+.add-module-btn:hover {
+  background: #bfdbfe;
+  border-color: #93c5fd;
+}
+
 .edit-btn {
   background: #f8f9fa;
   color: #495057;
@@ -624,17 +735,6 @@ const currentEditingModule = computed(() => {
 .edit-btn:hover {
   background: #e9ecef;
   border-color: #adb5bd;
-}
-
-.regenerate-btn {
-  background: #e3f2fd;
-  color: #1976d2;
-  border: 1px solid #bbdefb;
-}
-
-.regenerate-btn:hover {
-  background: #bbdefb;
-  border-color: #90caf9;
 }
 
 .download-btn {
@@ -648,11 +748,33 @@ const currentEditingModule = computed(() => {
   border-color: #a5d6a7;
 }
 
+.smart-btn {
+  background: #f3e8ff;
+  color: #7e22ce;
+  border: 1px solid #e9d5ff;
+}
+
+.smart-btn:hover {
+  background: #e9d5ff;
+  border-color: #d8b4fe;
+}
+
+.review-btn {
+  background: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #ffedd5;
+}
+
+.review-btn:hover {
+  background: #ffedd5;
+  border-color: #fed7aa;
+}
+.download-btn:hover {
+  background: #c8e6c9;
+  border-color: #a5d6a7;
+}
+
 /* 图标样式 */
-.icon-add::before { content: "➕"; }
-.icon-edit::before { content: "✏️"; }
-.icon-refresh::before { content: "🔄"; }
-.icon-download::before { content: "⬇️"; }
 .icon-edit-small::before { content: "✏️"; font-size: 12px; }
 .icon-delete::before { content: "🗑️"; font-size: 12px; }
 
@@ -804,6 +926,41 @@ const currentEditingModule = computed(() => {
   transform: translateX(4px);
 }
 
+/* 简历组件弹窗样式 */
+.resume-dialog :deep(.el-dialog) {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.resume-dialog :deep(.el-dialog__header) {
+  background: linear-gradient(135deg, #2b58ff, #7c3aed);
+  margin-right: 0;
+  padding: 20px 24px;
+}
+
+.resume-dialog :deep(.el-dialog__title) {
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.resume-dialog :deep(.el-dialog__headerbtn .el-dialog__close) {
+  color: white;
+  font-size: 20px;
+}
+
+.resume-dialog :deep(.el-dialog__body) {
+  padding: 0;
+  background: #f8f9fa;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.dialog-content {
+  min-height: 600px;
+}
+
+/* 其他辅助类 */
 .row { 
   display: flex; 
   justify-content: space-between; 

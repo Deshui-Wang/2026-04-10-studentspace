@@ -4,7 +4,7 @@
     </div>
     
     <div class="ability-map">
-      <svg :width="mapWidth" :height="mapHeight" class="map-svg">
+      <svg :width="mapWidth" :height="mapHeight" :viewBox="`0 0 ${mapWidth} ${mapHeight}`" class="map-svg">
         <defs>
           <!-- 动画定义 -->
           <animateTransform
@@ -273,10 +273,10 @@ export default {
   name: 'AbilityMap',
   data() {
     return {
-      mapWidth: 1000,
-      mapHeight: 700,
-      centerX: 500,
-      centerY: 350,
+      mapWidth: 1200,
+      mapHeight: 900,
+      centerX: 600,
+      centerY: 450,
       centerRadius: 80,
       firstLevelRadius: 45,
       secondLevelRadius: 30,

@@ -1,96 +1,126 @@
 <template>
   <div class="data-center">
-    <!-- 页面标题 -->
-    <div class="page-header">
-      <h1 class="page-title">智能学习·自由成长·明确目标·使命必达</h1>
-    </div>
-    <!-- 数据卡片网格 -->
-    <div class="data-cards-grid">
-      <TeachingDataCard
-          :active-tab="activeTab"
-          @tab-change="setActiveTab"
-      />
-      <ResourcesDataCard
-          :active-tab="activeTab"
-          @tab-change="setActiveTab"
-      />
-      <AchievementsDataCard
-          :active-tab="activeTab"
-          @tab-change="setActiveTab"
-      />
-      <EvaluationDataCard
-          :active-tab="activeTab"
-          @tab-change="setActiveTab"
-      />
-      <ReportsDataCard
-          :active-tab="activeTab"
-          @tab-change="setActiveTab"
-      />
-    </div>
+    <div class="data-center-container">
+      <!-- 右侧内容区域 (现在占据全部宽度) -->
+      <div class="main-content-area">
+        <div class="content-section">
+          <!-- 教学数据 (上课数据) -->
+          <TeachingContent
+              v-if="activeTab === 'teaching'"
+              :active-sub-tab="activeSubTab"
+              @sub-tab-change="setActiveSubTab"
+          />
 
-    <!-- 内容区域 -->
-    <div class="content-section">
-      <!-- 教学数据 -->
-      <TeachingContent
-          v-if="activeTab === 'teaching'"
-          :active-sub-tab="activeSubTab"
-          @sub-tab-change="setActiveSubTab"
-      />
+          <!-- 资源数据 -->
+          <ResourcesContent
+              v-if="activeTab === 'resources'"
+              :active-sub-tab="activeSubTab"
+              @sub-tab-change="setActiveSubTab"
+          />
 
-      <!-- 资源数据 -->
-      <ResourcesContent
-          v-if="activeTab === 'resources'"
-          :active-sub-tab="activeSubTab"
-          @sub-tab-change="setActiveSubTab"
-      />
+          <!-- 成果数据 -->
+          <AchievementsContent
+              v-if="activeTab === 'achievements'"
+              :active-sub-tab="activeSubTab"
+              @sub-tab-change="setActiveSubTab"
+          />
 
-      <!-- 成果数据 -->
-      <AchievementsContent
-          v-if="activeTab === 'achievements'"
-          :active-sub-tab="activeSubTab"
-          @sub-tab-change="setActiveSubTab"
-      />
+          <!-- 评价数据 -->
+          <EvaluationContent
+              v-if="activeTab === 'evaluation'"
+              :active-sub-tab="activeSubTab"
+              @sub-tab-change="setActiveSubTab"
+          />
 
-      <!-- 评价数据 - 恢复使用EvaluationContent组件 -->
-      <EvaluationContent
-          v-if="activeTab === 'evaluation'"
-          :active-sub-tab="activeSubTab"
-          @sub-tab-change="setActiveSubTab"
-      />
+          <!-- 报告数据 (智能口袋) -->
+          <ReportsContent
+              v-if="activeTab === 'reports'"
+              :active-sub-tab="activeSubTab"
+              @sub-tab-change="setActiveSubTab"
+          />
 
-      <!-- 报告数据 -->
-      <ReportsContent
-          v-if="activeTab === 'reports'"
-          :active-sub-tab="activeSubTab"
-          @sub-tab-change="setActiveSubTab"
-      />
+          <!-- 就业指导-招聘信息 -->
+          <RecruitmentContent v-if="activeTab === 'recruitment'" />
+
+          <!-- 就业指导-面试辅导 -->
+          <InterviewContent v-if="activeTab === 'interview'" />
+
+          <!-- 就业指导-AI虚拟面试 -->
+          <VirtualInterviewContent v-if="activeTab === 'ai-interview'" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import {nextTick, ref, watch} from 'vue'
-import TeachingDataCard from '@/components/data-center/data-types/TeachingDataCard.vue'
-import ResourcesDataCard from '@/components/data-center/data-types/ResourcesDataCard.vue'
-import AchievementsDataCard from '@/components/data-center/data-types/AchievementsDataCard.vue'
-import EvaluationDataCard from '@/components/data-center/data-types/EvaluationDataCard.vue'
-import ReportsDataCard from '@/components/data-center/data-types/ReportsDataCard.vue'
+import { ref, watch, computed, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 import TeachingContent from '@/components/data-center/data-types/TeachingContent.vue'
 import ResourcesContent from '@/components/data-center/data-types/ResourcesContent.vue'
 import AchievementsContent from '@/components/data-center/data-types/AchievementsContent.vue'
 import EvaluationContent from '@/components/data-center/data-types/EvaluationContent.vue'
 import ReportsContent from '@/components/data-center/data-types/ReportsContent.vue'
-import {useCommonStore} from "@/stores/index.js";
+import RecruitmentContent from '@/components/career-guidance/RecruitmentContent.vue'
+import InterviewContent from '@/components/career-guidance/InterviewContent.vue'
+import VirtualInterviewContent from '@/components/career-guidance/VirtualInterviewContent.vue'
+import { useCommonStore } from "@/stores/index.js"
 
+const route = useRoute()
 const commonStore = useCommonStore()
+
+// 各类核心指标数据
+const categoryDataMap = {
+  teaching: [
+    { label: '作业正确率', value: '89%' },
+    { label: 'GPA', value: '6' },
+    { label: '出勤率', value: '96%' },
+    { label: '互动值', value: '9' }
+  ],
+  resources: [
+    { label: '学习资料', value: '16' },
+    { label: '智能作品', value: '49' }
+  ],
+  achievements: [
+    { label: '奖学金', value: '3000' },
+    { label: '竞赛获奖', value: '7' },
+    { label: '优秀评比', value: '5' }
+  ],
+  evaluation: [
+    { label: '自我评价', value: '11' },
+    { label: '智能评价', value: '15' },
+    { label: '评价教师', value: '42' }
+  ],
+  reports: [
+    { label: '微盘', value: '17' },
+    { label: '笔记', value: '6' }
+  ],
+  recruitment: [
+    { label: '今日新增', value: '128' },
+    { label: '我的投递', value: '5' }
+  ],
+  interview: [
+    { label: '辅导预约', value: '1' },
+    { label: '辅导课程', value: '12' }
+  ],
+  'ai-interview': [
+    { label: '模拟次数', value: '42' },
+    { label: '平均得分', value: '85' }
+  ]
+}
+
 // 当前激活的主菜单
 const activeTab = ref('teaching')
 // 当前激活的子菜单
 const activeSubTab = ref('workload')
-// 设置激活的主菜单
-const setActiveTab = (tab) => {
-  activeTab.value = tab
-  // 根据主菜单设置默认的子菜单
+
+// 计算当前分类的数据
+const currentCategoryData = computed(() => {
+  return categoryDataMap[activeTab.value] || []
+})
+
+// 根据主菜单设置默认的子菜单
+const syncSubTab = (tab) => {
   if (tab === 'teaching') {
     activeSubTab.value = 'workload'
   } else if (tab === 'resources') {
@@ -98,7 +128,7 @@ const setActiveTab = (tab) => {
   } else if (tab === 'achievements') {
     activeSubTab.value = 'papers'
   } else if (tab === 'evaluation') {
-    activeSubTab.value = 'self-evaluation'  // 评价数据默认显示自我评价
+    activeSubTab.value = 'self-evaluation'
   } else if (tab === 'reports') {
     activeSubTab.value = 'archive'
   }
@@ -109,151 +139,120 @@ const setActiveSubTab = (subTab) => {
   activeSubTab.value = subTab
 }
 
+// 监听路由参数变化
+watch(() => route.query.tab, (newTab) => {
+  if (newTab && categoryDataMap[newTab]) {
+    activeTab.value = newTab
+    syncSubTab(newTab)
+  } else {
+    activeTab.value = 'teaching'
+    syncSubTab('teaching')
+  }
+}, { immediate: true })
 
-watch(() => commonStore.sideBarMenuIndex, (newTab) => {
-  if (newTab === 2) {
-    setActiveTab('teaching')
-    activeSubTab.value = 'grades'
-  } else if (newTab === 3) {
-    setActiveTab('achievements')
-  }else if (newTab === 4) {
-    setActiveTab('achievements')
-    activeSubTab.value = 'ability-certification'
-  }else if (newTab === 5) {
-
-  }else if (newTab === 6) {
-    setActiveTab('evaluation')
-    activeSubTab.value = 'student'
-  }else if (newTab === 7) {
-    setActiveTab('evaluation')
-    activeSubTab.value = 'self-evaluation'
+onMounted(() => {
+  if (route.query.tab && categoryDataMap[route.query.tab]) {
+    activeTab.value = route.query.tab
+    syncSubTab(route.query.tab)
   }
 })
 </script>
 
 <style scoped>
 .data-center {
-  min-height: 100vh;
+  min-height: calc(100vh - 0px);
   background: #f8fafc;
-  padding: 20px;
+  padding: 0;
 }
 
-.page-header {
-  text-align: center;
-  margin-bottom: 20px;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
+.data-center-container {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+  min-height: calc(100vh - 0px);
 }
 
-.page-title {
-  font-size: 24px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-  background-size: 300% 300%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: gradientShift 4s ease-in-out infinite;
-  text-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+/* 右侧内容区样式 (现在是全宽) */
+.main-content-area {
+  flex-grow: 1;
+  width: 100%;
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* 动态数据页头样式 */
+.dashboard-header {
+  background: white;
+  padding: 24px 40px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 0; /* 移除页头和内容的间距，让内容自带的 padding 处理 */
+}
+
+.header-summary {
+  display: flex;
+  gap: 64px;
+  align-items: center;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   position: relative;
-  letter-spacing: 1px;
-  display: inline-block;
 }
 
-.page-title::before {
+.summary-item:not(:last-child)::after {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
-  background-size: 300% 300%;
-  filter: blur(15px);
-  opacity: 0.3;
-  z-index: -1;
-  animation: gradientShift 4s ease-in-out infinite;
-}
-
-.page-title::after {
-  content: '';
-  position: absolute;
+  right: -32px;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 120%;
-  height: 120%;
-  background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
-  filter: blur(30px);
-  z-index: -2;
-  animation: pulse 3s ease-in-out infinite;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 24px;
+  background: #e2e8f0;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.summary-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1;
 }
 
-@keyframes pulse {
-  0%, 100% {
-    opacity: 0.3;
-    transform: translate(-50%, -50%) scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: translate(-50%, -50%) scale(1.1);
-  }
-}
-
-.data-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto 20px auto;
+.summary-label {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
 }
 
 .content-section {
-  max-width: 1400px;
-  margin: 0 auto;
+  flex-grow: 1;
+  width: 100%;
+  padding: 0; /* 让子组件控制内边距 */
 }
 
 /* 响应式设计 */
-@media (max-width: 1200px) {
-  .data-cards-grid {
-    grid-template-columns: repeat(3, 1fr);
+@media (max-width: 1024px) {
+  .dashboard-header {
+    padding: 16px 24px;
   }
-
-  .page-title {
-    font-size: 20px;
+  
+  .header-summary {
+    gap: 32px;
+    overflow-x: auto;
+    padding-bottom: 8px;
   }
-}
-
-@media (max-width: 768px) {
-  .data-center {
-    padding: 10px;
+  
+  .summary-item:not(:last-child)::after {
+    display: none;
   }
-
-  .data-cards-grid {
-    grid-template-columns: 1fr;
-    gap: 15px;
-    margin-bottom: 30px;
-  }
-
-  .page-title {
-    font-size: 18px;
-    letter-spacing: 0.5px;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-title {
-    font-size: 16px;
+  
+  .summary-value {
+    font-size: 24px;
   }
 }
 </style>
+
+

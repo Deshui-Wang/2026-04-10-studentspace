@@ -1,397 +1,431 @@
 <template>
-  <div class="digital-literacy-page">
-    <!-- 筛选区域 -->
-    <div class="filter-section">
-      <div class="usage-stats">
-        <span class="stats-text">智能工具使用情况：217次/天</span>
+  <div class="literacy-graph-container">
+    <!-- 1. 专业 Hero Header -->
+    <div class="graph-header">
+      <div class="header-left">
+        <h2 class="main-title">学生能力检测图谱</h2>
+        <p class="sub-title">基于多维数据的知识点、技能点与就业岗位关联分析</p>
+      </div>
+      <div class="header-right">
+        <div class="legend">
+          <div class="legend-item"><span class="dot knowledge"></span>知识点</div>
+          <div class="legend-item"><span class="dot skill"></span>技能点</div>
+          <div class="legend-item"><span class="dot ability"></span>核心素养</div>
+        </div>
       </div>
     </div>
 
-    <!-- 数据列表 -->
-    <div class="data-table-container">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>技术应用</th>
-            <th>使用次数</th>
-            <th>成品数量</th>
-            <th>学术科研</th>
-            <th>评估反馈</th>
-            <th>数字伦理</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in digitalLiteracyData" :key="item.technology">
-            <td class="technology-name">{{ item.technology }}</td>
-            <td class="usage-count">{{ item.usageCount }}</td>
-            <td class="product-count">{{ item.productCount }}</td>
-            <td class="academic-research">
-              <div class="percentage-bar">
-                <div class="percentage-fill" :style="{ width: item.academicResearch + '%' }"></div>
-                <span class="percentage-text">{{ item.academicResearch }}%</span>
-              </div>
-            </td>
-            <td class="evaluation-score">
-              <div class="score-display">{{ item.evaluationScore }}</div>
-            </td>
-            <td class="digital-ethics">
-              <div class="ethics-score">{{ item.digitalEthics }}</div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- 2. 核心图谱画布 -->
+    <div class="graph-canvas-wrap" ref="canvasWrap">
+      <svg class="graph-svg" :viewBox="`0 0 ${canvasWidth} ${canvasHeight}`">
+        <!-- 定义渐变和滤镜 -->
+        <defs>
+          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3" result="blur" />
+            <feComposite in="SourceGraphic" in2="blur" operator="over" />
+          </filter>
+          <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.2" />
+            <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.8" />
+          </linearGradient>
+        </defs>
+
+        <!-- 背景连接线 -->
+        <g class="links-layer">
+          <path 
+            v-for="(link, index) in links" 
+            :key="`link-${index}`"
+            :d="calculatePath(link)"
+            :class="['graph-link', { active: isLinkActive(link) }]"
+          />
+        </g>
+
+        <!-- 节点层 -->
+        <g class="nodes-layer">
+          <g 
+            v-for="node in nodes" 
+            :key="node.id" 
+            class="node-group"
+            :class="{ dimmed: activeNode && !isNodeRelated(node) }"
+            @mouseenter="handleNodeHover(node)"
+            @mouseleave="handleNodeLeave"
+          >
+            <!-- 节点外圈 -->
+            <circle 
+              :cx="node.x" 
+              :cy="node.y" 
+              :r="node.r + 4" 
+              class="node-outer"
+              :style="{ stroke: node.color }"
+            />
+            <!-- 节点主体 -->
+            <circle 
+              :cx="node.x" 
+              :cy="node.y" 
+              :r="node.r" 
+              class="node-inner"
+              :style="{ fill: node.color }"
+            />
+            <!-- 节点文本 -->
+            <text 
+              :x="node.x" 
+              :y="node.y + node.r + 18" 
+              text-anchor="middle" 
+              class="node-label"
+            >
+              {{ node.label }}
+            </text>
+            <!-- 百分比数值 -->
+            <text 
+              :x="node.x" 
+              :y="node.y + 4" 
+              text-anchor="middle" 
+              class="node-value"
+            >
+              {{ node.value }}%
+            </text>
+          </g>
+        </g>
+
+        <!-- 右侧目标岗位层 -->
+        <g class="jobs-layer">
+          <rect 
+            v-for="(job, index) in jobs" 
+            :key="`job-${index}`"
+            :x="canvasWidth - 180"
+            :y="job.y - 20"
+            width="160"
+            height="40"
+            rx="20"
+            class="job-card"
+            :class="{ active: isJobRelated(job) }"
+          />
+          <text 
+            v-for="(job, index) in jobs" 
+            :key="`job-text-${index}`"
+            :x="canvasWidth - 100"
+            :y="job.y + 5"
+            text-anchor="middle"
+            class="job-label"
+          >
+            {{ job.name }}
+          </text>
+        </g>
+      </svg>
     </div>
+
+    <!-- 3. 底部详细信息浮层 (选中节点时显示) -->
+    <transition name="fade">
+      <div v-if="activeNode" class="node-detail-panel">
+        <div class="detail-header" :style="{ borderLeftColor: activeNode.color }">
+          <h4>{{ activeNode.label }}</h4>
+          <span class="type-tag" :style="{ background: activeNode.color }">{{ activeNode.type }}</span>
+        </div>
+        <p class="detail-desc">{{ activeNode.desc }}</p>
+        <div class="impact-stats">
+          <div class="stat-item">
+            <span class="s-label">岗位匹配度贡献</span>
+            <span class="s-val">+{{ (activeNode.value * 0.15).toFixed(1) }}%</span>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-// 数字素养数据
-const digitalLiteracyData = ref([
-  {
-    technology: 'AI大模型对话',
-    usageCount: 12500,
-    productCount: 0,
-    academicResearch: 35,
-    evaluationScore: 3.2,
-    studentWorks: {
-      quantity: 0,
-      quality: 0,
-      experience: 0
-    },
-    digitalEthics: 3.5
-  },
-  {
-    technology: 'AI PPT',
-    usageCount: 38,
-    productCount: 18,
-    academicResearch: 78,
-    evaluationScore: 4.0,
-    studentWorks: {
-      quantity: 35,
-      quality: 3.9,
-      experience: 4.1
-    },
-    digitalEthics: 4.2
-  },
-  {
-    technology: 'AI生图',
-    usageCount: 52,
-    productCount: 25,
-    academicResearch: 72,
-    evaluationScore: 3.8,
-    studentWorks: {
-      quantity: 42,
-      quality: 3.7,
-      experience: 3.9
-    },
-    digitalEthics: 4.0
-  },
-  {
-    technology: 'AI生视频',
-    usageCount: 28,
-    productCount: 8,
-    academicResearch: 65,
-    evaluationScore: 3.6,
-    studentWorks: {
-      quantity: 15,
-      quality: 3.5,
-      experience: 3.7
-    },
-    digitalEthics: 3.8
-  },
-  {
-    technology: '智能体',
-    usageCount: 35,
-    productCount: 15,
-    academicResearch: 88,
-    evaluationScore: 4.4,
-    studentWorks: {
-      quantity: 22,
-      quality: 4.2,
-      experience: 4.4
-    },
-    digitalEthics: 4.6
-  },
-  {
-    technology: '工作流',
-    usageCount: 42,
-    productCount: 20,
-    academicResearch: 82,
-    evaluationScore: 4.1,
-    studentWorks: {
-      quantity: 30,
-      quality: 4.0,
-      experience: 4.2
-    },
-    digitalEthics: 4.3
-  },
-  {
-    technology: '知识库',
-    usageCount: 58,
-    productCount: 32,
-    academicResearch: 90,
-    evaluationScore: 4.6,
-    studentWorks: {
-      quantity: 48,
-      quality: 4.4,
-      experience: 4.5
-    },
-    digitalEthics: 4.7
-  },
-  {
-    technology: '数字人',
-    usageCount: 25,
-    productCount: 6,
-    academicResearch: 68,
-    evaluationScore: 3.7,
-    studentWorks: {
-      quantity: 12,
-      quality: 3.6,
-      experience: 3.8
-    },
-    digitalEthics: 3.9
-  },
-  {
-    technology: '配音作品',
-    usageCount: 33,
-    productCount: 14,
-    academicResearch: 75,
-    evaluationScore: 3.9,
-    studentWorks: {
-      quantity: 18,
-      quality: 3.8,
-      experience: 4.0
-    },
-    digitalEthics: 4.1
-  },
-  {
-    technology: '数字人视频',
-    usageCount: 20,
-    productCount: 5,
-    academicResearch: 62,
-    evaluationScore: 3.5,
-    studentWorks: {
-      quantity: 8,
-      quality: 3.4,
-      experience: 3.6
-    },
-    digitalEthics: 3.7
-  },
-  {
-    technology: '知识图谱',
-    usageCount: 48,
-    productCount: 22,
-    academicResearch: 92,
-    evaluationScore: 4.7,
-    studentWorks: {
-      quantity: 38,
-      quality: 4.5,
-      experience: 4.6
-    },
-    digitalEthics: 4.8
-  },
-  {
-    technology: '能力图谱',
-    usageCount: 41,
-    productCount: 19,
-    academicResearch: 89,
-    evaluationScore: 4.5,
-    studentWorks: {
-      quantity: 33,
-      quality: 4.3,
-      experience: 4.4
-    },
-    digitalEthics: 4.6
-  },
-  {
-    technology: '生成式分析',
-    usageCount: 36,
-    productCount: 16,
-    academicResearch: 86,
-    evaluationScore: 4.3,
-    studentWorks: {
-      quantity: 26,
-      quality: 4.1,
-      experience: 4.3
-    },
-    digitalEthics: 4.4
-  }
+const canvasWidth = 1200
+const canvasHeight = 700
+const activeNode = ref(null)
+
+// 节点数据定义
+const nodes = ref([
+  // 左侧起点层 (Roots)
+  { id: 'k1', x: 150, y: 150, r: 35, label: '专业知识', type: '知识', value: 85, color: '#3b82f6', desc: '涵盖老年学、康复学、心理学等理论基础' },
+  { id: 's1', x: 150, y: 350, r: 35, label: '实践技能', type: '技能', value: 78, color: '#10b981', desc: '包括智能设备操作、康复护理实操等' },
+  { id: 'a1', x: 150, y: 550, r: 35, label: '核心素养', type: '素养', value: 92, color: '#f59e0b', desc: '包含共情能力、职业道德、沟通技巧' },
+
+  // 中间层 (Knowledge Points)
+  { id: 'n1', x: 450, y: 120, r: 28, label: 'Python基础', type: '技能', value: 72, color: '#10b981', desc: '用于康养数据处理与自动化工作流' },
+  { id: 'n2', x: 480, y: 220, r: 32, label: '老年生理学', type: '知识', value: 94, color: '#3b82f6', desc: '对高龄群体身体机能的深度理解' },
+  { id: 'n3', x: 520, y: 350, r: 30, label: 'UI设计界面', type: '技能', value: 65, color: '#10b981', desc: '适老化移动端界面的交互设计能力' },
+  { id: 'n4', x: 480, y: 480, r: 28, label: '共情心理', type: '素养', value: 88, color: '#f59e0b', desc: '与老年群体建立深层信任的核心纽带' },
+  { id: 'n5', x: 450, y: 580, r: 30, label: '数据分析', type: '技能', value: 81, color: '#10b981', desc: '对健康监测数据的统计与趋势预测' },
+
+  // 进阶层 (Advanced Skills)
+  { id: 'n6', x: 750, y: 200, r: 40, label: '智能健康管理', type: '技能', value: 85, color: '#8b5cf6', desc: '综合运用软硬件进行健康干预' },
+  { id: 'n7', x: 750, y: 500, r: 40, label: '数字化方案设计', type: '技能', value: 76, color: '#8b5cf6', desc: '为康养机构提供全套数字化转型方案' }
 ])
+
+// 岗位数据
+const jobs = ref([
+  { id: 'j1', y: 150, name: '智慧康养架构师' },
+  { id: 'j2', y: 350, name: '数字化产品经理' },
+  { id: 'j3', y: 550, name: '健康数据分析师' }
+])
+
+// 连线数据
+const links = ref([
+  { from: 'k1', to: 'n2' }, { from: 'k1', to: 'n1' },
+  { from: 's1', to: 'n1' }, { from: 's1', to: 'n3' }, { from: 's1', to: 'n5' },
+  { from: 'a1', to: 'n4' }, { from: 'a1', to: 'n3' },
+  { from: 'n1', to: 'n6' }, { from: 'n2', to: 'n6' }, { from: 'n5', to: 'n6' },
+  { from: 'n3', to: 'n7' }, { from: 'n4', to: 'n7' }, { from: 'n5', to: 'n7' },
+  { from: 'n6', to: 'j1' }, { from: 'n7', to: 'j2' }, { from: 'n5', to: 'j3' }, { from: 'n6', to: 'j3' }
+])
+
+// 计算 SVG 路径
+const calculatePath = (link) => {
+  const fromNode = nodes.value.find(n => n.id === link.from)
+  const toNode = nodes.value.find(n => n.id === link.to) || { x: canvasWidth - 180, y: jobs.value.find(j => j.id === link.to)?.y }
+  
+  if (!fromNode || !toNode) return ''
+  
+  const cp1x = fromNode.x + (toNode.x - fromNode.x) / 2
+  const cp2x = fromNode.x + (toNode.x - fromNode.x) / 2
+  
+  return `M ${fromNode.x} ${fromNode.y} C ${cp1x} ${fromNode.y} ${cp2x} ${toNode.y} ${toNode.x} ${toNode.y}`
+}
+
+// 交互逻辑
+const handleNodeHover = (node) => {
+  activeNode.value = node
+}
+
+const handleNodeLeave = () => {
+  activeNode.value = null
+}
+
+const isLinkActive = (link) => {
+  if (!activeNode.value) return false
+  return link.from === activeNode.value.id || link.to === activeNode.value.id
+}
+
+const isNodeRelated = (node) => {
+  if (!activeNode.value) return true
+  if (node.id === activeNode.value.id) return true
+  return links.value.some(l => 
+    (l.from === activeNode.value.id && l.to === node.id) || 
+    (l.to === activeNode.value.id && l.from === node.id)
+  )
+}
+
+const isJobRelated = (job) => {
+  if (!activeNode.value) return false
+  return links.value.some(l => l.from === activeNode.value.id && l.to === job.id)
+}
 </script>
 
 <style scoped>
-.digital-literacy-page {
-  padding: 24px;
-  background: white;
-  min-height: 600px;
-}
-
-/* 筛选区域 */
-.filter-section {
-  margin-bottom: 24px;
-  padding: 16px 20px;
-  background: #f8fafc;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-}
-
-.usage-stats {
-  display: flex;
-  align-items: center;
-}
-
-.stats-text {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-/* 数据表格 */
-.data-table-container {
-  background: white;
-  border-radius: 8px;
+.literacy-graph-container {
+  padding: 32px;
+  background: #0f172a; /* 深色科技感背景 */
+  min-height: 100vh;
+  color: white;
+  position: relative;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
+/* 头部样式 */
+.graph-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.main-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sub-title {
+  margin: 8px 0 0 0;
+  color: #64748b;
   font-size: 14px;
 }
 
-.data-table thead {
-  background: #f8fafc;
-  border-bottom: 2px solid #e2e8f0;
+.legend {
+  display: flex;
+  gap: 20px;
 }
 
-.data-table th {
-  padding: 16px 12px;
-  text-align: left;
-  font-weight: 600;
-  color: #374151;
-  white-space: nowrap;
-  border-right: 1px solid #e2e8f0;
-  text-align: center;
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #94a3b8;
 }
 
-.data-table th:last-child {
-  border-right: none;
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+.dot.knowledge { background: #3b82f6; }
+.dot.skill { background: #10b981; }
+.dot.ability { background: #f59e0b; }
+
+/* 画布样式 */
+.graph-canvas-wrap {
+  width: 100%;
+  height: 700px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.2);
 }
 
-.data-table td {
-  padding: 16px 12px;
-  border-bottom: 1px solid #f3f4f6;
-  border-right: 1px solid #f3f4f6;
-  vertical-align: top;
-}
-
-.data-table td:last-child {
-  border-right: none;
-}
-
-.data-table tbody tr:hover {
-  background: #f9fafb;
-}
-
-/* 技术应用列 */
-.technology-name {
-  font-weight: 600;
-  color: #1f2937;
-  min-width: 120px;
-}
-
-/* 使用次数和成品数量 */
-.usage-count,
-.product-count {
-  text-align: center;
-  font-weight: 500;
-  color: #374151;
-  min-width: 80px;
-}
-
-/* 学术科研百分比条 */
-.academic-research {
-  min-width: 120px;
-}
-
-.percentage-bar {
-  position: relative;
-  background: #e5e7eb;
-  height: 20px;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.percentage-fill {
+.graph-svg {
+  width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-  border-radius: 10px;
-  transition: width 0.3s ease;
 }
 
-.percentage-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+/* 连线样式 */
+.graph-link {
+  fill: none;
+  stroke: url(#lineGrad);
+  stroke-width: 1.5;
+  transition: all 0.4s;
+  opacity: 0.15;
+}
+
+.graph-link.active {
+  stroke: #3b82f6;
+  stroke-width: 3;
+  opacity: 1;
+  filter: url(#glow);
+}
+
+/* 节点样式 */
+.node-group {
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.node-group.dimmed {
+  opacity: 0.2;
+}
+
+.node-outer {
+  fill: none;
+  stroke-width: 2;
+  stroke-dasharray: 4 2;
+  animation: rotate 10s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.node-inner {
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+  transition: r 0.3s;
+}
+
+.node-group:hover .node-inner {
+  r: 40;
+}
+
+.node-label {
+  fill: #94a3b8;
   font-size: 12px;
   font-weight: 600;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
-/* 评估反馈 */
-.evaluation-score {
-  text-align: center;
-  min-width: 100px;
+.node-value {
+  fill: white;
+  font-size: 11px;
+  font-weight: 800;
+  pointer-events: none;
 }
 
-.score-display {
+/* 岗位卡片 */
+.job-card {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
+  transition: all 0.3s;
+}
+
+.job-card.active {
+  fill: rgba(59, 130, 246, 0.1);
+  stroke: #3b82f6;
+  stroke-width: 2;
+}
+
+.job-label {
+  fill: #fff;
+  font-size: 14px;
   font-weight: 600;
-  color: #059669;
-  font-size: 16px;
+  pointer-events: none;
 }
 
-
-/* 数字伦理 */
-.digital-ethics {
-  text-align: center;
-  min-width: 80px;
+/* 详情面板 */
+.node-detail-panel {
+  position: absolute;
+  bottom: 60px;
+  left: 60px;
+  width: 300px;
+  background: rgba(30, 41, 59, 0.9);
+  backdrop-filter: blur(20px);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  z-index: 100;
 }
 
-.ethics-score {
-  font-weight: 600;
-  color: #7c3aed;
-  font-size: 16px;
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  border-left: 4px solid #3b82f6;
+  padding-left: 12px;
 }
 
-/* 响应式设计 */
-@media (max-width: 1200px) {
-  .data-table-container {
-    overflow-x: auto;
-  }
-  
-  .data-table {
-    min-width: 1000px;
-  }
+.detail-header h4 {
+  margin: 0;
+  font-size: 18px;
 }
 
-@media (max-width: 768px) {
-  .digital-literacy-page {
-    padding: 16px;
-  }
-  
-  .data-table th,
-  .data-table td {
-    padding: 12px 8px;
-    font-size: 12px;
-  }
-  
-  .stats-text {
-    font-size: 14px;
-  }
+.type-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 700;
 }
+
+.detail-desc {
+  font-size: 13px;
+  color: #94a3b8;
+  line-height: 1.6;
+  margin: 0 0 16px 0;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.s-val {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s, transform 0.3s; }
+.fade-enter-from, .fade-leave-to { opacity: 0; transform: translateY(10px); }
 </style>

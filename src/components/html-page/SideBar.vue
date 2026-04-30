@@ -23,12 +23,12 @@ const goNav = (path, index) => {
   })
 }
 
-// 侧边栏菜单项 基本信息、课程成绩、项目成果、证书竞赛、素养画像、教师评价、学生反思
+// 侧边栏菜单项 基本信息、课程成绩、项目经历、证书竞赛、素养画像、教师评价、学生反思
 const menuItems = [
   {path: '/', label: '主页', icon: '🏠'},
   {path: '/profile', label: '基本信息', icon: '📁'},
   {path: '/data-center', label: '课程成绩', icon: '📚'},
-  {path: '/data-center', label: '项目成果', icon: '📊'},
+  {path: '/data-center', label: '项目经历', icon: '📊'},
   {path: '/data-center', label: '证书竞赛', icon: '💼'},
   {path: '/ability-test', label: '素养画像', icon: '🌱'},
   {path: '/data-center', label: '教师评价', icon: '🤖'},

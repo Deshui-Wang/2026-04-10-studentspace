@@ -1,47 +1,30 @@
 <template>
-  <div class="evaluation-center">
-    
-    <!-- 顶部统计信息区域 - 可切换卡片 -->
-    <div class="stats-header">
-      <div class="stats-container">
-        <div 
-          class="stat-item" 
-          :class="{ active: activeTab === 'goal' }"
-          @click="switchTab('goal')"
-        >
-          <div class="stat-icon">
-            <img src="/pic/zhineng.svg" alt="统计图标" />
-          </div>
-          <div class="stat-content">
-            <div class="stat-title">目标与路径</div>
-            <div class="stat-subtitle">设定目标、洞察差距，生成可执行的成长路径</div>
-          </div>
-        </div>
-        <div 
-          class="stat-item" 
-          :class="{ active: activeTab === 'track' }"
-          @click="switchTab('track')"
-        >
-          <div class="stat-icon">
-            <img src="/pic/jineng.svg" alt="统计图标" />
-          </div>
-          <div class="stat-content">
-            <div class="stat-title">成长与跟踪</div>
-            <div class="stat-subtitle">记录学习过程与成果，持续复盘与优化</div>
-          </div>
-        </div>
-        
+  <div class="career-section-container">
+    <!-- 头部标题与描述 -->
+    <div class="section-header">
+      <div class="header-left">
+        <h2 class="section-title">{{ activeTab === 'goal' ? '目标路径' : '成长跟踪' }}</h2>
+        <p class="section-subtitle">
+          {{ activeTab === 'goal' 
+            ? '设定目标、洞察差距，基于 AI 智能算法为您量身定制的阶段性成长达成方案' 
+            : '全方位记录您的学习过程与数字化成果，多维度复盘每一个阶段的成长轨迹' 
+          }}
+        </p>
+      </div>
+      <div class="header-right" v-if="activeTab !== 'goal'">
+        <el-button size="medium" plain class="secondary-btn">查看历史轨迹</el-button>
+        <el-button type="primary" size="medium" class="action-btn">导出成长档案</el-button>
       </div>
     </div>
 
     <!-- 内容区域 -->
-    <div class="content-area">
-      <!-- 目标与路径 -->
+    <div class="content-area modern-content-card">
+      <!-- 目标路径 -->
       <div v-if="activeTab === 'goal'" class="tab-content">
         <GoalPath />
       </div>
       
-      <!-- 成长与跟踪 -->
+      <!-- 成长跟踪 -->
       <div v-if="activeTab === 'track'" class="tab-content">
         <GrowthTracking />
       </div>
@@ -50,17 +33,29 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import GoalPath from './GoalPath.vue'
 import GrowthTracking from './GrowthTracking.vue'
 
+const route = useRoute()
+
 // 当前激活的标签页
-const activeTab = ref('goal')
+const activeTab = ref('track')
 
 // 切换标签页
 const switchTab = (tab) => {
   activeTab.value = tab
 }
+
+// 监听路由参数
+watch(() => route.query.tab, (newTab) => {
+  if (newTab === 'goals') {
+    activeTab.value = 'goal'
+  } else {
+    activeTab.value = 'track'
+  }
+}, { immediate: true })
 
 // 兼容旧自定义事件：统一映射到新标签
 const handleSwitchToReport = () => {
@@ -81,226 +76,101 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.evaluation-center {
+.career-section-container {
+  padding: 32px 48px;
+  background: #f8f9fb;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
-  padding: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
 }
 
-/* 顶部统计信息样式 */
-.stats-header {
-  background: none;
-  border-radius: 0;
-  padding: 0;
-  margin-bottom: 24px;
-  box-shadow: none;
-}
-
-.stats-container {
+/* 头部样式适配 */
+.section-header {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  margin: auto;
+  align-items: flex-end;
+  margin-bottom: 24px;
 }
 
-.stat-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex: 1;
-  padding: 20px;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  border: 2px solid transparent;
-  cursor: pointer;
-  transition: all 0.3s ease;
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
   position: relative;
-  overflow: hidden;
+  padding-left: 16px;
 }
 
-.stat-item::before {
+.section-title::before {
   content: '';
   position: absolute;
-  top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(135deg, #8b5cf6, #a855f7);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  z-index: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, #8b5cf6, #7c3aed);
+  border-radius: 2px;
 }
 
-.stat-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.15);
+.section-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
 }
 
-.stat-item:hover::before {
-  opacity: 0.05;
+.modern-content-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f1f5f9;
 }
 
-.stat-item.active {
-  border-color: #8b5cf6;
-  box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
-}
-
-.stat-item.active::before {
-  opacity: 0.1;
-}
-
-.stat-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #8b5cf6, #a855f7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-}
-
-.stat-icon img {
-  width: 24px;
-  height: 24px;
-  filter: brightness(0) invert(1);
-}
-
-.stat-content {
-  flex: 1;
-  position: relative;
-  z-index: 1;
-}
-
-.stat-title {
-  font-size: 18px;
+.action-btn {
+  border-radius: 10px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border: none;
   font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 4px 0;
-  line-height: 1.2;
-  text-align: left;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
 }
 
-.stat-subtitle {
-  font-size: 13px;
-  color: #6b7280;
-  line-height: 1.3;
-  text-align: left;
+.secondary-btn {
+  border-radius: 10px;
+  font-weight: 600;
+  color: #7c3aed;
+  border-color: #7c3aed33;
+  margin-right: 12px;
 }
 
-.content-area {
-  flex: 1;
+.secondary-btn:hover {
+  background: #f5f3ff;
+  border-color: #7c3aed;
 }
 
 .tab-content {
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* 响应式设计 */
-@media (max-width: 1200px) {
-  .stats-container {
-    gap: 16px;
-  }
-  
-  .stat-item {
-    padding: 16px;
-  }
-  
-  .stat-icon {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .stat-icon img {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .stat-title {
-    font-size: 16px;
-  }
-  
-  .stat-subtitle {
-    font-size: 12px;
+/* 响应式调整 */
+@media (max-width: 1024px) {
+  .career-section-container {
+    padding: 24px 32px;
   }
 }
 
 @media (max-width: 768px) {
-  .evaluation-center {
-    padding: 16px;
+  .career-section-container {
+    padding: 20px 16px;
   }
   
-  .stats-container {
+  .section-header {
     flex-direction: column;
+    align-items: flex-start;
     gap: 12px;
-  }
-  
-  .stat-item {
-    padding: 16px;
-  }
-  
-  .stat-icon {
-    width: 36px;
-    height: 36px;
-  }
-  
-  .stat-icon img {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .stat-title {
-    font-size: 15px;
-  }
-  
-  .stat-subtitle {
-    font-size: 11px;
-  }
-}
-
-@media (max-width: 480px) {
-  .evaluation-center {
-    padding: 12px;
-  }
-  
-  .stat-item {
-    padding: 12px;
-    gap: 12px;
-  }
-  
-  .stat-icon {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .stat-icon img {
-    width: 16px;
-    height: 16px;
-  }
-  
-  .stat-title {
-    font-size: 14px;
-  }
-  
-  .stat-subtitle {
-    font-size: 10px;
   }
 }
 </style>

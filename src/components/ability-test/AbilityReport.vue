@@ -1,191 +1,77 @@
 <template>
   <div class="ability-report">
-    <div class="report-header">
-      <div class="report-title-section">
-        <h2 class="report-title">能力检测报告</h2>
-        <p class="report-description">基于AI智能分析的个人能力评估报告和发展建议</p>
-      </div>
-      <div class="report-actions">
-        <button class="btn-primary" @click="generateReport">
-          生成新报告
-        </button>
-        <button class="btn-secondary" @click="downloadReport">
-          下载报告
-        </button>
-      </div>
-    </div>
 
     <div class="report-content">
-      <!-- 报告概览 -->
-      <div class="report-overview">
-        <h3>报告概览</h3>
-        <div class="overview-cards">
-          <div class="overview-card">
-            <div class="card-icon">📊</div>
-            <div class="card-content">
-              <div class="card-title">综合评分</div>
-              <div class="card-value">{{ overallScore }}/100</div>
-              <div class="card-trend" :class="scoreTrend.type">
-                {{ scoreTrend.text }}
-              </div>
-            </div>
-          </div>
-          <div class="overview-card">
-            <div class="card-icon">🎯</div>
-            <div class="card-content">
-              <div class="card-title">能力等级</div>
-              <div class="card-value">{{ abilityLevel }}</div>
-              <div class="card-subtitle">{{ levelDescription }}</div>
-            </div>
-          </div>
-          <div class="overview-card">
-            <div class="card-icon">📈</div>
-            <div class="card-content">
-              <div class="card-title">提升潜力</div>
-              <div class="card-value">{{ improvementPotential }}%</div>
-              <div class="card-subtitle">还有很大提升空间</div>
-            </div>
-          </div>
+      <!-- 2. 横向二级页签导航 -->
+      <div class="report-tabs-nav">
+        <div 
+          v-for="tab in reportTabs" 
+          :key="tab.key"
+          :class="['report-tab-item', { active: activeReportTab === tab.key }]"
+          @click="activeReportTab = tab.key"
+        >
+          <i :class="tab.icon"></i>
+          <span>{{ tab.label }}</span>
         </div>
       </div>
 
-      <!-- 能力分析详情 -->
-      <div class="ability-analysis">
-        <h3>能力分析详情</h3>
-
-        <div class="analysis-content">
-          <!-- 优势能力 -->
-          <div class="strengths-content">
-            <h4 class="analysis-section-title">优势能力</h4>
-            <div class="strength-list">
-              <div
-                v-for="strength in strengths"
-                :key="strength.id"
-                class="strength-item"
-              >
-                <div class="strength-header">
-                  <div class="strength-icon">{{ strength.icon }}</div>
-                  <div class="strength-info">
-                    <h4>{{ strength.name }}</h4>
-                    <p>{{ strength.description }}</p>
-                  </div>
-                  <div class="strength-score">{{ strength.score }}/100</div>
-                </div>
-                <div class="strength-details">
-                  <div class="strength-chart">
-                    <div class="chart-bar">
-                      <div
-                        class="chart-fill"
-                        :style="{ width: strength.score + '%' }"
-                      ></div>
+      <div class="tab-view-container">
+        <!-- 标签页 1: 综合评估 -->
+        <transition name="tab-fade" mode="out-in">
+          <div v-if="activeReportTab === 'overview'" class="tab-pane">
+            <div class="report-overview">
+              <div class="overview-cards">
+                <div class="overview-card">
+                  <div class="card-icon">📊</div>
+                  <div class="card-content">
+                    <div class="card-title">综合评分</div>
+                    <div class="card-value">{{ overallScore }}/100</div>
+                    <div class="card-trend" :class="scoreTrend.type">
+                      {{ scoreTrend.text }}
                     </div>
                   </div>
-                  <div class="strength-recommendations">
-                    <h5>保持建议：</h5>
-                    <ul>
-                      <li v-for="rec in strength.recommendations" :key="rec">
-                        {{ rec }}
-                      </li>
-                    </ul>
+                </div>
+                <div class="overview-card">
+                  <div class="card-icon">🎯</div>
+                  <div class="card-content">
+                    <div class="card-title">能力等级</div>
+                    <div class="card-value">{{ abilityLevel }}</div>
+                    <div class="card-subtitle">{{ levelDescription }}</div>
+                  </div>
+                </div>
+                <div class="overview-card">
+                  <div class="card-icon">📈</div>
+                  <div class="card-content">
+                    <div class="card-title">提升潜力</div>
+                    <div class="card-value">{{ improvementPotential }}%</div>
+                    <div class="card-subtitle">还有很大提升空间</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- 待提升能力 -->
-          <div class="improvements-content">
-            <h4 class="analysis-section-title">待提升能力</h4>
-            <div class="improvement-list">
-              <div
-                v-for="improvement in improvements"
-                :key="improvement.id"
-                class="improvement-item"
-              >
-                <div class="improvement-header">
-                  <div class="improvement-icon">{{ improvement.icon }}</div>
-                  <div class="improvement-info">
-                    <h4>{{ improvement.name }}</h4>
-                    <p>{{ improvement.description }}</p>
-                  </div>
-                  <div class="improvement-score">{{ improvement.score }}/100</div>
-                </div>
-                <div class="improvement-details">
-                  <div class="improvement-chart">
-                    <div class="chart-bar">
-                      <div
-                        class="chart-fill improvement"
-                        :style="{ width: improvement.score + '%' }"
-                      ></div>
-                    </div>
-                  </div>
-                  <div class="improvement-actions">
-                    <h5>提升建议：</h5>
-                    <ul>
-                      <li v-for="action in improvement.actions" :key="action">
-                        {{ action }}
-                      </li>
-                    </ul>
-                    <div class="action-buttons">
-                      <button class="btn-small">查看课程</button>
-                      <button class="btn-small">制定计划</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- 发展建议 -->
-          <div class="recommendations-content">
-            <h4 class="analysis-section-title">发展建议</h4>
-            <div class="recommendation-sections">
-              <div class="recommendation-section">
-                <h4>短期目标 (1-3个月)</h4>
-                <div class="recommendation-list">
-                  <div
-                    v-for="rec in shortTermRecommendations"
-                    :key="rec.id"
-                    class="recommendation-item"
-                  >
-                    <div class="rec-priority">{{ rec.priority }}</div>
-                    <div class="rec-content">
-                      <h5>{{ rec.title }}</h5>
-                      <p>{{ rec.description }}</p>
-                      <div class="rec-tags">
-                        <span
-                          v-for="tag in rec.tags"
-                          :key="tag"
-                          class="rec-tag"
-                        >
-                          {{ tag }}
-                        </span>
+          <!-- 标签页 2: 优势能力 -->
+          <div v-else-if="activeReportTab === 'strengths'" class="tab-pane">
+            <div class="ability-analysis">
+              <div class="strengths-content">
+                <div class="strength-list">
+                  <div v-for="strength in strengths" :key="strength.id" class="strength-item">
+                    <div class="strength-header">
+                      <div class="strength-icon">{{ strength.icon }}</div>
+                      <div class="strength-info">
+                        <h4>{{ strength.name }}</h4>
+                        <p>{{ strength.description }}</p>
                       </div>
+                      <div class="strength-score">{{ strength.score }}</div>
                     </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="recommendation-section">
-                <h4>长期目标 (6-12个月)</h4>
-                <div class="recommendation-list">
-                  <div
-                    v-for="rec in longTermRecommendations"
-                    :key="rec.id"
-                    class="recommendation-item"
-                  >
-                    <div class="rec-priority">{{ rec.priority }}</div>
-                    <div class="rec-content">
-                      <h5>{{ rec.title }}</h5>
-                      <p>{{ rec.description }}</p>
-                      <div class="rec-tags">
-                        <span
-                          v-for="tag in rec.tags"
-                          :key="tag"
-                          class="rec-tag"
-                        >
-                          {{ tag }}
-                        </span>
+                    <div class="strength-details">
+                      <div class="strength-chart">
+                        <div class="chart-bar"><div class="chart-fill" :style="{ width: strength.score + '%' }"></div></div>
+                      </div>
+                      <div class="strength-recommendations">
+                        <h5>保持建议：</h5>
+                        <ul><li v-for="rec in strength.recommendations" :key="rec">{{ rec }}</li></ul>
                       </div>
                     </div>
                   </div>
@@ -193,34 +79,93 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- 学习资源推荐 -->
-      <div class="learning-resources">
-        <h3>推荐学习资源</h3>
-        <div class="resources-grid">
-          <div
-            v-for="resource in learningResources"
-            :key="resource.id"
-            class="resource-card"
-          >
-            <div class="resource-header">
-              <div class="resource-type">{{ resource.type }}</div>
-              <div class="resource-rating">
-                <span class="stars">{{ '★'.repeat(resource.rating) }}</span>
-                <span class="rating-text">{{ resource.rating }}/5</span>
+          <!-- 标签页 3: 待提升项 -->
+          <div v-else-if="activeReportTab === 'improvements'" class="tab-pane">
+            <div class="ability-analysis">
+              <div class="improvements-content">
+                <div class="improvement-list">
+                  <div v-for="improvement in improvements" :key="improvement.id" class="improvement-item">
+                    <div class="improvement-header">
+                      <div class="improvement-icon">{{ improvement.icon }}</div>
+                      <div class="improvement-info">
+                        <h4>{{ improvement.name }}</h4>
+                        <p>{{ improvement.description }}</p>
+                      </div>
+                      <div class="improvement-score">{{ improvement.score }}</div>
+                    </div>
+                    <div class="improvement-details">
+                      <div class="improvement-chart">
+                        <div class="chart-bar"><div class="chart-fill improvement" :style="{ width: improvement.score + '%' }"></div></div>
+                      </div>
+                      <div class="improvement-actions">
+                        <h5>提升建议：</h5>
+                        <ul><li v-for="action in improvement.actions" :key="action">{{ action }}</li></ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <h4>{{ resource.title }}</h4>
-            <p>{{ resource.description }}</p>
-            <div class="resource-meta">
-              <span class="resource-duration">{{ resource.duration }}</span>
-              <span class="resource-difficulty">{{ resource.difficulty }}</span>
-            </div>
-            <button class="resource-btn">开始学习</button>
           </div>
-        </div>
+
+          <!-- 标签页 4: 成长规划 -->
+          <div v-else-if="activeReportTab === 'advice'" class="tab-pane">
+            <div class="recommendations-content">
+              <div class="recommendation-sections">
+                <div class="recommendation-section">
+                  <h4>短期目标 (1-3个月)</h4>
+                  <div class="recommendation-list">
+                    <div v-for="rec in shortTermRecommendations" :key="rec.id" class="recommendation-item">
+                      <div class="rec-priority">{{ rec.priority }}</div>
+                      <div class="rec-content">
+                        <h5>{{ rec.title }}</h5>
+                        <p>{{ rec.description }}</p>
+                        <div class="rec-tags"><span v-for="tag in rec.tags" :key="tag" class="rec-tag">{{ tag }}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="recommendation-section">
+                  <h4>长期目标 (6-12个月)</h4>
+                  <div class="recommendation-list">
+                    <div v-for="rec in longTermRecommendations" :key="rec.id" class="recommendation-item">
+                      <div class="rec-priority">{{ rec.priority }}</div>
+                      <div class="rec-content">
+                        <h5>{{ rec.title }}</h5>
+                        <p>{{ rec.description }}</p>
+                        <div class="rec-tags"><span v-for="tag in rec.tags" :key="tag" class="rec-tag">{{ tag }}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 标签页 5: 推荐资源 -->
+          <div v-else-if="activeReportTab === 'resources'" class="tab-pane">
+            <div class="learning-resources">
+              <div class="resources-grid">
+                <div v-for="resource in learningResources" :key="resource.id" class="resource-card">
+                  <div class="resource-header">
+                    <div class="resource-type">{{ resource.type }}</div>
+                    <div class="resource-rating">
+                      <span class="stars">{{ '★'.repeat(resource.rating) }}</span>
+                    </div>
+                  </div>
+                  <h4>{{ resource.title }}</h4>
+                  <p>{{ resource.description }}</p>
+                  <div class="resource-meta">
+                    <span class="resource-duration">{{ resource.duration }}</span>
+                    <span class="resource-difficulty">{{ resource.difficulty }}</span>
+                  </div>
+                  <button class="resource-btn">开始学习</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -238,6 +183,18 @@ import { ref, computed } from 'vue'
 import StudentReport from './Report.vue'
 
 const showReportModal = ref(false)
+
+// 当前激活的子页签
+const activeReportTab = ref('overview')
+
+// 页签配置
+const reportTabs = [
+  { key: 'overview', label: '综合评估', icon: 'el-icon-data-analysis' },
+  { key: 'strengths', label: '优势亮点', icon: 'el-icon-medal' },
+  { key: 'improvements', label: '待提升项', icon: 'el-icon-warning-outline' },
+  { key: 'advice', label: '成长规划', icon: 'el-icon-guide' },
+  { key: 'resources', label: '推荐资源', icon: 'el-icon-collection' }
+]
 
 // 综合评分
 const overallScore = ref(78)
@@ -433,10 +390,57 @@ const downloadReport = () => {
 
 <style scoped>
 .ability-report {
+  background: transparent;
+  min-height: 600px;
+}
+
+/* 二级导航条 - 扁平化处理 */
+.report-tabs-nav {
+  display: flex;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 4px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+  border: 1px solid #f1f5f9;
+  gap: 4px;
+  width: fit-content;
+}
+
+.report-tab-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s ease;
+}
+
+.report-tab-item:hover {
+  color: #2b58ff;
   background: white;
-  border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.report-tab-item.active {
+  color: #2b58ff;
+  background: white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* 去掉原本的下划线效果，改为药丸式或块状高亮 */
+.report-tab-item.active::after {
+  display: none;
+}
+
+/* 内容面板容器 - 去掉多余盒子感 */
+.tab-pane {
+  padding: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 
 .modal-overlay {
@@ -553,21 +557,25 @@ const downloadReport = () => {
 
 .overview-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 20px;
-  margin-bottom: 40px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 20px;
 }
 
 .overview-card {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 24px;
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
   text-align: center;
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
 }
 
 .overview-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(43, 88, 255, 0.08);
+  border-color: rgba(43, 88, 255, 0.1);
 }
 
 .card-icon {

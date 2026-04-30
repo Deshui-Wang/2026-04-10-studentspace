@@ -3,51 +3,28 @@
     <div class="content-tabs">
       <div
         class="tab-item"
-        :class="{ active: activeSubTab === 'self-evaluation' }"
-        @click="$emit('sub-tab-change', 'self-evaluation')"
-      >
-        学生反思
-      </div>
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'digital-literacy' }"
+        :class="{ active: activeSubTab === 'digital-literacy' || !activeSubTab }"
         @click="$emit('sub-tab-change', 'digital-literacy')"
       >
         智能评价
-      </div>
-      <div
-        class="tab-item"
-        :class="{ active: activeSubTab === 'student' }"
-        @click="$emit('sub-tab-change', 'student')"
-      >
-        教师评价
       </div>
     </div>
 
     <!-- 内容展示区域 -->
     <div class="content-area">
-      <!-- 自我评价页面 -->
-      <SelfEvaluation v-if="activeSubTab === 'self-evaluation'" />
-
-      <!-- 数字素养页面 -->
-      <DigitalLiteracy v-if="activeSubTab === 'digital-literacy'" />
-
-      <!-- 学生评教页面 -->
-      <StudentEvaluation v-if="activeSubTab === 'student'" />
-
+      <!-- 数字素养页面 (智能评价) -->
+      <DigitalLiteracy />
     </div>
   </div>
 </template>
 
 <script setup>
-import SelfEvaluation from '@/components/data-center/evaluation/SelfEvaluation.vue'
 import DigitalLiteracy from '@/components/data-center/evaluation/DigitalLiteracy.vue'
-import StudentEvaluation from '@/components/data-center/evaluation/StudentEvaluation.vue'
 
 defineProps({
   activeSubTab: {
     type: String,
-    default: 'self-evaluation'
+    default: 'digital-literacy'
   }
 })
 

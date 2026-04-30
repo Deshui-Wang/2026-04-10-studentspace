@@ -1,23 +1,33 @@
 <template>
-  <div class="profile-layout">
-    <aside class="side-nav">
-      <ul class="nav-list">
-        <li class="nav-item">
-          <router-link to="/profile/basic-info" active-class="active" class="nav-link">
-            <span>基本信息</span>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/profile/resume" active-class="active" class="nav-link">
-            <span>简历档案</span>
-          </router-link>
-        </li>
-      </ul>
-    </aside>
+  <div class="career-section-container">
+    <!-- 头部标题与描述 -->
+    <div class="section-header profile-page-header">
+      <div class="header-left">
+        <h2 class="section-title">个人中心</h2>
+        <p class="section-subtitle">全方位管理您的档案，多维度展示您的专业成长轨迹</p>
+      </div>
+      <div class="header-right">
+        <!-- 完整的 9 项水平导航 -->
+        <div class="horizontal-nav-container">
+          <div class="horizontal-nav">
+            <router-link to="/profile/basic-info" active-class="active" class="nav-btn">基本信息</router-link>
+            <router-link to="/profile/reflection" active-class="active" class="nav-btn">个人反思</router-link>
+            <router-link to="/profile/evaluation" active-class="active" class="nav-btn">教师评价</router-link>
+            <router-link to="/profile/projects" active-class="active" class="nav-btn">项目经历</router-link>
+            <router-link to="/profile/scholarships" active-class="active" class="nav-btn">奖学金</router-link>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <main class="main-area">
-      <router-view />
-    </main>
+    <!-- 内容区域 -->
+    <div class="content-area">
+      <router-view v-slot="{ Component }">
+        <transition name="fade-transform" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </div>
   </div>
 </template>
 
@@ -27,9 +37,7 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-// 页面加载时默认跳转到基本信息页面
 onMounted(() => {
-  // 如果当前路径是 /profile，则重定向到 /profile/basic-info
   if (router.currentRoute.value.path === '/profile') {
     router.replace('/profile/basic-info')
   }
@@ -37,96 +45,125 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.profile-layout {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 30px;
-  min-height: calc(100vh - 72px);
-  margin: auto;
-  max-width: 1440px;
-  width: 100%;
-  padding: 0 24px;
+.career-section-container {
+  padding: 32px 48px;
+  background: #f8f9fb;
+  min-height: 100vh;
 }
 
-.side-nav {
-  background: #fff;
-  border-right: 1px solid #e8ecf3;
-  padding: 16px 0;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.nav-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-item { }
-
-.nav-link {
+.profile-page-header {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px 20px;
-  color: #445066;
-  text-decoration: none;
-  border-left: 3px solid transparent;
-  transition: all 0.2s ease;
+  justify-content: space-between;
+  align-items: center; /* 改为 center 适应较长的导航 */
+  margin-bottom: 32px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 24px;
 }
 
-.nav-link:hover {
-  background: #f5f8ff;
+.section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+  position: relative;
+  padding-left: 16px;
+  text-align: left;
 }
 
-.nav-link.active {
-  background: #eef4ff;
-  color: #1677ff;
-  border-left-color: #1677ff;
-  font-weight: 600;
+.section-title::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background: linear-gradient(to bottom, #2b58ff, #1a41cc);
+  border-radius: 2px;
 }
 
-.icon { width: 20px; text-align: center; }
-
-.main-area {
-  padding: 16px 24px 24px 0;
+.section-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
 }
 
-/* 让主区卡片宽度与整体一致 */
-.main-area :deep(.section-card) {
-  background: #fff;
+/* 水平导航容器 - 支持滚动 */
+.horizontal-nav-container {
+  max-width: 800px;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.horizontal-nav-container::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.horizontal-nav {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
   border-radius: 12px;
+  gap: 4px;
+  white-space: nowrap;
 }
 
-/* 响应式设计 */
-@media (max-width: 768px) {
-  .profile-layout {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 0 16px;
+.nav-btn {
+  padding: 8px 16px;
+  font-size: 13px; /* 稍微缩小字号以容纳更多项 */
+  font-weight: 600;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-btn:hover {
+  color: #1a41cc;
+  background: rgba(43, 88, 255, 0.05);
+}
+
+.nav-btn.active {
+  background: white;
+  color: #2b58ff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.content-area {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* 动画效果 */
+.fade-transform-enter-active,
+.fade-transform-leave-active {
+  transition: all 0.3s;
+}
+
+.fade-transform-enter-from {
+  opacity: 0;
+  transform: translateX(-10px);
+}
+
+.fade-transform-leave-to {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1400px) {
+  .profile-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
   }
   
-  .side-nav {
-    border-right: none;
-    border-bottom: 1px solid #e8ecf3;
-  }
-  
-  .nav-list {
-    display: flex;
-    overflow-x: auto;
-    gap: 8px;
-  }
-  
-  .nav-link {
-    white-space: nowrap;
-    border-left: none;
-    border-bottom: 3px solid transparent;
-  }
-  
-  .nav-link.active {
-    border-left: none;
-    border-bottom-color: #1677ff;
+  .horizontal-nav-container {
+    width: 100%;
+    max-width: none;
   }
 }
 </style>

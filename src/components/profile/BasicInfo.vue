@@ -1,83 +1,145 @@
 <template>
-  <div class="stack">
-    <div class="page-header">
-      <div class="section-header">个人信息</div>
-      <button class="edit-btn">申请编辑</button>
-    </div>
-    
-    <div class="section-card">
-      <div class="summary-card">
-        <div class="avatar-wrap">
-          <img class="avatar-img" src="/pic/student01.png" alt="头像" />
+  <div class="profile-content-stack">
+    <!-- 1. 用户核心信息大卡片 -->
+    <div class="modern-card profile-main-card">
+      <div class="profile-avatar-section">
+        <div class="avatar-glow">
+          <img src="/pic/student01.png" alt="李启明" class="main-avatar" />
         </div>
-        <div class="summary-info">
-          <div class="name">李启明</div>
-          <div class="meta">
-            <span>民族：汉族</span>
-            <span>年龄：22</span>
-            <span>身份证：110106200307070011</span>
+        <div class="name-badge">
+          <h2 class="user-name">李启明</h2>
+          <span class="user-id">学号：2023001001</span>
+        </div>
+        <el-button type="primary" size="medium" class="edit-profile-btn" plain>申请修改</el-button>
+      </div>
+      
+      <div class="profile-info-grid">
+        <div class="info-item">
+          <span class="label">所属系别</span>
+          <span class="value">人工智能与计算机科学系</span>
+        </div>
+        <div class="info-item">
+          <span class="label">所属班级</span>
+          <span class="value">人工智能 2301班</span>
+        </div>
+        <div class="info-item">
+          <span class="label">民族 / 年龄</span>
+          <span class="value">汉族 · 22岁</span>
+        </div>
+        <div class="info-item">
+          <span class="label">户籍所在地</span>
+          <span class="value">北京市朝阳区</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 核心荣誉成就 (独立大卡片) -->
+    <div class="modern-card honors-showcase-card">
+      <div class="card-header">
+        <div class="header-title">
+          <i class="el-icon-trophy"></i>
+          <h3>核心荣誉与顶尖竞赛</h3>
+        </div>
+        <span class="header-tag">HIGHEST HONORS</span>
+      </div>
+      <div class="honors-grid">
+        <div class="honor-item highlight">
+          <div class="honor-icon gold">👑</div>
+          <div class="honor-content">
+            <div class="honor-title">年度“十佳大学生”</div>
+            <div class="honor-desc">全校综合素质最高荣誉 · 德智体美劳全面发展</div>
           </div>
-          <div class="meta">
-            <span>户籍：北京市朝阳区</span>
-            <span>就读院校：北京劳动保障职业学院</span>
+        </div>
+        <div class="honor-item">
+          <div class="honor-icon silver">🏆</div>
+          <div class="honor-content">
+            <div class="honor-title">全国大学生数学建模竞赛 · 一等奖</div>
+            <div class="honor-desc">算法建模赛项 · 国家级核心专业竞赛</div>
           </div>
-          <div class="meta">
-            <span>系别：智慧健康养老服务与管理专业</span>
-            <span>班级：智慧康养 01班</span>
+        </div>
+        <div class="honor-item">
+          <div class="honor-icon bronze">🥇</div>
+          <div class="honor-content">
+            <div class="honor-title">“蓝桥杯”全国软件人才大赛 · 金奖</div>
+            <div class="honor-desc">2024 全国 IT 领域顶尖赛事</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="two-col">
-      <div class="col-left">
-        <div class="section-header">学籍信息</div>
-        <div class="section-card">
-          <h2 class="section-title">在读状态</h2>
-          <div class="chips">
-            <span class="chip">专科·大三</span>
-            <span class="chip">学号：2023001001</span>
-            <span class="chip">辅导员：王元</span>
+    <!-- 3. 下方详情双列布局 -->
+    <div class="profile-details-row">
+      <!-- 专业资质与职务 -->
+      <div class="modern-card detail-card">
+        <div class="card-header">
+          <div class="header-title">
+            <i class="el-icon-medal"></i>
+            <h3>专业资质与社会职务</h3>
           </div>
-          <div class="divider"></div>
-          <div class="block">
-            <div class="block-title">联系方式</div>
-            <div class="chips">
-              <span class="chip">电话：138****1234</span>
-              <span class="chip">邮箱：liqiming@example.com</span>
+        </div>
+        <div class="detail-body">
+          <div class="achievement-list">
+            <div class="achievement-row">
+              <div class="a-icon cert">📜</div>
+              <div class="a-info">
+                <div class="a-title">AWS 认证机器学习专家</div>
+                <div class="a-meta">Amazon Web Services · 国际核心资质</div>
+              </div>
+            </div>
+            <div class="achievement-row">
+              <div class="a-icon cert">💻</div>
+              <div class="a-info">
+                <div class="a-title">阿里云高级架构师 (ACE)</div>
+                <div class="a-meta">阿里云认证 · 云计算架构顶层能力</div>
+              </div>
+            </div>
+            <div class="achievement-row">
+              <div class="a-icon star">⭐</div>
+              <div class="a-info">
+                <div class="a-title">校学生会主席</div>
+                <div class="a-meta">2023.09 - 2024.06 · 负责全校活动统筹</div>
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div class="section-card">
-          <h2 class="section-title">兴趣方向</h2>
-          <div class="chips">
-            <span class="chip type-1">社会服务</span>
-            <span class="chip type-2">养护看护</span>
-            <span class="chip type-3">人工智能</span>
-            <span class="chip type-4">健康理疗</span>
+      <!-- 学业表现与兴趣 -->
+      <div class="modern-card detail-card">
+        <div class="card-header">
+          <div class="header-title">
+            <i class="el-icon-notebook-2"></i>
+            <h3>学业表现与个人标签</h3>
           </div>
         </div>
-      </div>
-
-      <div class="col-right">
-      </div>
-    </div>
-    <div class="two-col">
-      <div class="col-left">
-        <div class="section-header">校园情况</div>
-        <div class="section-card">
-          <h2 class="section-title">校内成绩与表现</h2>
-          <div class="chips">
-            <span class="chip type-2">GPA：3.6/4.0</span>
-            <span class="chip type-2">成绩排名：前15%</span>
-            <span class="chip type-4">奖学金：校级一等奖学金</span>
-            <span class="chip type-3">竞赛：个护赛银奖</span>
+        <div class="detail-body">
+          <div class="performance-summary">
+            <div class="stat-pill">
+              <span class="s-val">3.6</span>
+              <span class="s-label">GPA 指数</span>
+            </div>
+            <div class="stat-pill">
+              <span class="s-val">前 15%</span>
+              <span class="s-label">综合排名</span>
+            </div>
+          </div>
+          <div class="interest-cloud-v2">
+            <span class="i-tag">深度学习</span>
+            <span class="i-tag">大模型微调</span>
+            <span class="i-tag">人工智能</span>
+            <span class="i-tag">数据挖掘</span>
+          </div>
+          <div class="simple-info-list">
+            <div class="info-row">
+              <span class="key">在读状态</span>
+              <span class="val">本科 · 大三</span>
+            </div>
+            <div class="info-row">
+              <span class="key">辅导员</span>
+              <span class="val">王元</span>
+            </div>
           </div>
         </div>
-      </div>
-
-      <div class="col-right">
       </div>
     </div>
   </div>
@@ -87,101 +149,155 @@
 </script>
 
 <style scoped>
-.stack { 
-  display: grid; gap: 16px; 
-  color: #333;
-  padding: 24px;
-  font-family: 'Poppins', sans-serif;
-  margin: auto;
-  width: 100%;
-  max-width: 1440px;
+.profile-content-stack {
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
-/* 页面头部 */
-.page-header {
+.modern-card {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f1f5f9;
+  padding: 32px;
+}
+
+/* 1. 主卡片样式 */
+.profile-main-card {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  background: linear-gradient(135deg, #ffffff 0%, #fcfdff 100%);
+}
+
+.profile-avatar-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  min-width: 180px;
+}
+
+.avatar-glow {
+  width: 130px;
+  height: 130px;
+  border-radius: 36px;
+  padding: 2px;
+  background: linear-gradient(135deg, #2b58ff, #7c3aed);
+}
+
+.main-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 35px;
+  object-fit: cover;
+  border: 2px solid white;
+}
+
+.user-name { font-size: 26px; font-weight: 800; color: #1e293b; margin: 0; }
+.user-id { font-size: 13px; color: #94a3b8; font-weight: 500; }
+
+.profile-info-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.info-item .label { font-size: 12px; color: #94a3b8; font-weight: 700; text-transform: uppercase; margin-bottom: 4px; display: block; }
+.info-item .value { font-size: 15px; color: #334155; font-weight: 600; }
+
+/* 2. 荣誉成就展示 (横向大卡片) */
+.honors-showcase-card {
+  border-left: 6px solid #fbbf24;
+}
+
+.card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
-/* 章节标题 */
-.section-header {
-  font-size: 24px;
-  font-weight: 600;
-  color: #1677ff;
-  margin-bottom: 0;
-  text-align: left;
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* 编辑按钮 */
-.edit-btn {
-  background: linear-gradient(135deg, #8b5cf6, #a855f7);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: 'Poppins', sans-serif;
-}
+.header-title i { font-size: 20px; color: #fbbf24; }
+.header-title h3 { font-size: 18px; font-weight: 800; color: #1e293b; margin: 0; }
+.header-tag { font-size: 10px; font-weight: 800; color: #fbbf24; background: #fffbeb; padding: 4px 10px; border-radius: 20px; letter-spacing: 1px; }
 
-.edit-btn:hover {
-  background: #0958d9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(22, 119, 255, 0.3);
-}
-
-.edit-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 6px rgba(22, 119, 255, 0.3);
-}
-
-/* 框样式 */
-.section-card { 
-  background: #fff; 
-  padding: 24px; 
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 顶部概要卡片 */
-.summary-card {
+.honors-grid {
   display: grid;
-  grid-template-columns: 160px 1fr;
-  align-items: start;
-  gap: 30px;
-  background: transparent;
-  border-radius: 12px;
-  padding: 0px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
-.avatar-wrap { width: 160px; height: 160px; border-radius: 50%; overflow: hidden; background: #f5f7fb; }
-.avatar-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.summary-info .name { font-size: 32px; font-weight: 700; color: #333; display: flex;}
-.summary-info .meta { display: flex; gap: 18px; margin-top: 20px; color: #667085; font-size: 14px; }
-.title-badge { color: #1677ff; font-weight: 600; }
 
-/* 两列主体 */
-.two-col { display: grid; grid-template-columns: 1fr 0fr; gap: 16px; }
-.col-left, .col-right { display: grid; gap: 16px; }
-
-.section-title { margin: 0 0 20px 0; font-size: 16px; color: #333; font-weight: 600; display: flex;}
-.desc { margin: 0; color: #555; line-height: 1.8; display: flex;}
-.divider { height: 0px; background: #eef0f5; margin: 34px 0; }
-.block { }
-.block-title { color: #333; font-weight: 600; margin-bottom: 20px;  display: flex;}
-.chips { display: flex; flex-wrap: wrap; gap: 10px; }
-.chip { background: #f5f7ff; color: #475569; border: 1px solid #e3e8f4; padding: 6px 12px; border-radius: 3px; font-size: 13px; }
-.chip.type-1 { background: #eef6ff; border-color: #d6e6ff; }
-.chip.type-2 { background: #eefaf4; border-color: #d3f0e0; }
-.chip.type-3 { background: #f6efff; border-color: #eadcff; }
-.chip.type-4 { background: #eef6ff; border-color: #d6e6ff; }
-
-@media (max-width: 1100px) {
-  .two-col { grid-template-columns: 1fr; }
+.honor-item {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 16px;
+  transition: all 0.3s;
 }
-</style> 
+
+.honor-item:hover { transform: translateY(-4px); background: #f1f5f9; }
+.honor-item.highlight { background: #fffbeb; border: 1px solid #fef3c7; }
+
+.honor-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.honor-title { font-size: 14px; font-weight: 800; color: #1e293b; margin-bottom: 4px; text-align: left;}
+.honor-desc { font-size: 12px; color: #64748b; line-height: 1.4; text-align: left;}
+
+/* 3. 详情行 */
+.profile-details-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.detail-card .header-title i { color: #2b58ff; }
+
+.achievement-list { display: flex; flex-direction: column; gap: 16px; }
+.achievement-row { display: flex; align-items: center; gap: 16px; padding: 12px; border-radius: 12px; transition: background 0.2s; }
+.achievement-row:hover { background: #f8fafc; }
+
+.a-icon { width: 40px; height: 40px; border-radius: 10px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.a-icon.cert { background: #eef2ff; color: #4338ca; }
+.a-icon.star { background: #ecfeff; color: #0891b2; }
+
+.a-title { font-size: 14px; font-weight: 700; color: #1e293b; text-align: left; }
+.a-meta { font-size: 12px; color: #64748b; text-align: left;}
+
+.performance-summary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; }
+.stat-pill { background: #f8fafc; padding: 16px; border-radius: 16px; text-align: center; }
+.s-val { display: block; font-size: 20px; font-weight: 800; color: #2b58ff; }
+.s-label { font-size: 11px; color: #94a3b8; font-weight: 700; }
+
+.interest-cloud-v2 { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.i-tag { padding: 6px 12px; background: #f1f5f9; border-radius: 10px; font-size: 12px; color: #475569; font-weight: 500; }
+
+.simple-info-list { border-top: 1px solid #f1f5f9; padding-top: 16px; }
+.info-row { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; }
+.info-row .key { color: #94a3b8; }
+.info-row .val { color: #1e293b; font-weight: 600; }
+
+@media (max-width: 1200px) {
+  .honors-grid { grid-template-columns: 1fr; }
+  .profile-details-row { grid-template-columns: 1fr; }
+}
+</style>
