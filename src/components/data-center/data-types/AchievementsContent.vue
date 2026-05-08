@@ -128,14 +128,15 @@
         <span class="item-count">AI 综合评估</span>
       </div>
       <div class="evaluation-container-box">
-        <DigitalLiteracy />
+        <!-- 智能评价模块：由图谱改为工具使用情况看板 -->
+        <AIToolsUsage />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import DigitalLiteracy from '@/components/data-center/evaluation/DigitalLiteracy.vue'
+import AIToolsUsage from '@/components/data-center/evaluation/AIToolsUsage.vue'
 const workflowTitles = ['自动论文校对流', '每日财经新闻精炼', 'Python代码漏洞检测']
 const workflowDescs = ['利用 LLM 自动识别论文中的逻辑错误与语法缺陷', '聚合 5 个财经 API 并自动生成中文简报', '针对 Django 项目的安全性进行自动化静态审计']
 

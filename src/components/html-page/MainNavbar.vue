@@ -27,7 +27,7 @@
 
         <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && ($route.query.tab === 'teaching' || !$route.query.tab)}" @click="goNav('/data-center?tab=teaching')">
           <i class="el-icon-monitor"></i>
-          <span class="nav-text">学习中心</span>
+          <span class="nav-text">课程中心</span>
         </li>
 
         <!-- 8.1 学习资料 (对应资源数据) -->
@@ -42,11 +42,6 @@
           <span class="nav-text">数字化成果</span>
         </li>
 
-        <!-- 8.4 个人口袋 (对应智能口袋) -->
-        <li class="nav-item data-item" :class="{active: currentPath === '/data-center' && $route.query.tab === 'reports'}" @click="goNav('/data-center?tab=reports')">
-          <i class="el-icon-wallet"></i>
-          <span class="nav-text">个人口袋</span>
-        </li>
 
         <!-- 4. 智能检测中心 (原能力检测与成长中心合并) -->
         <li class="menu-divider"></li>
@@ -64,7 +59,7 @@
 
         <li class="nav-item data-item" :class="{active: currentPath === '/EvaluationCenter' && $route.query.tab === 'goals'}" @click="goNav('/EvaluationCenter?tab=goals')">
           <i class="el-icon-guide"></i>
-          <span class="nav-text">目标路径</span>
+          <span class="nav-text">目标管理</span>
         </li>
 
         <li class="nav-item data-item" :class="{active: currentPath === '/EvaluationCenter' && !$route.query.tab}" @click="goNav('/EvaluationCenter')">

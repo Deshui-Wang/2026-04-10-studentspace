@@ -32,12 +32,6 @@
               @sub-tab-change="setActiveSubTab"
           />
 
-          <!-- 报告数据 (智能口袋) -->
-          <ReportsContent
-              v-if="activeTab === 'reports'"
-              :active-sub-tab="activeSubTab"
-              @sub-tab-change="setActiveSubTab"
-          />
 
           <!-- 就业指导-招聘信息 -->
           <RecruitmentContent v-if="activeTab === 'recruitment'" />
@@ -60,7 +54,6 @@ import TeachingContent from '@/components/data-center/data-types/TeachingContent
 import ResourcesContent from '@/components/data-center/data-types/ResourcesContent.vue'
 import AchievementsContent from '@/components/data-center/data-types/AchievementsContent.vue'
 import EvaluationContent from '@/components/data-center/data-types/EvaluationContent.vue'
-import ReportsContent from '@/components/data-center/data-types/ReportsContent.vue'
 import RecruitmentContent from '@/components/career-guidance/RecruitmentContent.vue'
 import InterviewContent from '@/components/career-guidance/InterviewContent.vue'
 import VirtualInterviewContent from '@/components/career-guidance/VirtualInterviewContent.vue'
@@ -78,7 +71,9 @@ const categoryDataMap = {
     { label: '互动值', value: '9' }
   ],
   resources: [
-    { label: '学习资料', value: '16' },
+    { label: '资料库', value: '16' },
+    { label: '口袋文件', value: '17' },
+    { label: '学习笔记', value: '6' },
     { label: '智能作品', value: '49' }
   ],
   achievements: [
@@ -90,10 +85,6 @@ const categoryDataMap = {
     { label: '自我评价', value: '11' },
     { label: '智能评价', value: '15' },
     { label: '评价教师', value: '42' }
-  ],
-  reports: [
-    { label: '微盘', value: '17' },
-    { label: '笔记', value: '6' }
   ],
   recruitment: [
     { label: '今日新增', value: '128' },
@@ -129,8 +120,6 @@ const syncSubTab = (tab) => {
     activeSubTab.value = 'papers'
   } else if (tab === 'evaluation') {
     activeSubTab.value = 'self-evaluation'
-  } else if (tab === 'reports') {
-    activeSubTab.value = 'archive'
   }
 }
 

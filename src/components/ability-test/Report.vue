@@ -213,7 +213,7 @@
                   <div class="todo-section">
                     <button class="todo-btn" @click="generateTodoChain">
                       <span class="todo-icon">📋</span>
-                      生成目标路径
+                      生成目标管理
                     </button>
                   </div>
                 </div>

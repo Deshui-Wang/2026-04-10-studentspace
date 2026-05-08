@@ -53,26 +53,28 @@
       </div>
     </div>
 
-    <!-- 2. 弹窗：新建/配置目标路径 (Dialog) -->
-    <el-dialog 
-      :title="isEdit ? '编辑目标路径' : '新建目标路径'" 
+    <!-- 2. 侧滑页面：新建/配置目标管理 (Drawer) -->
+    <el-drawer 
+      :title="isEdit ? '编辑目标管理' : '开启新的成长目标'" 
       v-model="showGoalModal" 
-      width="800px"
-      custom-class="modern-goal-dialog"
+      size="600px"
+      direction="rtl"
+      custom-class="modern-goal-drawer"
       :append-to-body="true"
       destroy-on-close
     >
-      <div class="modal-content-scroll">
-        <div class="config-grid">
+      <div class="drawer-config-content">
+        <div class="config-steps">
           <!-- 目标基础设定 -->
-          <div class="config-card">
-            <div class="card-title">1. 目标设定</div>
-            <el-form :model="goalForm" label-position="top">
+          <div class="config-section">
+            <div class="section-tag">STEP 01</div>
+            <h5 class="section-h">设定核心目标</h5>
+            <el-form :model="goalForm" label-position="top" class="custom-form">
               <el-form-item label="目标岗位/名称">
-                <el-input v-model="goalForm.title" placeholder="例如：智慧康养架构师"></el-input>
+                <el-input v-model="goalForm.title" placeholder="例如：人工智能架构专家"></el-input>
               </el-form-item>
-              <div class="form-row-flex">
-                <el-form-item label="目标类型" style="flex: 1; margin-right: 15px;">
+              <div class="form-row">
+                <el-form-item label="目标类型" style="flex: 1;">
                   <el-select v-model="goalForm.type" placeholder="请选择" style="width: 100%;">
                     <el-option label="职业岗位" value="job"></el-option>
                     <el-option label="技能考证" value="skill"></el-option>
@@ -87,61 +89,71 @@
           </div>
 
           <!-- 差距分析 -->
-          <div class="config-card">
-            <div class="card-title">2. 能力现状与差距</div>
-            <div class="gap-analysis-wrap">
-              <div class="gauge-preview">
-                <div class="score-ring">
-                  <span class="score">{{ currentScore }}</span>
-                  <span class="label">当前能力值</span>
+          <div class="config-section">
+            <div class="section-tag">STEP 02</div>
+            <h5 class="section-h">能力现状评估</h5>
+            <div class="gap-analysis-container">
+              <div class="score-display">
+                <div class="ring-mini">
+                  <span class="num">{{ currentScore }}</span>
+                  <span class="txt">当前值</span>
+                </div>
+                <div class="gap-text">
+                  距离目标还差 <span class="danger">{{ gap }}</span> 分
                 </div>
               </div>
-              <div class="range-control">
-                <p class="control-label">滑动评估当前能力：</p>
+              <div class="slider-box">
                 <el-slider v-model="currentScore" :max="100"></el-slider>
-                <div class="gap-indicator">距离目标还差 {{ gap }} 分</div>
+                <div class="slider-labels">
+                  <span>小白</span>
+                  <span>专家</span>
+                </div>
               </div>
             </div>
           </div>
 
           <!-- AI 里程碑生成 -->
-          <div class="config-card full-width">
-            <div class="card-title">3. AI 里程碑链路生成</div>
-            <div class="ai-milestone-area">
-              <div class="ai-header">
-                <p class="ai-desc">根据您的目标，AI 将为您分解为 4-6 个阶段性的关键里程碑</p>
-                <el-button 
-                  type="primary" 
-                  size="small" 
-                  :loading="isGenerating" 
-                  @click="generateMilestones"
-                  :disabled="!goalForm.title"
-                >
-                  🤖 生成 AI 路径
-                </el-button>
-              </div>
-              
-              <div class="milestone-timeline-mini" v-if="milestones.length > 0">
-                <div v-for="(m, index) in milestones" :key="index" class="mini-step">
-                  <div class="step-dot">{{ index + 1 }}</div>
-                  <div class="step-info">
-                    <h6>{{ m.title }}</h6>
-                    <span>{{ m.timeline }}</span>
-                  </div>
+          <div class="config-section">
+            <div class="section-tag">STEP 03</div>
+            <div class="ai-title-row">
+              <h5 class="section-h">AI 智能分解路径</h5>
+              <el-button 
+                type="primary" 
+                size="mini" 
+                round
+                :loading="isGenerating" 
+                @click="generateMilestones"
+                :disabled="!goalForm.title"
+                class="ai-gen-btn"
+              >
+                🤖 智能生成
+              </el-button>
+            </div>
+            
+            <div class="ai-milestone-list" v-if="milestones.length > 0">
+              <div v-for="(m, index) in milestones" :key="index" class="milestone-item-mini">
+                <div class="m-idx">{{ index + 1 }}</div>
+                <div class="m-content">
+                  <div class="m-t">{{ m.title }}</div>
+                  <div class="m-d">{{ m.desc }}</div>
                 </div>
+                <div class="m-time">{{ m.timeline }}</div>
               </div>
+            </div>
+            <div v-else class="ai-placeholder">
+              输入目标后点击“智能生成”，AI 将为您规划达成路径
             </div>
           </div>
         </div>
       </div>
       
       <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="showGoalModal = false">取 消</el-button>
-          <el-button type="primary" class="save-btn" @click="handleSaveGoal">开启目标路径</el-button>
+        <div class="drawer-action-footer">
+          <el-button @click="showGoalModal = false" class="cancel-btn">暂不开启</el-button>
+          <el-button type="primary" class="save-confirm-btn" @click="handleSaveGoal">立即开启成长路径</el-button>
         </div>
       </template>
-    </el-dialog>
+    </el-drawer>
 
     <!-- 3. 详情侧滑抽屉：由右向左滑出 (Drawer) -->
     <el-drawer
@@ -308,7 +320,7 @@ const handleSaveGoal = () => {
   }
   currentGoals.value.unshift(newGoal)
   showGoalModal.value = false
-  ElMessage.success('成功开启目标路径！')
+  ElMessage.success('成功开启目标管理！')
 }
 
 // 辅助方法
@@ -437,23 +449,37 @@ const getGoalStatusClass = (goal) => {
 .card-footer { margin-top: 16px; text-align: right; }
 .detail-btn { font-weight: 600; color: #7c3aed; }
 
-/* 弹窗配置样式 */
-.config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.full-width { grid-column: span 2; }
-.config-card { background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #f1f5f9; }
-.card-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 15px; }
-.form-row-flex { display: flex; gap: 15px; }
-.gap-analysis-wrap { display: flex; align-items: center; gap: 20px; }
-.score-ring { width: 80px; height: 80px; border-radius: 50%; background: white; border: 3px solid #7c3aed1a; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-.score-ring .score { font-size: 20px; font-weight: 800; color: #7c3aed; }
-.score-ring .label { font-size: 9px; color: #94a3b8; }
-.range-control { flex: 1; }
-.gap-indicator { font-size: 12px; color: #ef4444; margin-top: 8px; font-weight: 600; }
-.ai-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-.ai-desc { font-size: 12px; color: #64748b; }
-.milestone-timeline-mini { display: flex; gap: 15px; overflow-x: auto; }
-.mini-step { flex: 0 0 150px; background: white; padding: 12px; border-radius: 10px; border: 1px solid #f1f5f9; }
-.step-dot { width: 18px; height: 18px; background: #7c3aed; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; margin-bottom: 8px; }
-.mini-step h6 { font-size: 12px; margin: 0 0 4px 0; color: #1e293b; }
-.mini-step span { font-size: 10px; color: #7c3aed; }
+/* 新增：侧滑配置抽屉样式 */
+.drawer-config-content { padding: 30px; }
+.config-steps { display: flex; flex-direction: column; gap: 40px; }
+.config-section { position: relative; }
+.section-tag { font-size: 10px; font-weight: 800; color: #7c3aed; background: #f5f3ff; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 8px; }
+.section-h { font-size: 18px; font-weight: 800; color: #1e293b; margin: 0 0 20px 0; }
+
+.custom-form :deep(.el-form-item__label) { font-weight: 700; color: #64748b; font-size: 13px; }
+.form-row { display: flex; gap: 20px; }
+
+.gap-analysis-container { background: #f8fafc; border-radius: 16px; padding: 20px; border: 1px solid #f1f5f9; }
+.score-display { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+.ring-mini { width: 64px; height: 64px; border-radius: 50%; background: #fff; border: 2px solid #7c3aed22; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring-mini .num { font-size: 18px; font-weight: 800; color: #7c3aed; }
+.ring-mini .txt { font-size: 9px; color: #94a3b8; }
+.gap-text { font-size: 14px; font-weight: 600; color: #475569; }
+.gap-text .danger { color: #ef4444; font-size: 18px; margin: 0 4px; }
+.slider-labels { display: flex; justify-content: space-between; margin-top: 4px; font-size: 11px; color: #94a3b8; }
+
+.ai-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.ai-gen-btn { box-shadow: 0 4px 12px rgba(124, 58, 237, 0.2); }
+.ai-milestone-list { display: flex; flex-direction: column; gap: 12px; }
+.milestone-item-mini { display: flex; align-items: center; gap: 15px; background: #fff; padding: 12px; border-radius: 12px; border: 1px solid #f1f5f9; }
+.m-idx { width: 24px; height: 24px; background: #f1f5f9; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #7c3aed; }
+.m-content { flex: 1; }
+.m-t { font-size: 13px; font-weight: 700; color: #1e293b; margin-bottom: 2px; }
+.m-d { font-size: 11px; color: #94a3b8; }
+.m-time { font-size: 11px; font-weight: 700; color: #7c3aed; }
+.ai-placeholder { text-align: center; padding: 40px; background: #f8fafc; border-radius: 12px; border: 1px dashed #e2e8f0; color: #94a3b8; font-size: 12px; }
+
+.drawer-action-footer { width: 100%; display: flex; gap: 15px; padding: 0 10px; }
+.cancel-btn { flex: 1; border-radius: 12px; height: 48px; font-weight: 600; }
+.save-confirm-btn { flex: 2; border-radius: 12px; height: 48px; font-weight: 700; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border: none; box-shadow: 0 8px 20px rgba(124, 58, 237, 0.25); }
 </style>

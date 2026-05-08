@@ -3,7 +3,7 @@
     <!-- 头部标题与描述 -->
     <div class="section-header">
       <div class="header-left">
-        <h2 class="section-title">{{ activeTab === 'goal' ? '目标路径' : '成长跟踪' }}</h2>
+        <h2 class="section-title">{{ activeTab === 'goal' ? '目标管理' : '成长跟踪' }}</h2>
         <p class="section-subtitle">
           {{ activeTab === 'goal' 
             ? '设定目标、洞察差距，基于 AI 智能算法为您量身定制的阶段性成长达成方案' 
@@ -29,6 +29,7 @@
         <GrowthTracking />
       </div>
     </div>
+
   </div>
 </template>
 
@@ -144,6 +145,44 @@ onUnmounted(() => {
 .secondary-btn:hover {
   background: #f5f3ff;
   border-color: #7c3aed;
+}
+
+.chain-map-btn {
+  margin-right: 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  border: 1px solid #f59e0b44;
+  background: #f59e0b0a;
+  color: #d97706;
+}
+
+.chain-map-btn:hover {
+  background: #fffbeb;
+  border-color: #f59e0b;
+}
+
+:deep(.chain-map-fullscreen-dialog) {
+  background: #0f172a !important;
+}
+
+:deep(.chain-map-fullscreen-dialog .el-dialog__header) {
+  padding: 0;
+  margin-right: 0;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  z-index: 999;
+}
+
+:deep(.chain-map-fullscreen-dialog .el-dialog__headerbtn .el-dialog__close) {
+  color: #94a3b8;
+  font-size: 24px;
+}
+
+:deep(.chain-map-fullscreen-dialog .el-dialog__body) {
+  padding: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .tab-content {

@@ -42,73 +42,31 @@
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 1. 今日日程 (精简横向时间轴) -->
-    <div class="schedule-section">
-      <div class="section-header">
-        <div class="title-with-icon">
-          <i class="el-icon-date"></i>
-          <h3 class="section-title">今日日程</h3>
-        </div>
-        <el-button type="primary" size="small" plain @click="showFullCalendar = true" class="calendar-btn">
-          查看完整课表
-        </el-button>
-      </div>
-      
-      <div class="timeline-container">
-        <div class="timeline-track">
-          <div v-for="(item, index) in todaySchedule" :key="index" class="timeline-item" :class="{ 'is-current': item.isCurrent, 'is-past': item.isPast }">
-            <div class="item-header">
-              <div class="timeline-dot"></div>
-              <span class="item-time">{{ item.time }}</span>
-            </div>
-            <div class="item-card">
-              <div class="card-top">
-                <span class="item-name">{{ item.name }}</span>
-                <span class="item-tag" :class="item.type">{{ item.tag }}</span>
+      <!-- 新增：整合后的今日安排微型看板 -->
+      <div class="overview-stat-card schedule-mini-card" @click="showFullCalendar = true">
+        <div class="stat-content">
+          <div class="schedule-header">
+            <span class="stat-label">今日安排</span>
+            <el-tooltip content="月度时间表" placement="top">
+              <div class="mini-cal-btn-wrapper" @click.stop="showFullCalendar = true">
+                <svg viewBox="0 0 1024 1024" width="14" height="14" fill="currentColor">
+                  <path d="M832 128H736V64h-64v64H352V64h-64v64H192c-35.2 0-64 28.8-64 64v704c0 35.2 28.8 64 64 64h640c35.2 0 64-28.8 64-64V192c0-35.2-28.8-64-64-64z m0 768H192V416h640v480z m0-544H192v-64h128v64h64v-64h320v64h64v-64h128v64z"></path>
+                </svg>
               </div>
-              <div class="item-location">
-                <i class="el-icon-location-information"></i> {{ item.location }}
-              </div>
+            </el-tooltip>
+          </div>
+          <div class="mini-schedule-list">
+            <div v-for="(item, index) in todaySchedule.slice(0, 3)" :key="index" class="mini-schedule-item" :class="{ 'is-now': item.isCurrent }">
+              <span class="m-time">{{ item.time }}</span>
+              <span class="m-name">{{ item.name }}</span>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 1.5 进行中的学习任务 (新增横条区域) -->
-    <div class="ongoing-tasks-section">
-      <div class="section-header">
-        <div class="title-with-icon">
-          <i class="el-icon-collection-tag"></i>
-          <h3 class="section-title">进行中的学习任务</h3>
-        </div>
-        <div class="header-more">
-          <span class="task-count">当前有 4 个任务进行中</span>
-        </div>
-      </div>
-      
-      <div class="tasks-horizontal-container">
-        <div v-for="task in ongoingTasks" :key="task.id" class="task-horizontal-card">
-          <div class="task-top">
-            <span class="task-type-tag" :style="{ background: task.color + '15', color: task.color }">{{ task.type }}</span>
-            <span class="task-deadline">{{ task.deadline }}</span>
-          </div>
-          <div class="task-info">
-            <h4 class="task-name">{{ task.name }}</h4>
-            <p class="task-course">{{ task.course }}</p>
-          </div>
-          <div class="task-progress-box">
-            <div class="progress-info">
-              <span class="progress-label">当前进度</span>
-              <span class="progress-val">{{ task.progress }}%</span>
-            </div>
-            <el-progress :percentage="task.progress" :color="task.color" :show-text="false" :stroke-width="6"></el-progress>
-          </div>
-        </div>
-      </div>
-    </div>
+
 
 
     <!-- 2. 课程中心 - 按课程组织作业、考试、出勤、互动 -->
@@ -121,62 +79,201 @@
       </div>
 
       <div class="course-grid">
-        <div v-for="course in courses" :key="course.id" class="course-main-card">
-          <div class="course-card-header">
-            <div class="course-icon" :style="{ background: course.color + '15', color: course.color }">
-              <i :class="course.icon"></i>
+        <div v-for="course in courses" :key="course.id" class="course-modern-card">
+          <!-- 1. 顶部：名称与进度 -->
+          <div class="card-header-top">
+            <div class="course-brand">
+              <div class="brand-icon" :style="{ background: course.color + '15', color: course.color }">
+                <i :class="course.icon"></i>
+              </div>
+              <div class="brand-info">
+                <h4 class="course-name">{{ course.name }}</h4>
+                <span class="teacher-label">{{ course.teacher }}</span>
+              </div>
             </div>
-            <div class="course-info">
-              <h4 class="course-name">{{ course.name }}</h4>
-              <span class="teacher-name">任课教师：{{ course.teacher }}</span>
-            </div>
-            <div class="course-progress">
-              <el-progress type="circle" :percentage="course.totalProgress" :width="40" :stroke-width="4" :color="course.color"></el-progress>
+            <div class="header-right-meta">
+              <div class="grade-badge" :class="getGradeClass(course.grade)">{{ course.grade }}</div>
+              <div class="completion-box">
+                <span class="comp-val">{{ course.totalProgress }}%</span>
+                <span class="comp-txt">完成度</span>
+              </div>
             </div>
           </div>
 
-          <div class="course-metrics-tabs">
-            <div class="metric-item">
-              <div class="metric-icon homework"><i class="el-icon-edit-outline"></i></div>
-              <div class="metric-content">
-                <span class="m-label">作业</span>
-                <span class="m-value">{{ course.homework.completed }}/{{ course.homework.total }}</span>
-              </div>
-              <div class="m-status" :class="course.homework.status">{{ course.homework.statusText }}</div>
-            </div>
-            <div class="metric-item">
-              <div class="metric-icon exam"><i class="el-icon-document-checked"></i></div>
-              <div class="metric-content">
-                <span class="m-label">考试</span>
-                <span class="m-value">{{ course.exam.score || '--' }}</span>
-              </div>
-              <div class="m-status" :class="course.exam.status">{{ course.exam.statusText }}</div>
-            </div>
-            <div class="metric-item">
-              <div class="metric-icon attendance"><i class="el-icon-user"></i></div>
-              <div class="metric-content">
-                <span class="m-label">出勤</span>
-                <span class="m-value">{{ course.attendance.rate }}%</span>
-              </div>
-              <div class="m-status" :class="course.attendance.status">{{ course.attendance.statusText }}</div>
-            </div>
-            <div class="metric-item">
-              <div class="metric-icon interaction"><i class="el-icon-chat-dot-round"></i></div>
-              <div class="metric-content">
-                <span class="m-label">互动</span>
-                <span class="m-value">{{ course.interaction.count }}次</span>
-              </div>
-              <div class="m-status" :class="course.interaction.status">{{ course.interaction.statusText }}</div>
+          <!-- 2. 进度条 -->
+          <div class="course-progress-linear">
+            <el-progress 
+              :percentage="course.totalProgress" 
+              :color="course.color" 
+              :show-text="false" 
+              :stroke-width="8"
+            ></el-progress>
+          </div>
+
+          <!-- 3. 进行中的任务 (Highlight) -->
+          <div class="ongoing-task-alert" @click="handleOpenDetail(course, 'homework')">
+            <i class="el-icon-warning-outline alert-icon"></i>
+            <div class="alert-content">
+              <span class="alert-label">当前任务</span>
+              <span class="alert-task">{{ course.ongoingTask }}</span>
             </div>
           </div>
 
-          <div class="course-footer">
-            <el-button type="text" size="small">课程详情 <i class="el-icon-arrow-right"></i></el-button>
-            <el-button type="primary" size="mini" round>去学习</el-button>
+          <!-- 4. 数据矩阵 (2x2 Grid) -->
+          <div class="data-matrix">
+            <div class="matrix-item" @click="handleOpenDetail(course, 'homework')">
+              <div class="m-icon homework">📘</div>
+              <div class="m-data">
+                <span class="m-val">{{ course.homework.completed }}/{{ course.homework.total }}</span>
+                <span class="m-lab">作业进度</span>
+              </div>
+            </div>
+            <div class="matrix-item" @click="handleOpenDetail(course, 'exam')">
+              <div class="m-icon exam">🏆</div>
+              <div class="m-data">
+                <span class="m-val">{{ course.exam.score || '待考' }}</span>
+                <span class="m-lab">考试成绩</span>
+              </div>
+            </div>
+            <div class="matrix-item" @click="handleOpenDetail(course, 'attendance')">
+              <div class="m-icon attendance">👤</div>
+              <div class="m-data">
+                <span class="m-val">{{ course.attendance.rate }}%</span>
+                <span class="m-lab">出勤率</span>
+              </div>
+            </div>
+            <div class="matrix-item" @click="handleOpenDetail(course, 'interaction')">
+              <div class="m-icon interaction">💬</div>
+              <div class="m-data">
+                <span class="m-val">{{ course.interaction.count }}</span>
+                <span class="m-lab">互动次数</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. 底部动作 -->
+          <div class="card-footer-btns">
+            <el-button type="text" class="detail-btn" @click="handleOpenDetail(course, 'info')">课程详情</el-button>
+            <el-button type="primary" size="small" class="enter-btn" :style="{ background: course.color, borderColor: course.color }">进入课程</el-button>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- 课程详情侧滑面板 (Drawer) -->
+    <el-drawer
+      v-model="showDetailDrawer"
+      :with-header="false"
+      size="600px"
+      direction="rtl"
+      custom-class="course-detail-drawer"
+      :destroy-on-close="true"
+    >
+      <div v-if="activeCourse" class="drawer-container">
+        <!-- 侧滑头部：课程简报 -->
+        <div class="drawer-header" :style="{ background: activeCourse.color }">
+          <div class="header-main">
+            <div class="header-brand">
+              <div class="h-icon-box">
+                <i :class="activeCourse.icon" class="h-icon"></i>
+              </div>
+              <div class="h-info">
+                <h2>{{ activeCourse.name }}</h2>
+                <span>{{ activeCourse.teacher }} 教授 · 2024春季学期</span>
+              </div>
+            </div>
+            <div class="header-grade">
+              <span class="g-letter">{{ activeCourse.grade }}</span>
+              <span class="g-label">当前评级</span>
+            </div>
+          </div>
+          
+          <!-- 维度切换 Tabs -->
+          <div class="drawer-tabs">
+            <div 
+              v-for="tab in detailTabs" 
+              :key="tab.id" 
+              class="drawer-tab-item"
+              :class="{ active: activeTab === tab.id }"
+              @click="activeTab = tab.id"
+            >
+              <i :class="tab.icon"></i>
+              {{ tab.label }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 侧滑主体：各维度详情视图 -->
+        <div class="drawer-body">
+          <!-- 1. 作业视图 -->
+          <div v-if="activeTab === 'homework'" class="tab-view homework-view">
+            <div class="view-section">
+              <h3 class="view-title">作业完成趋势</h3>
+              <div class="mini-stats-grid">
+                <div class="mini-stat-item">
+                  <span class="m-val">{{ activeCourse.homework.total }}</span>
+                  <span class="m-lab">应交总数</span>
+                </div>
+                <div class="mini-stat-item">
+                  <span class="m-val">{{ activeCourse.homework.completed }}</span>
+                  <span class="m-lab">已交总数</span>
+                </div>
+                <div class="mini-stat-item warning" v-if="activeCourse.homework.total - activeCourse.homework.completed > 0">
+                  <span class="m-val">{{ activeCourse.homework.total - activeCourse.homework.completed }}</span>
+                  <span class="m-lab">待补交</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="view-section">
+              <div class="section-header-inline">
+                <h3 class="view-title">作业历史列表</h3>
+                <el-button type="text" size="mini">筛选 <i class="el-icon-arrow-down"></i></el-button>
+              </div>
+              <div class="item-list">
+                <div v-for="i in 5" :key="i" class="list-item">
+                  <div class="item-status success"></div>
+                  <div class="item-main">
+                    <span class="item-title">实验作业 #0{{ 6-i }}：{{ activeCourse.ongoingTask }}</span>
+                    <span class="item-meta">截止于 2024-05-{{ 20+i }} · 权重 15%</span>
+                  </div>
+                  <div class="item-score">
+                    <span class="s-val">{{ 95 - i }}</span>
+                    <span class="s-max">/100</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 考试视图 -->
+          <div v-if="activeTab === 'exam'" class="tab-view exam-view">
+            <div class="view-section">
+              <h3 class="view-title">考试安排与成绩评估</h3>
+              <div class="exam-card-detailed">
+                <div class="exam-main-score">
+                  <span class="score-num">{{ activeCourse.exam.score || '--' }}</span>
+                  <span class="score-label">当前总成绩</span>
+                </div>
+                <div class="exam-breakdown">
+                  <div class="b-item"><span>期中考试 (30%)</span><strong>92</strong></div>
+                  <div class="b-item"><span>平时测验 (20%)</span><strong>88</strong></div>
+                  <div class="b-item"><span>期末考试 (50%)</span><strong class="pending">未进行</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 其他视图占位... (出勤、互动、课程详情) -->
+          <div v-if="['attendance', 'interaction', 'info'].includes(activeTab)" class="tab-view empty-view">
+            <div class="empty-placeholder">
+              <i class="el-icon-timer"></i>
+              <p>{{ detailTabs.find(t => t.id === activeTab).label }}详细数据正在从教务系统同步...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </el-drawer>
 
     <!-- 4. 精简的月度工作日历弹窗 -->
     <el-dialog v-model="showFullCalendar" title="月度工作日历" width="900px" class="calendar-dialog">
@@ -229,6 +326,31 @@ const currentCalendarDateFormatted = computed(() => {
   return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`
 })
 
+const getGradeClass = (grade) => {
+  if (grade.includes('A')) return 'grade-excellent'
+  if (grade.includes('B')) return 'grade-good'
+  return 'grade-normal'
+}
+
+// 侧滑面板控制
+const showDetailDrawer = ref(false)
+const activeCourse = ref(null)
+const activeTab = ref('homework')
+
+const detailTabs = [
+  { id: 'homework', label: '作业详情', icon: 'el-icon-notebook-2' },
+  { id: 'exam', label: '考试评估', icon: 'el-icon-trophy' },
+  { id: 'attendance', label: '出勤统计', icon: 'el-icon-user' },
+  { id: 'interaction', label: '课堂互动', icon: 'el-icon-chat-line-round' },
+  { id: 'info', label: '课程大纲', icon: 'el-icon-info' }
+]
+
+const handleOpenDetail = (course, tabId) => {
+  activeCourse.value = course
+  activeTab.value = tabId || 'homework'
+  showDetailDrawer.value = true
+}
+
 // 模拟事件数据
 const calendarEvents = {
   '2026-04-27': [
@@ -259,13 +381,6 @@ const todaySchedule = [
   { time: '19:00', tag: '辅导', name: '代码实测指导', location: '在线', type: 'support', isCurrent: false, isPast: false }
 ]
 
-// 1.5 进行中的学习任务数据
-const ongoingTasks = [
-  { id: 1, name: '深度学习导论 - 实验一', course: '深度学习', deadline: '剩余 2天', progress: 45, type: '实验', color: '#8b5cf6' },
-  { id: 2, name: '人工智能伦理报告', course: '人工智能导论', deadline: '剩余 5天', progress: 80, type: '作业', color: '#3b82f6' },
-  { id: 3, name: '卷积神经网络大作业', course: '计算机视觉', deadline: '剩余 12天', progress: 15, type: '项目', color: '#ec4899' },
-  { id: 4, name: '自然语言处理 - 期中测验', course: '自然语言处理', deadline: '剩余 1天', progress: 0, type: '考试', color: '#f59e0b' }
-]
 
 
 // 0.5 学习概览数据
@@ -285,6 +400,8 @@ const courses = [
     icon: 'el-icon-monitor',
     color: '#3b82f6',
     totalProgress: 85,
+    grade: 'A',
+    ongoingTask: '期末论文大纲提交',
     homework: { completed: 10, total: 12, status: 'normal', statusText: '2份待交' },
     exam: { score: 95, status: 'good', statusText: '优' },
     attendance: { rate: 100, status: 'perfect', statusText: '全勤' },
@@ -297,6 +414,8 @@ const courses = [
     icon: 'el-icon-cpu',
     color: '#10b981',
     totalProgress: 65,
+    grade: 'B+',
+    ongoingTask: '实验三：聚类算法实现',
     homework: { completed: 6, total: 6, status: 'finished', statusText: '已完成' },
     exam: { score: null, status: 'pending', statusText: '待考' },
     attendance: { rate: 98, status: 'normal', statusText: '正常' },
@@ -309,6 +428,8 @@ const courses = [
     icon: 'el-icon-connection',
     color: '#8b5cf6',
     totalProgress: 45,
+    grade: 'B',
+    ongoingTask: 'Transformer 结构复现',
     homework: { completed: 4, total: 8, status: 'warning', statusText: '截止预警' },
     exam: { score: 88, status: 'good', statusText: '良' },
     attendance: { rate: 92, status: 'warning', statusText: '异常' },
@@ -321,6 +442,8 @@ const courses = [
     icon: 'el-icon-chat-square',
     color: '#f59e0b',
     totalProgress: 90,
+    grade: 'A+',
+    ongoingTask: '预训练模型微调实验',
     homework: { completed: 15, total: 15, status: 'finished', statusText: '已完成' },
     exam: { score: 98, status: 'perfect', statusText: '优+' },
     attendance: { rate: 100, status: 'perfect', statusText: '全勤' },
@@ -333,6 +456,8 @@ const courses = [
     icon: 'el-icon-view',
     color: '#ec4899',
     totalProgress: 35,
+    grade: 'B-',
+    ongoingTask: '目标检测算法优化',
     homework: { completed: 3, total: 10, status: 'normal', statusText: '进行中' },
     exam: { score: null, status: 'pending', statusText: '待考' },
     attendance: { rate: 100, status: 'perfect', statusText: '全勤' },
@@ -345,6 +470,8 @@ const courses = [
     icon: 'el-icon-odometer',
     color: '#6366f1',
     totalProgress: 55,
+    grade: 'A-',
+    ongoingTask: 'Q-Learning 迷宫避障',
     homework: { completed: 8, total: 12, status: 'normal', statusText: '进行中' },
     exam: { score: 90, status: 'good', statusText: '良' },
     attendance: { rate: 96, status: 'normal', statusText: '正常' },
@@ -409,6 +536,7 @@ const courses = [
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 1px;
+  text-align: left;
 }
 
 .semester-info {
@@ -441,8 +569,8 @@ const courses = [
 /* 0.5 学习概览 */
 .learning-overview-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
 }
 
 .overview-stat-card {
@@ -513,363 +641,530 @@ const courses = [
   border-radius: 2px;
 }
 
-/* 1. 今日日程 */
-.schedule-section {
-  background: white;
-  border-radius: 16px;
-  padding: 20px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+/* 整合日程微型卡片样式 */
+.schedule-mini-card {
+  cursor: pointer;
+  transition: all 0.3s;
+  background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 100%);
 }
-
-.section-header {
+.schedule-mini-card:hover {
+  transform: translateY(-4px);
+  border-color: #4f46e550;
+}
+.schedule-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 8px;
 }
-
-.title-with-icon {
+.more-icon { font-size: 10px; color: #94a3b8; }
+.mini-cal-btn-wrapper {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  color: #1e293b;
-}
-
-.title-with-icon i {
-  font-size: 20px;
+  justify-content: center;
+  background: rgba(79, 70, 229, 0.08);
   color: #4f46e5;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+.mini-cal-btn-wrapper:hover {
+  background: #4f46e5;
+  color: white;
+  transform: scale(1.1);
 }
 
-.section-title {
-  margin: 0;
-  font-size: 17px;
-  font-weight: 700;
+/* 课程详情侧滑面板 (Drawer) 样式 */
+:deep(.course-detail-drawer) {
+  background: #f8fafc;
+  border-left: 1px solid #e2e8f0;
 }
 
-.timeline-container {
-  overflow-x: auto;
-  padding: 10px 0;
+:deep(.el-drawer__header) {
+  margin-bottom: 0;
+  padding: 0;
 }
 
-.timeline-track {
-  display: flex;
-  gap: 20px;
-  min-width: max-content;
-  position: relative;
-}
-
-.timeline-track::before {
-  content: '';
-  position: absolute;
-  top: 12px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: #f1f5f9;
-  z-index: 1;
-}
-
-.timeline-item {
-  position: relative;
-  width: 200px;
+.drawer-container {
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  z-index: 2;
 }
 
-.item-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.drawer-header {
+  padding: 30px 24px;
+  color: white;
+  position: relative;
+  overflow: hidden;
 }
 
-.timeline-dot {
-  width: 8px;
-  height: 8px;
-  background: white;
-  border: 2px solid #cbd5e1;
+.drawer-header::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  right: -10%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255,255,255,0.1);
   border-radius: 50%;
-  flex-shrink: 0;
 }
 
-.item-time {
-  font-size: 13px;
-  font-weight: 700;
-  color: #64748b;
-}
-
-.item-card {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 12px;
-  border: 1px solid #f1f5f9;
-  transition: all 0.3s ease;
-}
-
-.card-top {
+.header-main {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 6px;
-  gap: 8px;
+  align-items: center;
+  margin-bottom: 24px;
 }
 
-.item-name {
+.header-brand {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.h-icon {
+  font-size: 40px;
+  background: rgba(255,255,255,0.2);
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+}
+
+.h-info h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.h-info span {
   font-size: 14px;
-  font-weight: 700;
-  color: #1e293b;
-  line-height: 1.4;
+  opacity: 0.8;
 }
 
-.item-tag {
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-weight: 700;
+.header-grade {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.g-letter {
+  font-size: 32px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.g-label {
+  font-size: 11px;
+  opacity: 0.8;
+}
+
+.drawer-tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.drawer-tab-item {
+  padding: 8px 16px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   white-space: nowrap;
 }
 
-.item-tag.class { background: #e0e7ff; color: #4338ca; }
-.item-tag.practice { background: #dcfce7; color: #15803d; }
-.item-tag.lecture { background: #fef3c7; color: #b45309; }
-.item-tag.meeting { background: #f1f5f9; color: #475569; }
-.item-tag.support { background: #f5f3ff; color: #6d28d9; }
-
-.item-location {
-  font-size: 12px;
-  color: #94a3b8;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.timeline-item.is-current .timeline-dot {
-  border-color: #4f46e5;
-  background: #4f46e5;
-  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.15);
-}
-
-.timeline-item.is-current .item-time { color: #4f46e5; }
-.timeline-item.is-current .item-card {
-  border-color: #4f46e5;
+.drawer-tab-item.active {
   background: white;
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.1);
+  color: #1e293b;
 }
 
-.timeline-item.is-past { opacity: 0.6; }
+.drawer-body {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
 
-/* 1.5 进行中的学习任务 */
-.ongoing-tasks-section {
+.view-section {
   background: white;
   border-radius: 16px;
-  padding: 20px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.03);
 }
 
-.tasks-horizontal-container {
+.view-title {
+  margin: 0 0 16px 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.mini-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.mini-stat-item {
   display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding-bottom: 8px;
-}
-
-.tasks-horizontal-container::-webkit-scrollbar {
-  height: 4px;
-}
-.tasks-horizontal-container::-webkit-scrollbar-thumb {
-  background: #e2e8f0;
-  border-radius: 10px;
-}
-
-.task-horizontal-card {
-  min-width: 280px;
+  flex-direction: column;
+  gap: 4px;
   background: #f8fafc;
+  padding: 12px;
   border-radius: 12px;
-  padding: 16px;
-  border: 1px solid #f1f5f9;
-  transition: all 0.3s ease;
+}
+
+.mini-stat-item .m-val {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.mini-stat-item .m-lab {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.mini-stat-item.warning .m-val { color: #ef4444; }
+
+.item-list {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.task-horizontal-card:hover {
-  transform: translateY(-2px);
-  border-color: #e2e8f0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  background: white;
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
 }
 
-.task-top {
+.item-status.success {
+  width: 6px;
+  height: 6px;
+  background: #10b981;
+  border-radius: 50%;
+}
+
+.item-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.item-meta {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.item-score {
+  text-align: right;
+}
+
+.item-score .s-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.item-score .s-max {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.exam-card-detailed {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.exam-main-score {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: #f5f3ff;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  justify-content: center;
+}
+
+.score-num {
+  font-size: 28px;
+  font-weight: 900;
+  color: #7c3aed;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 9px;
+  color: #7c3aed;
+  opacity: 0.8;
+  margin-top: 4px;
+}
+
+.exam-breakdown {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.b-item {
   display: flex;
   justify-content: space-between;
+  font-size: 13px;
+  border-bottom: 1px dashed #f1f5f9;
+  padding-bottom: 4px;
+}
+
+.b-item strong { color: #1e293b; }
+
+.empty-view {
+  display: flex;
   align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #94a3b8;
 }
 
-.task-type-tag {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 4px;
+.empty-placeholder {
+  text-align: center;
 }
 
-.task-deadline {
-  font-size: 12px;
-  color: #ef4444;
-  font-weight: 600;
+.empty-placeholder i {
+  font-size: 40px;
+  margin-bottom: 16px;
 }
-
-.task-name {
-  margin: 0;
-  font-size: 15px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 4px;
-}
-
-.task-course {
-  margin: 0;
-  font-size: 12px;
-  color: #64748b;
-}
-
-.task-progress-box {
+.mini-schedule-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
-
-.progress-info {
+.mini-schedule-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.progress-label {
+  gap: 8px;
   font-size: 11px;
-  color: #94a3b8;
+  padding: 4px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.03);
+}
+.mini-schedule-item:last-child { border-bottom: none; }
+.mini-schedule-item .m-time { 
+  font-weight: 700; color: #4f46e5; 
+  background: #f5f3ff; padding: 1px 4px; border-radius: 4px;
+}
+.mini-schedule-item .m-name { 
+  color: #334155; font-weight: 600; 
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+}
+.mini-schedule-item.is-now { background: #eff6ff; border-radius: 4px; padding: 4px 6px; margin: 0 -6px; }
+.mini-schedule-item.is-now .m-name { color: #2563eb; }
+
+
+
+
+/* 2. 课程网格样式重构 */
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 
-.progress-val {
-  font-size: 11px;
-  font-weight: 700;
-  color: #1e293b;
-}
-
-.task-count {
-  font-size: 13px;
-  color: #64748b;
-  font-weight: 500;
-}
-
-
-/* 2. 课程网格 */
-.courses-section {
+.course-modern-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f1f5f9;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   flex-direction: column;
   gap: 20px;
+  position: relative;
 }
 
-/* 2. 课程列表 (横向单行优化) */
-.course-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.course-modern-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: #e2e8f0;
 }
 
-.course-main-card {
-  background: white;
-  border-radius: 16px;
-  padding: 16px 24px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-  border: 1px solid #f1f5f9;
-  transition: all 0.3s ease;
+/* 顶部：名称与进度 */
+.card-header-top {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.course-brand {
+  display: flex;
+  gap: 12px;
   align-items: center;
-  gap: 32px;
 }
 
-.course-main-card:hover {
-  transform: translateX(4px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
-  border-color: #4f46e530;
-}
-
-.course-card-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 280px;
-  flex-shrink: 0;
-  margin-bottom: 0;
-}
-
-.course-icon {
-  width: 48px;
-  height: 48px;
+.brand-icon {
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
-  flex-shrink: 0;
 }
 
-.course-info {
-  flex-grow: 1;
-  min-width: 0;
+.brand-info {
+  display: flex;
+  flex-direction: column;
 }
 
 .course-name {
   margin: 0;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 800;
   color: #1e293b;
+}
+
+.teacher-label {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.completion-box {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-right-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.grade-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 900;
+  font-family: 'Outfit', sans-serif;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.grade-excellent {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+.grade-good {
+  background: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #dcfce7;
+}
+
+.grade-normal {
+  background: #f8fafc;
+  color: #64748b;
+  border: 1px solid #f1f5f9;
+}
+
+.comp-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1e293b;
+  line-height: 1;
+}
+
+.comp-txt {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+
+/* 进度条 */
+.course-progress-linear {
+  margin-top: -8px;
+}
+
+/* 进行中的任务 */
+.ongoing-task-alert {
+  background: #fffbeb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid #fef3c7;
+}
+
+.alert-icon {
+  color: #d97706;
+  font-size: 16px;
+}
+
+.alert-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.alert-label {
+  font-size: 10px;
+  color: #b45309;
+  font-weight: 700;
+}
+
+.alert-task {
+  font-size: 12px;
+  color: #1e293b;
+  font-weight: 600;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.teacher-name {
-  font-size: 12px;
-  color: #64748b;
-  margin-top: 2px;
-  display: block;
+/* 数据矩阵 2x2 */
+.data-matrix {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
-.course-progress {
-  flex-shrink: 0;
-}
-
-.course-metrics-tabs {
-  display: flex;
-  flex: 1;
-  gap: 16px;
-  margin-bottom: 0;
-}
-
-.metric-item {
-  flex: 1;
+.matrix-item {
   background: #f8fafc;
-  border-radius: 10px;
-  padding: 8px 12px;
+  padding: 12px;
+  border-radius: 12px;
   display: flex;
-  flex-direction: row;
   align-items: center;
-  gap: 10px;
-  position: relative;
-  border: 1px solid transparent;
-  transition: all 0.2s;
+  gap: 12px;
 }
 
-.metric-item:hover {
-  background: white;
-  border-color: #e2e8f0;
-}
-
-.metric-icon {
+.m-icon {
   width: 32px;
   height: 32px;
   border-radius: 8px;
@@ -877,80 +1172,44 @@ const courses = [
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  flex-shrink: 0;
 }
 
-.metric-icon.homework { background: #eff6ff; color: #3b82f6; }
-.metric-icon.exam { background: #f0fdf4; color: #10b981; }
-.metric-icon.attendance { background: #fff7ed; color: #f59e0b; }
-.metric-icon.interaction { background: #f5f3ff; color: #8b5cf6; }
+.m-icon.homework { background: #eff6ff; color: #3b82f6; }
+.m-icon.exam { background: #fdf2f8; color: #db2777; }
+.m-icon.attendance { background: #f0fdf4; color: #16a34a; }
+.m-icon.interaction { background: #f5f3ff; color: #7c3aed; }
 
-.metric-content {
+.m-data {
   display: flex;
   flex-direction: column;
 }
 
-.m-label {
-  font-size: 10px;
-  color: #94a3b8;
-  font-weight: 600;
-}
-
-.m-value {
+.m-val {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   color: #1e293b;
 }
 
-.m-status {
-  font-size: 9px;
-  padding: 1px 6px;
-  border-radius: 8px;
-  font-weight: 700;
-  position: absolute;
-  top: 4px;
-  right: 6px;
+.m-lab {
+  font-size: 10px;
+  color: #94a3b8;
 }
 
-.m-status.normal { background: #f1f5f9; color: #64748b; }
-.m-status.good { background: #dcfce7; color: #15803d; }
-.m-status.perfect { background: #d1fae5; color: #065f46; }
-.m-status.warning { background: #fee2e2; color: #b91c1c; }
-.m-status.finished { background: #f0f9ff; color: #0369a1; }
-.m-status.active { background: #ede9fe; color: #5b21b6; }
-.m-status.super { background: #fae8ff; color: #86198f; }
-
-.course-footer {
-  margin-top: 0;
-  padding-top: 0;
-  border-top: none;
+/* 底部动作 */
+.card-footer-btns {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed #f1f5f9;
 }
 
-/* 响应式适配 */
-@media (max-width: 1200px) {
-  .course-main-card { gap: 16px; }
-  .course-card-header { width: 220px; }
-  .course-metrics-tabs { gap: 8px; }
-  .metric-item { padding: 6px 8px; gap: 6px; }
-  .metric-icon { width: 28px; height: 28px; font-size: 14px; }
-  .m-status { display: none; } /* 空间不足时隐藏状态小标签 */
+/* 4. 精简的月度工作日历弹窗 */
+.calendar-dialog :deep(.el-dialog__body) {
+  padding: 0;
 }
 
-@media (max-width: 900px) {
-  .course-main-card { flex-wrap: wrap; }
-  .course-card-header { width: 100%; }
-  .course-metrics-tabs { width: 100%; display: grid; grid-template-columns: 1fr 1fr; }
-  .course-footer { width: 100%; justify-content: flex-end; border-top: 1px solid #f1f5f9; padding-top: 12px; }
-  .major-info-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-  .major-stats { width: 100%; justify-content: space-between; }
-}
-
-/* 日历弹窗样式 */
 .calendar-wrapper {
   display: flex;
   gap: 20px;
